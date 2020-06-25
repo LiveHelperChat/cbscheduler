@@ -11,6 +11,10 @@ You can trigger modal window also from a bot.
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/cbscheduler/master/doc/schedule.png)
 
+## Direct URL
+
+`https://example.com/cbscheduler/schedule/(department)/<department_1>/(theme)/<theme_id>`
+
 ## Install
 
 Execute SQL file `doc/install.sql` or
@@ -21,10 +25,26 @@ Install composer dependencies
 
 `composer.phar update`
 
-## Commands in the chat
-`!schedule`
+Activate extensions in Live Helper Chat settings file.
 
-New widget javascript
+`
+...
+'extensions' => 
+  array (
+      'cbscheduler'
+  ),
+...
+`
+
+## Commands in the chat
+
+You can use this command in the chat to show modal window for the visitor `!schedule`
+
+## Showing schedule form directly from the page.
+
+You can also have a custom button on your website to show window and modal window instantly.
+
+### New widget javascript
 
 ```js
 // New widget
@@ -36,7 +56,7 @@ function scheduleCallbackNewWidget(){
 }
 ```
 
-Old widget javascript
+### Old widget javascript
 
 ```js
 // Old widget
