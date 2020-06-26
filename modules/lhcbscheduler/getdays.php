@@ -5,6 +5,7 @@ erLhcoreClassRestAPIHandler::setHeaders();
 // Detect country
 $defaultCountry = null;
 $username = null;
+$email = null;
 $department = (is_numeric($Params['user_parameters_unordered']['department']) && $Params['user_parameters_unordered']['department'] > 0 ? (int)$Params['user_parameters_unordered']['department'] : null);
 
 if (is_numeric($Params['user_parameters_unordered']['chat']) && ($chat = erLhcoreClassModelChat::fetch($Params['user_parameters_unordered']['chat'])) instanceof erLhcoreClassModelChat && $chat->country_code != '') {
@@ -24,7 +25,14 @@ if (is_numeric($Params['user_parameters_unordered']['chat']) && ($chat = erLhcor
 }
 
 if (isset($chat) && $chat instanceof erLhcoreClassModelChat) {
-    $username = $chat->nick;
+
+    if ($chat->nick != 'Visitor') {
+        $username = $chat->nick;
+    }
+
+    if ($chat->email != '') {
+        $email = $chat->email;
+    }
 
     if ($department === null) {
         $department = $chat->dep_id;
@@ -57,6 +65,7 @@ echo json_encode([
     'logo' => $logo,
     'department' => $department,
     'username' => $username,
+    'email' => $email,
 ]);
 
 exit;

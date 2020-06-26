@@ -119,6 +119,12 @@ $ViewList['getsubjects'] = array(
     'functions' => array(),
 );
 
+$ViewList['gotoagent'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array(),
+);
+
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Callback Scheduler');
 $FunctionList['manage_schedule'] = array('explain' => 'Allow operator to configure schedules');
 $FunctionList['delete_reservation'] = array('explain' => 'Allow operator to delete reservations');

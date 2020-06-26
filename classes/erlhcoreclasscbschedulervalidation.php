@@ -182,6 +182,7 @@ class erLhcoreClassCBSchedulerValidation
             if ($schedulerItem->active == 1) {
 
                 $scheduleDate = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
 
                 for ($i = 0; $i < $daysLimit; $i++) {
 
@@ -191,9 +192,18 @@ class erLhcoreClassCBSchedulerValidation
 
                     $slots = erLhcoreClassModelCBSchedulerSlot::getList(['filter' => ['schedule_id' => $schedulerItem->id, 'day' => $scheduleDate->format('N')]]);
 
+                    // Are we working with current day
+                    $currentDay = $scheduleCompare->format('Ymd') == $scheduleDate->format('Ymd');
+
                     $hasSlots = false;
                     foreach ($slots as $slot) {
-                        if (erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) < $slot->max_calls) {
+                        if (
+                            erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) < $slot->max_calls &&
+                            ($currentDay == false || (
+                                 ($slot->time_start_h > $scheduleCompare->format('H')) ||
+                                 ($slot->time_start_m > $scheduleCompare->format('i') && $slot->time_start_h == $scheduleCompare->format('H'))
+                                ) )
+                        ) {
                             $hasSlots = true;
                             break;
                         }
@@ -403,6 +413,9 @@ class erLhcoreClassCBSchedulerValidation
             ),
             'chat_id' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
+            'attempt' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 0)
             )
         );
 
@@ -414,6 +427,10 @@ class erLhcoreClassCBSchedulerValidation
             $Errors['email'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a valid email address');
         } elseif ($form->hasValidData( 'email' )) {
             $item->email = $form->email;
+        }
+
+        if ( $form->hasValidData( 'attempt' ) ) {
+            $item->attempt = $form->attempt;
         }
 
         if ( !$form->hasValidData( 'username' ) || $form->username == '' ) {
@@ -551,8 +568,9 @@ class erLhcoreClassCBSchedulerValidation
                     $item->daytime = $scheduleDaySelected->format('Ymd');
                 }
             }
-
         }
+
+        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.validate_callback', array('item' => & $item, 'errors' => & $Errors));
 
         return $Errors;
     }

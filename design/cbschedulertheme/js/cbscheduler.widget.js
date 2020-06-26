@@ -2,6 +2,12 @@
 
     var cbSchedulerLoaded = false;
 
+    window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.live_support', function(params) {
+        params.type = 'start_chat';
+        params.ignoreBot = true;
+        window.lhcHelperfunctions.eventEmitter.emitEvent('lhc.start_chat_event', [params]);
+    });
+
     window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.init', function (params, dispatch, getstate) {
             setTimeout( function() {
                 if (document.querySelector(".modal-backdrop") === null) {
@@ -41,11 +47,13 @@
                         var params = {
                             'path' : window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/',
                             'chat_id': (state.chatwidget.hasIn(['chatData','id']) ? state.chatwidget.getIn(['chatData','id']) : null),
+                            'hash': (state.chatwidget.hasIn(['chatData','hash']) ? state.chatwidget.getIn(['chatData','hash']) : null),
                             'dep_id': department,
                             'theme': state.chatwidget.get('theme'),
                             'vid':  state.chatwidget.get('vid'),
                             'username': username,
-                            'mode': 'widget'
+                            'mode': 'widget',
+                            'widget':'new'
                         };
 
                         window.lhcHelperfunctions.eventEmitter.emitEvent('loadCheduler',[params])

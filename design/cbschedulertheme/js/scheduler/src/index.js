@@ -25,7 +25,7 @@ eeScheduler.addListener('loadCheduler',(params) => {
     var el = document.getElementById('CBScheduler');
     if (el !== null) {
         ReactDOM.render(
-            <Suspense fallback="..."><CBScheduler mode={params.mode} ee={eeScheduler} username={params.username} vid={params.vid} theme={params.theme} base_path={typeof WWW_DIR_JAVASCRIPT !== 'undefined' ? WWW_DIR_JAVASCRIPT : window.lhcChat['base_url']} dep_id={params.dep_id} chat_id={params.chat_id} /></Suspense>,
+            <Suspense fallback="..."><CBScheduler widget={params.widget} hash={params.hash} mode={params.mode} ee={eeScheduler} username={params.username} vid={params.vid} theme={params.theme} base_path={typeof WWW_DIR_JAVASCRIPT !== 'undefined' ? WWW_DIR_JAVASCRIPT : window.lhcChat['base_url']} dep_id={params.dep_id} chat_id={params.chat_id} /></Suspense>,
             el
         );
     }

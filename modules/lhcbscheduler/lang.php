@@ -31,6 +31,10 @@ $translations = array(
         "choose_day_time" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Choose day and time we should call you. Times are represented in {{timezone}} timezone.'),
         "no_free_days" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','At the moment we do not have any free slots for a callback.'),
         "schedule_title" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Schedule a callback'),
+        "live_support" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Live support'),
+        "try_again" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Try again'),
+        "verification_failed" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','My username and e-mail verification failed to schedule a call.'),
+        "close" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Close'),
     ]
 );
 
