@@ -22,7 +22,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   KEY `slot_id` (`slot_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `daytime` (`daytime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE `lhc_cbscheduler_scheduler` (
   `tz` varchar(50) NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler_dep` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -40,7 +40,7 @@ CREATE TABLE `lhc_cbscheduler_scheduler_dep` (
   PRIMARY KEY (`id`),
   KEY `dep_group_id` (`dep_group_id`),
   KEY `schedule_id` (`schedule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler_dep_group` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ CREATE TABLE `lhc_cbscheduler_scheduler_dep_group` (
   PRIMARY KEY (`id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `dep_group_id` (`dep_group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_slot` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -63,7 +63,7 @@ CREATE TABLE `lhc_cbscheduler_slot` (
   `day` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `schedule_id` (`schedule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_subject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -71,4 +71,4 @@ CREATE TABLE `lhc_cbscheduler_subject` (
   `name` varchar(50) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
