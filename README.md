@@ -5,6 +5,8 @@ This extension adds options to schedule a callback from chat widget.
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/cbscheduler/master/doc/schedule-sample.png)
 
+See youtube video https://youtu.be/LF3q311KesQ
+
 ## Integration with a bot
 
 You can trigger modal window also from a bot.
