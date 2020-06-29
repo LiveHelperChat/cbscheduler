@@ -66,7 +66,7 @@ class erLhcoreClassModelCBSchedulerSlot
 
     public $time_end_m = null;
 
-    public $max_calls = null;
+    public $max_calls = 1;
 
     public $active = 1;
 
