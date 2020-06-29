@@ -33,7 +33,7 @@ class erLhcoreClassModelCBSchedulerScheduler
 
             case 'slots':
                 if ($this->id > 0) {
-                    $this->slots = erLhcoreClassModelCBSchedulerSlot::getList(array('schedule_id' => $this->id));
+                    $this->slots = erLhcoreClassModelCBSchedulerSlot::getList(array('filter' => ['schedule_id' => $this->id]));
                 } else {
                     $this->slots = [];
                 }

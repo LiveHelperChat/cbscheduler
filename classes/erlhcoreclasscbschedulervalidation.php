@@ -122,7 +122,7 @@ class erLhcoreClassCBSchedulerValidation
                     $itemSlot->time_start_m = $startTimeData[1];
                     $itemSlot->time_end_h = $endTimeData[0];
                     $itemSlot->time_end_m = $endTimeData[1];
-                    $itemSlot->max_calls = $form->MaxCalls[$dayId][$dayIndex];
+                    $itemSlot->max_calls = isset($form->MaxCalls[$dayId][$dayIndex]) ? $form->MaxCalls[$dayId][$dayIndex] : 1;
                     $itemSlot->day = $dayId;
 
                     // Keep old id
