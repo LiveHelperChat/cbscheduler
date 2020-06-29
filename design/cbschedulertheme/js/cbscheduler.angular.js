@@ -45,10 +45,10 @@ lhcAppControllers.controller('CBSCheduler',['$scope', '$document', function($sco
 
     this.getNextHour = function (schedule) {
 
-        var start_hour = 8;
+        var start_hour = 0;
         var start_minute = 0;
-        var end_hour = 8;
-        var end_minute = 30;
+        var end_hour = 0;
+        var end_minute = 0;
         var max_calls = 1;
 
         schedule.forEach(function(item) {
