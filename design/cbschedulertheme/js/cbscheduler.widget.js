@@ -3,9 +3,8 @@
     var cbSchedulerLoaded = false;
 
     window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.live_support', function(params) {
-        params.type = 'start_chat';
-        params.ignoreBot = true;
-        window.lhcHelperfunctions.eventEmitter.emitEvent('lhc.start_chat_event', [params]);
+        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['api_data'], data: {"ignore_bot": true, "Question": params.fields.Question}}]);
+        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['chat_ui','auto_start'], data: true}]);
     });
 
     window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.init', function (params, dispatch, getstate) {
