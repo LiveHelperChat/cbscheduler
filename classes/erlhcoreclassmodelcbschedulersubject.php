@@ -6,11 +6,11 @@ class erLhcoreClassModelCBSchedulerSubject
 
     public static $dbTable = 'lhc_cbscheduler_subject';
 
-    public static $dbTableId = 'id';
+    public static $dbTableId = 'pos';
 
     public static $dbSessionHandler = 'erLhcoreClassExtensionCbscheduler::getSession';
 
-    public static $dbSortOrder = 'DESC';
+    public static $dbSortOrder = 'ASC';
 
     public function getState()
     {

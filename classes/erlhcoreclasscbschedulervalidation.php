@@ -9,7 +9,7 @@ class erLhcoreClassCBSchedulerValidation
                 ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
             'pos' => new ezcInputFormDefinitionElement(
-                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0)
             ),
             'active' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
