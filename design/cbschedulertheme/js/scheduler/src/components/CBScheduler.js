@@ -29,6 +29,7 @@ const CBScheduler = props => {
 
     // logical attributes
     const [isDisabled, setDisabled] = useState(false);
+    const [isSubmitting, setSubmitting] = useState(false);
     const [isScheduled, setScheduled] = useState(false);
     const [cbData, setData] = useState(null);
     const [defaultCountry, setDefaultCountry] = useState(null);
@@ -126,12 +127,13 @@ const CBScheduler = props => {
 
     const scheduleCallback = () => {
 
+        setSubmitting(true);
         axios.post(props.base_path  + "cbscheduler/schedulecb", getPostData()).then(result => {
             setErrors([]);
             setError(null);
 
             if (result.data.error == true) {
-
+                setSubmitting(false);
                 if (result.data.messages) {
                     setErrors(result.data.messages);
 
@@ -307,7 +309,7 @@ const CBScheduler = props => {
                     </div>}
 
                     <div className="form-group mb-0">
-                        <input type="button" disabled={isDisabled} className="btn btn-sm btn-secondary" onClick={() => scheduleCallback()} value={t('fields.schedule_callback')} />
+                        <button type="button" disabled={isDisabled || isSubmitting} className="btn btn-sm btn-secondary" onClick={() => scheduleCallback()}>{isSubmitting && <i className="material-icons">&#xf113;</i>} {t('fields.schedule_callback')}</button>
                     </div>
 
 

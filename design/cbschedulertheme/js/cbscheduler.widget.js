@@ -17,7 +17,7 @@
                     parent.innerHTML = "<div class=\"fade modal-backdrop show\"></div><div role=\"dialog\" id=\"dialog-content\" aria-modal=\"true\" class=\"fade modal show d-block\" tabindex=\"-1\">\n" +
                         "    <div class=\"modal-dialog modal-dialog-scrollable modal-lg\">\n" +
                         "        <div class=\"modal-content\">\n" +
-                        "            <div class=\"modal-body\" id=\"CBScheduler\">...\n" +
+                        "            <div class=\"modal-body\" id=\"CBScheduler\"><div class=\"m-auto overflow-hidden\"><div class=\"m-auto loader-cbscheduler\"></div></div>\n" +
                         "            </div>\n" +
                         "        </div>\n" +
                         "    </div>\n" +
