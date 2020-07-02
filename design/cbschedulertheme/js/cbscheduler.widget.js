@@ -7,6 +7,12 @@
         window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['chat_ui','auto_start'], data: true}]);
     });
 
+    window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.close_modal', function(params) {
+        if (!params.chat_id) {
+            window.lhcHelperfunctions.sendMessageParent('closeWidget', [{'sender' : 'closeButton'}]);
+        }
+    });
+
     window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.init', function (params, dispatch, getstate) {
             setTimeout( function() {
                 if (document.querySelector(".modal-backdrop") === null) {
@@ -14,8 +20,12 @@
                     var bodyPrepend = document.getElementById("root");
                     var parent = document.createElement("div");
                     parent.id = "cbscheduler-modal";
+
+                    var state = getstate(),
+                    classAppend = (!state.chatwidget.hasIn(['chatData','id']) ? ' h-100' : '');
+
                     parent.innerHTML = "<div class=\"fade modal-backdrop show\"></div><div role=\"dialog\" id=\"dialog-content\" aria-modal=\"true\" class=\"fade modal show d-block\" tabindex=\"-1\">\n" +
-                        "    <div class=\"modal-dialog modal-dialog-scrollable modal-lg\">\n" +
+                        "    <div class=\"modal-dialog modal-dialog-scrollable modal-lg" + classAppend + "\">\n" +
                         "        <div class=\"modal-content\">\n" +
                         "            <div class=\"modal-body\" id=\"CBScheduler\"><div class=\"m-auto overflow-hidden\"><div class=\"m-auto loader-cbscheduler\"></div></div>\n" +
                         "            </div>\n" +
@@ -64,7 +74,7 @@
                         var th = document.getElementsByTagName('head')[0];
 
                         // Insert CSS
-                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=1';
+                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=2';
 
                         var styleSheet = document.createElement("link");
                         styleSheet.setAttribute('rel',"stylesheet");
@@ -73,7 +83,7 @@
                         th.appendChild(styleSheet);
 
                         // Insert JS
-                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=1';
+                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=2';
 
                         var s = document.createElement('script');
                         s.setAttribute('type','text/javascript');

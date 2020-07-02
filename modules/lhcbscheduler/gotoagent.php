@@ -14,7 +14,7 @@ if (isset($requestPayload['chat_id']) && is_numeric($requestPayload['chat_id']) 
     if ($chat instanceof erLhcoreClassModelChat && $chat->hash == $requestPayload['hash'] && in_array($chat->status, [erLhcoreClassModelChat::STATUS_ACTIVE_CHAT, erLhcoreClassModelChat::STATUS_PENDING_CHAT, erLhcoreClassModelChat::STATUS_BOT_CHAT])) {
 
         $msg = new erLhcoreClassModelmsg();
-        $msg->msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor clicked go to an agent button!');
+        $msg->msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor clicked go to an agent button during callback scheduling!');
         $msg->chat_id = $chat->id;
         $msg->user_id = - 1;
         $msg->time = time();

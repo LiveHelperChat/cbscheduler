@@ -9,6 +9,12 @@
         $('#form-start-chat').submit();
     });
 
+    ee.addListener('cbscheduler.close_modal', function(params) {
+        if (!params.chat_id) {
+            parent.postMessage('lhc_close', '*');
+        }
+    });
+
     ee.addListener('cbscheduler.init', function (params) {
 
         setTimeout( function() {
@@ -68,7 +74,7 @@
                     var th = document.getElementsByTagName('head')[0];
 
                     // Insert CSS
-                    var srcCSS = WWW_DIR_LHC_WEBPACK_ADMIN.replace('/design/defaulttheme/js/admin/dist/','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=1';
+                    var srcCSS = WWW_DIR_LHC_WEBPACK_ADMIN.replace('/design/defaulttheme/js/admin/dist/','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=2';
 
                     var styleSheet = document.createElement("link");
                     styleSheet.setAttribute('rel',"stylesheet");
@@ -77,7 +83,7 @@
                     th.appendChild(styleSheet);
 
                     // Insert JS
-                    var src = WWW_DIR_LHC_WEBPACK_ADMIN.replace('/design/defaulttheme/js/admin/dist/','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=1';
+                    var src = WWW_DIR_LHC_WEBPACK_ADMIN.replace('/design/defaulttheme/js/admin/dist/','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=2';
 
                     var s = document.createElement('script');
                     s.setAttribute('type','text/javascript');

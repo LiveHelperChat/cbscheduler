@@ -35,6 +35,7 @@ $translations = array(
         "try_again" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Try again'),
         "verification_failed" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','My username and e-mail verification failed to schedule a call.'),
         "close" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Close'),
+        "loading" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Loading...'),
     ]
 );
 

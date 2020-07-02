@@ -13,11 +13,13 @@ if (typeof ee !== 'undefined') {
     eeScheduler = window.lhcHelperfunctions.eventEmitter;
 }
 
-eeScheduler.addListener('endCheduler', function() {
+eeScheduler.addListener('endCheduler', function(props) {
     var el = document.getElementById('CBScheduler');
     ReactDOM.unmountComponentAtNode(el);
     var elem = document.getElementById('cbscheduler-modal');
     elem.parentNode.removeChild(elem);
+    
+    eeScheduler.emitEvent('cbscheduler.close_modal',[props]);
 });
 
 eeScheduler.addListener('loadCheduler',(params) => {

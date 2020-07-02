@@ -38,7 +38,7 @@ const CBScheduler = props => {
     const [attempt, setAttempt] = useState(0);
 
     const onClose = () => {
-        props.ee.emitEvent('endCheduler',[])
+        props.ee.emitEvent('endCheduler',[props])
     }
 
     // Helpers
@@ -157,6 +157,8 @@ const CBScheduler = props => {
 
     useEffect(() => {
         if (day !== null) {
+            setTimes([]);
+            setTime(null);
             axios.get(props.base_path  + "cbscheduler/gettimes/"+day+"/(department)/" + department + "/(chat)/" + props.chat_id + '?tz=' + timezone).then(result => {
                 setTimes(result.data);
                 setTime(null);
@@ -292,7 +294,7 @@ const CBScheduler = props => {
                         </div>}
                     </div>
 
-                    {day && <div className="form-group">
+                    {day && times.length > 0 && <div className="form-group">
                         <select className="form-control form-control-sm" defaultValue={time} className={"form-control form-control-sm"+(errors.time ? ' is-invalid' : '')} onChange={(e) => setTime(e.target.value)}>
                             <option value="">{t('fields.choose_time')}</option>
                             {times.map(time => (
@@ -302,6 +304,10 @@ const CBScheduler = props => {
                         {errors.time && <div className="invalid-feedback">
                             {errors.time}
                         </div>}
+                    </div>}
+
+                    {day && times.length == 0 && <div className="form-group">
+                        <i className="material-icons">&#xf113;</i> {t('fields.loading')}
                     </div>}
 
                     {error && <div className="alert alert-danger" role="alert">
