@@ -120,7 +120,7 @@ const CBScheduler = props => {
     // User failed hardcore validation
     const goToAgent = () => {
         axios.post(props.base_path  + "cbscheduler/gotoagent", getPostData()).then(result => {
-            props.ee.emitEvent('cbscheduler.live_support',[{'fields' : {"Question" : t('fields.verification_failed')}}]);
+            props.ee.emitEvent('cbscheduler.live_support',[{'chat_id' : props.chat_id, 'fields' : {"Question" : t('fields.verification_failed')}}]);
             onClose();
         })
     }

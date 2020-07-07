@@ -1,19 +1,35 @@
 (function () {
 
     var cbSchedulerLoaded = false;
-
-    window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.live_support', function(params) {
-        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['api_data'], data: {"ignore_bot": true, "Question": params.fields.Question}}]);
-        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['chat_ui','auto_start'], data: true}]);
-    });
-
-    window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.close_modal', function(params) {
-        if (!params.chat_id) {
-            window.lhcHelperfunctions.sendMessageParent('closeWidget', [{'sender' : 'closeButton'}]);
-        }
-    });
+    var goToAgent = false;
+    var listenersSet = false
 
     window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.init', function (params, dispatch, getstate) {
+            goToAgent = false;
+
+            if (listenersSet === false) {
+
+                listenersSet = true;
+
+                window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.live_support', function(params) {
+                    goToAgent = true;
+                    // We are not in the chat mode yet.
+                    if (params.chat_id === null) {
+                        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['api_data'], data: {"ignore_bot": true, "Question": params.fields.Question}}]);
+                        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['chat_ui','auto_start'], data: true}]);
+                    } else {
+                        // Force to check for a new messages
+                        window.lhcHelperfunctions.eventEmitter.emitEvent('chat_check_messages',[]);
+                    }
+                });
+
+                window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.close_modal', function(params) {
+                    if (!params.chat_id && goToAgent == false) {
+                        window.lhcHelperfunctions.sendMessageParent('closeWidget', [{'sender' : 'closeButton'}]);
+                    }
+                });
+            }
+
             setTimeout( function() {
                 if (document.querySelector(".modal-backdrop") === null) {
                     // Build HTML

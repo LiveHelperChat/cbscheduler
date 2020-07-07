@@ -1,22 +1,30 @@
 (function () {
 
     var cbSchedulerLoaded = false;
+    var goToAgent = false;
 
-    ee.addListener('cbscheduler.live_support', function(params){
-        $('#id_Question').val(params.fields.Question);
-        $('#form-start-chat').prepend('<input type="hidden" value="on" name="ignoreBot" />');
-        $('#ChatSendButtonContainer').remove();
-        $('#form-start-chat').submit();
+    ee.addListener('cbscheduler.live_support', function(params) {
+
+        goToAgent = true;
+
+        if (params.chat_id === null) {
+            $('#id_Question').val(params.fields.Question);
+            $('#form-start-chat').prepend('<input type="hidden" value="on" name="ignoreBot" />');
+            $('#ChatSendButtonContainer').remove();
+            $('#form-start-chat').submit();
+        } else {
+            lhinst.syncusercall();
+        }
     });
 
     ee.addListener('cbscheduler.close_modal', function(params) {
-        if (!params.chat_id) {
+        if (!params.chat_id && goToAgent == false) {
             parent.postMessage('lhc_close', '*');
         }
     });
 
     ee.addListener('cbscheduler.init', function (params) {
-
+        goToAgent = false;
         setTimeout( function() {
             if (document.querySelector(".modal-backdrop") === null) {
                 // Build HTML
