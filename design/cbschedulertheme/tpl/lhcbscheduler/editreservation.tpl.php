@@ -10,8 +10,10 @@
 
 <form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" method="post">
 
-    <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/form_reservation.tpl.php'));?>
+    <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/form_reservation_top.tpl.php'));?>
 
+    <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/form_reservation.tpl.php'));?>
+    
     <br>
     <div class="btn-group" role="group" aria-label="...">
         <input type="submit" class="btn btn-secondary" name="Save_page" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Save');?>"/>
