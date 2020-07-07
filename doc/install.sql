@@ -21,7 +21,10 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   PRIMARY KEY (`id`),
   KEY `slot_id` (`slot_id`),
   KEY `schedule_id` (`schedule_id`),
-  KEY `daytime` (`daytime`)
+  KEY `daytime` (`daytime`),
+  KEY `chat_id` (`chat_id`),
+  KEY `dep_id` (`dep_id`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler` (
