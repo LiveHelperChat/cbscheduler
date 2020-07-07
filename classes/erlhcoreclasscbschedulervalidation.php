@@ -524,9 +524,55 @@ class erLhcoreClassCBSchedulerValidation
 
                     $item->schedule_id = $schedulerItem->id;
 
+                    // Default filter
+                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
+
+                    $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+
+                    $data = (array)$cbOptions->data;
+
+                    if (isset($data['unique']) && is_array($data['unique']) && !empty($data['unique'])) {
+                        $filter = [];
+                        if (in_array('dep_id', $data['unique'])) {
+                            $filter['filter']['dep_id'] = $item->dep_id;
+                        }
+
+                        if (in_array('name', $data['unique'])) {
+                            $filter['filter']['name'] = $item->name;
+                        }
+
+                        if (in_array('email', $data['unique'])) {
+                            $filter['filter']['email'] = $item->email;
+                        }
+
+                        if (in_array('phone', $data['unique'])) {
+                            $filter['filter']['phone'] = $item->phone;
+                        }
+
+                        if (in_array('schedule_id', $data['unique'])) {
+                            $filter['filter']['schedule_id'] = $item->schedule_id;
+                        }
+                    }
+
+                    $presentRecord = erLhcoreClassModelCBSchedulerReservation::findOne($filter);
+
                     // Check is there any scheduled call already
-                    if (erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['phone' => $item->phone, 'status' => 0, 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]]) > 0) {
-                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','You already have a scheduled call!'));
+                    if ($presentRecord instanceof erLhcoreClassModelCBSchedulerReservation) {
+
+                        /*You have already a call scheduled for DD MMM YYYY at HH:MM*/
+                        $scheduleDate = new DateTime('now', new DateTimeZone($presentRecord->tz));
+                        $scheduleDate->setTimestamp($presentRecord->cb_time_start);
+                        $hourStart =  $scheduleDate->format('H:i');
+
+                        $scheduleDate->setTimestamp($presentRecord->cb_time_end);
+                        $hourEnd =  $scheduleDate->format('H:i');
+
+                        throw new Exception(
+                            erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','You have already a call scheduled for') . ' ' .
+                            $scheduleDate->format('d') . ' ' .
+                            $scheduleDate->format('M') . ' ' .
+                            $scheduleDate->format('Y') . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','between') . ' ' . $hourStart . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and') . ' ' . $hourEnd
+                        );
                     }
 
                     $daySelected = array();

@@ -16,6 +16,9 @@ if ( isset($_POST['StoreOptions']) ) {
         ),
         'allow_numbers' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'unique' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY
         )
     );
 
@@ -38,6 +41,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['allow_numbers'] = $form->allow_numbers;
     } else {
         $data['allow_numbers'] = '';
+    }
+
+    if ( $form->hasValidData( 'unique' )) {
+        $data['unique'] = $form->unique;
+    } else {
+        $data['unique'] = [];
     }
 
     $cbOptions->explain = '';
