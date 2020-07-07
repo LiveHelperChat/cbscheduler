@@ -12,6 +12,27 @@ if (isset($_GET['doSearch'])) {
 
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
 
+erLhcoreClassChatStatistic::formatUserFilter($filterParams);
+
+if (isset($filterParams['filter']['filterin']['lh_chat.dep_id'])) {
+    $filterParams['filter']['filterin']['dep_id'] = $filterParams['filter']['filterin']['lh_chat.dep_id'];
+    unset($filterParams['filter']['filterin']['lh_chat.dep_id']);
+}
+
+/**
+ * Departments filter
+ * */
+$limitation = erLhcoreClassChat::getDepartmentLimitation('lhc_cbscheduler_reservation');
+
+if ($limitation !== false) {
+
+    if ($limitation !== true) {
+        $filterParams['filter']['customfilter'][] = $limitation;
+    }
+
+    $filterParams['filter']['smart_select'] = true;
+}
+
 $pages = new lhPaginator();
 $pages->items_total = erLhcoreClassModelCBSchedulerReservation::getCount($filterParams['filter']);
 $pages->translationContext = 'chat/activechats';

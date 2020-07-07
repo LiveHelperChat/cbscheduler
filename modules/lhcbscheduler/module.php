@@ -23,8 +23,12 @@ $ViewList['subjects'] = array(
 
 $ViewList['reservations'] = array(
     'params' => array(),
-    'uparams' => array(),
+    'uparams' => array('status','department_ids','department_group_ids'),
     'functions' => array('use_admin'),
+    'multiple_arguments' => array(
+        'department_ids',
+        'department_group_ids',
+    )
 );
 
 $ViewList['editreservation'] = array(

@@ -217,12 +217,10 @@ class erLhcoreClassCBSchedulerValidation
                             $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Today');
                         } elseif ($i == 1) {
                             $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Tomorrow');
-                        } elseif ($i >= 2 && $i <= 6) {
-                            $item->name = $weekDays[date('N',$ts)];
                         } else {
-                            $item->name = $weekDays[date('N',$ts)] . ' [' . date('Y-m-d',$ts) . ']';
+                            $item->name = $weekDays[date('N',$ts)] . ' ' . date('d',$ts) . ' ' . date('M',$ts) . ' ' . date('Y',$ts);
                         }
-
+                        
                         $days[] = $item;
                     }
                 }
