@@ -167,20 +167,11 @@ const CBScheduler = props => {
     },[day]);
 
     useEffect(() => {
-        if (!username || !timezone || !subject || !description || !phone || !email || !day || !time) {
-            setDisabled(true);
-        } else {
-            setDisabled(false);
-        }
-    });
-
-    useEffect(() => {
         getDays();
         getSubjects();
     },[]);
 
     const { t, i18n } = useTranslation('cbsheduler_chat');
-
 
     if (isLoaded === false) {
         return (<React.Fragment>
