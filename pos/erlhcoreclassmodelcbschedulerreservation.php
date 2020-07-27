@@ -94,6 +94,12 @@ $def->properties['ctime']->columnName   = 'ctime';
 $def->properties['ctime']->propertyName = 'ctime';
 $def->properties['ctime']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+// Operator who served a call
+$def->properties['user_id'] = new ezcPersistentObjectProperty();
+$def->properties['user_id']->columnName   = 'user_id';
+$def->properties['user_id']->propertyName = 'user_id';
+$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 $def->properties['region'] = new ezcPersistentObjectProperty();
 $def->properties['region']->columnName   = 'region';
 $def->properties['region']->propertyName = 'region';

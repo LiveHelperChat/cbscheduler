@@ -57,6 +57,8 @@ class erLhcoreClassModelCBSchedulerReservation
             'daytime' => $this->daytime,
 
             'chat_id' => $this->chat_id,
+
+            'user_id' => $this->user_id,
         );
     }
 
@@ -82,6 +84,22 @@ class erLhcoreClassModelCBSchedulerReservation
                     $this->subject = erLhcoreClassModelCBSchedulerSubject::fetch($this->subject_id);
                 }
                 return $this->subject;
+
+            case 'user':
+                $this->user = null;
+                if ($this->user_id > 0) {
+                    $this->user = erLhcoreClassModelUser::fetch($this->user_id);
+                }
+                return $this->user;
+
+            case 'user_name_official':
+                $this->user_name_official = null;
+
+                if ($this->user instanceof erLhcoreClassModelUser) {
+                    $this->user_name_official = $this->user->name_official;
+                }
+
+                return $this->user_name_official;
 
             case 'dep':
                 $this->dep = null;
@@ -124,6 +142,8 @@ class erLhcoreClassModelCBSchedulerReservation
 
     const STATUS_COMPLETED = 1;
 
+    const STATUS_CANCELED = 2;
+
     public $id = null;
 
     public $slot_id = null;
@@ -159,6 +179,8 @@ class erLhcoreClassModelCBSchedulerReservation
     public $subject_id = null;
 
     public $chat_id = 0;
+
+    public $user_id = 0;
 
     public $daytime = '';
 

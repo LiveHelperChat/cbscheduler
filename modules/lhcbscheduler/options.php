@@ -14,6 +14,9 @@ if ( isset($_POST['StoreOptions']) ) {
         'days_upfront' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'int'
         ),
+        'min_time' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'int'
+        ),
         'allow_numbers' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
@@ -35,6 +38,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['days_upfront'] = $form->days_upfront;
     } else {
         $data['days_upfront'] = '';
+    }
+
+    if ( $form->hasValidData( 'min_time' )) {
+        $data['min_time'] = $form->min_time;
+    } else {
+        $data['min_time'] = '';
     }
 
     if ( $form->hasValidData( 'allow_numbers' )) {

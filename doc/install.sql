@@ -11,6 +11,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `phone` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `outcome` text NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `subject_id` int(11) NOT NULL,
   `schedule_id` bigint(20) NOT NULL,
   `daytime` bigint(20) NOT NULL,

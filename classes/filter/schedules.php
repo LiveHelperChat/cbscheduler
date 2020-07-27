@@ -2,7 +2,7 @@
 
 $fieldsSearch = array();
 
-$fieldsSearch['name'] = array (
+$fieldsSearch['username'] = array (
     'type' => 'text',
     'trans' => 'Name',
     'required' => false,
@@ -50,6 +50,55 @@ $fieldsSearch['status'] = array (
     )
 );
 
+$fieldsSearch['timefrom'] = array (
+    'type' => 'text',
+    'trans' => 'Timefrom',
+    'required' => false,
+    'valid_if_filled' => false,
+    'datatype' => 'datetime',
+    'filter_type' => 'filtergte',
+    'filter_table_field' => 'cb_time_start',
+    'validation_definition' => new ezcInputFormDefinitionElement (
+        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+    )
+);
+
+$fieldsSearch['timeto'] = array (
+    'type' => 'text',
+    'trans' => 'Timeto',
+    'required' => false,
+    'valid_if_filled' => false,
+    'datatype' => 'datetime',
+    'filter_type' => 'filterlte',
+    'filter_table_field' => 'cb_time_start',
+    'validation_definition' => new ezcInputFormDefinitionElement (
+        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+    )
+);
+
+$fieldsSearch['user_ids'] = array (
+    'type' => 'text',
+    'trans' => 'Department',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filterin',
+    'filter_table_field' => 'user_id',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
+    )
+);
+
+$fieldsSearch['group_ids'] = array (
+    'type' => 'text',
+    'trans' => 'Group',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => false,
+    'filter_table_field' => 'user_id',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1), FILTER_REQUIRE_ARRAY
+    )
+);
 
 $fieldSortAttr = array (
     'field'      => false,

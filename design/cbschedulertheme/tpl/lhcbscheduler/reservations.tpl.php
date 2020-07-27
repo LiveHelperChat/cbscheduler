@@ -6,7 +6,9 @@
     <table cellpadding="0" cellspacing="0" class="table table-sm" width="100%">
         <thead>
         <tr>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','ID');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Agent');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone number');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Username');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','E-mail');?></th>
@@ -18,7 +20,9 @@
         </thead>
         <?php foreach ($items as $item) : ?>
             <tr>
+                <td><?php echo $item->id?></td>
                 <td><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars($item->dep)?></td>
+                <td><?php echo htmlspecialchars($item->user_name_official)?></td>
                 <td><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/<?php echo strtolower($item->region)?>.png" alt="" /> <?php echo htmlspecialchars($item->phone)?></td>
                 <td>
                     <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/username_row.tpl.php')); ?>
@@ -32,6 +36,8 @@
                         <span class="badge <?php $item->time_till_call > 0 ? print ' badge-warning' : print ' badge-danger'?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED) : ?>
                         <span class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
+                    <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED) : ?>
+                        <span class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
                     <?php endif; ?>
                 </td>
                 <td>

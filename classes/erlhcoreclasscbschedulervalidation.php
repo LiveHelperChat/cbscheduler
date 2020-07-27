@@ -183,10 +183,18 @@ class erLhcoreClassCBSchedulerValidation
 
                 $scheduleDate = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                $tsCompare = $scheduleCompare->getTimestamp();
 
+                
                 for ($i = 0; $i < $daysLimit; $i++) {
 
                     $ts = time() + ($i * 24 * 3600);
+
+                    if ($i == 0 && isset($data['min_time']) && is_numeric($data['min_time']) && (int)$data['min_time'] > 0) {
+                        $scheduleCompare->add(new DateInterval('P0Y0M0DT0H'.$data['min_time'].'M0S'));
+                    } else {
+                        $scheduleCompare->setTimestamp($tsCompare);
+                    }
 
                     $scheduleDate->setTimestamp($ts);
 
@@ -242,6 +250,11 @@ class erLhcoreClassCBSchedulerValidation
             $schedulerItem = erLhcoreClassModelCBSchedulerScheduler::fetch($schedule->schedule_id);
             if ($schedulerItem->active == 1) {
 
+                // Check is it blocked phone number
+                $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+
+                $data = (array)$cbOptions->data;
+
                 $daySelected = array();
 
                 $daySelected['y'] = substr($params['day'],0,4);
@@ -264,6 +277,10 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleDaySelected->setTimestamp($scheduleDate->getTimestamp());
 
                 $slots = erLhcoreClassModelCBSchedulerSlot::getList(['sort' => 'time_start_h ASC, time_start_m ASC', 'filter' => ['active' => 1, 'day' => $scheduleDate->format('N'), 'schedule_id' => $schedulerItem->id]]);
+
+                if ($currentDay == true && isset($data['min_time']) && is_numeric($data['min_time']) && (int)$data['min_time'] > 0) {
+                    $scheduleCompare->add(new DateInterval('P0Y0M0DT0H'.$data['min_time'].'M0S'));
+                }
 
                 foreach ($slots as $slot) {
 
@@ -312,10 +329,10 @@ class erLhcoreClassCBSchedulerValidation
         return $times;
     }
 
-    public static function validateCBEditReservation($item) {
+    public static function validateCBEditReservation($item, $params = array()) {
         $definition = array(
             'status' => new ezcInputFormDefinitionElement(
-                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 1)
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 2)
             ),
             'outcome' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
@@ -325,12 +342,19 @@ class erLhcoreClassCBSchedulerValidation
         $form = new ezcInputForm( INPUT_POST, $definition );
         $Errors = array();
 
+        $originalStatus = $item->status;
+        
         if ( $form->hasValidData( 'status' ) ) {
             $item->status = $form->status;
         }
 
-        if ( $form->hasValidData( 'outcome' ) ) {
-            $item->outcome = $form->outcome;
+        if ( $form->hasValidData( 'outcome' ) && $form->outcome != '') {
+            $item->outcome .= "===========================\n[".date('Y-m-d H:i:s') . '] ' . $params['user']->name_official . " has updated a record\n===========================\n" . $form->outcome . "\n";
+        }
+
+        // Status was changed
+        if ($originalStatus != $item->status) {
+            $item->user_id = $params['user_id'];
         }
 
         return $Errors;
@@ -643,6 +667,12 @@ class erLhcoreClassCBSchedulerValidation
         $item = new stdClass();
         $item->id = 1;
         $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');
+
+        $options[] = $item;
+
+        $item = new stdClass();
+        $item->id = 2;
+        $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');
 
         $options[] = $item;
 

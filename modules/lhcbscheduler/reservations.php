@@ -12,7 +12,7 @@ if (isset($_GET['doSearch'])) {
 
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
 
-erLhcoreClassChatStatistic::formatUserFilter($filterParams);
+erLhcoreClassChatStatistic::formatUserFilter($filterParams, 'lhc_cbscheduler_reservation');
 
 if (isset($filterParams['filter']['filterin']['lh_chat.dep_id'])) {
     $filterParams['filter']['filterin']['dep_id'] = $filterParams['filter']['filterin']['lh_chat.dep_id'];

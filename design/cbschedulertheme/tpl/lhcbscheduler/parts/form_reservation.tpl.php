@@ -32,10 +32,13 @@
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></b> - <?php echo htmlspecialchars($item->dep)?></p>
     </div>
 
-
     <div class="col-6">
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Chat ID');?></b> - <?php echo htmlspecialchars($item->chat_id)?></p>
     </div>
+
+    <?php if ($item->user instanceof erLhcoreClassModelUser) : ?>
+        <div class="col-6"><p><b>Serviced by:</b> <a href="<?php echo erLhcoreClassDesign::baseurl('user/edit')?>/<?php echo $item->user->id?>"><?php echo htmlspecialchars($item->user->name_official)?></a></p></div>
+    <?php endif; ?>
 
     <div class="col-12">
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
@@ -58,12 +61,31 @@
     <div class="col-12">
         <div class="form-group">
             <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?>&nbsp;<span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
-            <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome)?></textarea>
+            <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome_new)?></textarea>
         </div>
     </div>
+
+    <?php if ($item->outcome != '') : ?>
+    <div class="col-12">
+        <div class="form-group">
+            <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?>&nbsp;<span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
+            <textarea class="form-control form-control-sm" rows="10" readonly id="cbdata-outcome-all"><?php echo htmlspecialchars($item->outcome)?></textarea>
+        </div>
+    </div>
+    <?php endif; ?>
+
 </div>
 
 <script>
+
+    $('#id_status').change(function () {
+        if (<?php echo $item->status?> == 1 && $(this).val() != 1) {
+            if (!confirm("<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Are you sure you want to schedule this call again?');?>")) {
+                $(this).val(1);
+            }
+        }
+    });
+
     $('#callback-outcome .copy-action').click(function() {
         $('#callback-outcome #' + $(this).attr('data-field')).select();
         document.execCommand("copy");
