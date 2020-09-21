@@ -52,6 +52,12 @@ $ViewList['editreservation'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['assigntome'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['deletereservation'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
@@ -103,6 +109,18 @@ $ViewList['edit'] = array(
 $ViewList['schedule'] = array(
     'params' => array(),
     'uparams' => array('department','theme'),
+);
+
+$ViewList['scheduleadmin'] = array(
+    'params' => array(),
+    'uparams' => array('department','parent'),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['previewcall'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
 );
 
 $ViewList['schedulecb'] = array(

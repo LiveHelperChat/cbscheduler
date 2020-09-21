@@ -23,6 +23,8 @@ class erLhcoreClassModelCBSchedulerReservation
 
             'dep_id' => $this->dep_id,
 
+            'parent_id' => $this->parent_id,
+
             // Timezone of slot.
             'tz' => $this->tz,
 
@@ -84,6 +86,13 @@ class erLhcoreClassModelCBSchedulerReservation
                     $this->subject = erLhcoreClassModelCBSchedulerSubject::fetch($this->subject_id);
                 }
                 return $this->subject;
+
+            case 'parent':
+                $this->parent = null;
+                if ($this->parent_id > 0) {
+                    $this->parent = self::fetch($this->parent_id);
+                }
+                return $this->parent;
 
             case 'user':
                 $this->user = null;
@@ -181,6 +190,8 @@ class erLhcoreClassModelCBSchedulerReservation
     public $chat_id = 0;
 
     public $user_id = 0;
+    
+    public $parent_id = 0;
 
     public $daytime = '';
 

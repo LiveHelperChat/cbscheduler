@@ -21,10 +21,10 @@ const CBScheduler = props => {
     const [day, setDay] = useState(null);
     const [time, setTime] = useState(null);
     const [username, setUsername] = useState((props.username != '' && props.username != null && props.username != 'Visitor' && props.username != 'undefined') ? props.username : null);
-    const [subject, setSubject] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [email, setEmail] = useState(null);
+    const [subject, setSubject] = useState((props.subject != '' && props.subject != null) ? props.subject : null);
+    const [description, setDescription] = useState((props.description != '' && props.description != null) ? props.description : null);
+    const [phone, setPhone] = useState((props.phone != '' && props.phone != null) ? props.phone : null);
+    const [email, setEmail] = useState((props.email != '' && props.email != null) ? props.email : null);
     const [department, setDepartment] = useState(props.dep_id);
 
     // logical attributes
@@ -106,6 +106,7 @@ const CBScheduler = props => {
             'timezone':timezone,
             'dep_id':department,
             'chat_id':props.chat_id,
+            'parent_id':props.parent_id,
             'hash':props.hash,
             'subject':subject,
             'description':description,
@@ -245,6 +246,7 @@ const CBScheduler = props => {
                     </div>
 
                     <div className="form-group">
+
                           <select title={t('fields.subject')} className={"form-control form-control-sm"+(errors.subject ? ' is-invalid' : '')} defaultValue={subject} onChange={(e) => setSubject(e.target.value)}>
                             <option value="">{t('fields.choose_subject')}</option>
                             {subjects.map(subject => (

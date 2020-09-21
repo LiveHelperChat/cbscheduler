@@ -15,13 +15,14 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','scheduled for');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','User timezone');?></th>
-            <th width="1%"></th>
+            <th width="5%"></th>
         </tr>
         </thead>
         <?php foreach ($items as $item) : ?>
             <tr>
                 <td><?php echo $item->id?></td>
-                <td><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars($item->dep)?></td>
+                <td>
+                    <?php if ($item->parent_id > 0) : ?><i class="material-icons">add_ic_call</i><?php endif;?><a href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars($item->dep)?></a></td>
                 <td><?php echo htmlspecialchars($item->user_name_official)?></td>
                 <td><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/<?php echo strtolower($item->region)?>.png" alt="" /> <?php echo htmlspecialchars($item->phone)?></td>
                 <td>
@@ -43,8 +44,9 @@
                 <td>
                     <?php echo htmlspecialchars($item->tz)?>
                 </td>
-                <td>
+                <td nowrap="">
                     <div class="btn-group" role="group" aria-label="..." style="width:60px;">
+                        <a class="btn btn-info btn-xs" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons mr-0">add_ic_call</i></a>
                         <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
                         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhcbscheduler','delete_reservation')) : ?>
                         <a class="btn btn-danger btn-xs csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/deletereservation')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE872;</i></a>
@@ -63,3 +65,24 @@
 <?php else : ?>
 <p>Empty</p>
 <?php endif; ?>
+
+<form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>" method="get" ng-init="depSchedule='0'">
+
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
+                'input_name'     => 'department',
+                'ng-model'     => 'depSchedule',
+                'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Select department'),
+                'selected_id'    => 0,
+                'default_value'    => 0,
+                'css_class'      => 'form-control form-control-sm',
+                'list_function_params' => [],
+                'list_function'  => 'erLhcoreClassModelDepartament::getList'
+            )); ?>
+        </div>
+        <div class="col-auto">
+            <button type="submit" ng-disabled="!(depSchedule != '0')" class="btn btn-sm btn-primary">Schedule a follow up call</button>
+        </div>
+    </div>
+</form>

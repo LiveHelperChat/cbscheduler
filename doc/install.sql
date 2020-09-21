@@ -4,6 +4,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `tz` varchar(50) NOT NULL,
   `cb_time_start` bigint(20) NOT NULL,
   `cb_time_end` bigint(20) NOT NULL,
+  `parent_id` bigint(20) NOT NULL,
   `status` tinyint(4) NOT NULL,
   `code` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -24,6 +25,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   KEY `schedule_id` (`schedule_id`),
   KEY `daytime` (`daytime`),
   KEY `chat_id` (`chat_id`),
+  KEY `parent_id` (`parent_id`),
   KEY `dep_id` (`dep_id`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

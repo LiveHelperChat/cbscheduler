@@ -436,6 +436,9 @@ class erLhcoreClassCBSchedulerValidation
             'chat_id' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
             ),
+            'parent_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
             'attempt' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 0)
             )
@@ -463,6 +466,10 @@ class erLhcoreClassCBSchedulerValidation
 
         if ( $form->hasValidData( 'chat_id' )) {
             $item->chat_id = $form->chat_id;
+        }
+        
+        if ( $form->hasValidData( 'parent_id' )) {
+            $item->parent_id = $form->parent_id;
         }
 
         if ( !$form->hasValidData( 'subject' ) ) {
