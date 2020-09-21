@@ -6,6 +6,12 @@ erTranslationClassLhTranslation::$htmlEscape = false;
 
 $requestPayload = json_decode(file_get_contents('php://input'),true);
 
+// If department is not passed take it from chat
+if (is_numeric($requestPayload['chat_id']) && (!is_numeric($requestPayload['dep_id']) || $requestPayload['dep_id'] == 0)) {
+    $chat = erLhcoreClassModelChat::fetch($requestPayload['chat_id']);
+    $requestPayload['dep_id'] = $chat->dep_id;
+}
+
 $item = new erLhcoreClassModelCBSchedulerReservation();
 
 $outputResponse = [];

@@ -555,6 +555,9 @@ class erLhcoreClassCBSchedulerValidation
 
                     if (isset($data['unique']) && is_array($data['unique']) && !empty($data['unique'])) {
                         $filter = [];
+                        
+                        $filter['filter']['status'] = 0;
+
                         if (in_array('dep_id', $data['unique'])) {
                             $filter['filter']['dep_id'] = $item->dep_id;
                         }
