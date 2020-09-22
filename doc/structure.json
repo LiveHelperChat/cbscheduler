@@ -15,6 +15,13 @@
         "null": "NO",
         "key": "",
         "default": "0"
+      },
+      {
+        "type": "bigint(20)",
+        "field": "parent_id",
+        "null": "NO",
+        "key": "",
+        "default": "0"
       }
     ],
     "lhc_cbscheduler_scheduler": [

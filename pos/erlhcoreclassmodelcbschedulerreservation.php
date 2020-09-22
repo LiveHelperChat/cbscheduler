@@ -105,6 +105,11 @@ $def->properties['region']->columnName   = 'region';
 $def->properties['region']->propertyName = 'region';
 $def->properties['region']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->properties['parent_id'] = new ezcPersistentObjectProperty();
+$def->properties['parent_id']->columnName   = 'parent_id';
+$def->properties['parent_id']->propertyName = 'parent_id';
+$def->properties['parent_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 return $def;
 
 ?>

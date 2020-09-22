@@ -436,6 +436,9 @@ class erLhcoreClassCBSchedulerValidation
             'chat_id' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
             ),
+            'parent_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
             'attempt' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 0)
             )
@@ -463,6 +466,10 @@ class erLhcoreClassCBSchedulerValidation
 
         if ( $form->hasValidData( 'chat_id' )) {
             $item->chat_id = $form->chat_id;
+        }
+        
+        if ( $form->hasValidData( 'parent_id' )) {
+            $item->parent_id = $form->parent_id;
         }
 
         if ( !$form->hasValidData( 'subject' ) ) {
@@ -547,7 +554,7 @@ class erLhcoreClassCBSchedulerValidation
                     $item->schedule_id = $schedulerItem->id;
 
                     // Default filter
-                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
+                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'user_id' => 0, 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
 
                     $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
 
@@ -557,6 +564,7 @@ class erLhcoreClassCBSchedulerValidation
                         $filter = [];
                         
                         $filter['filter']['status'] = 0;
+                        $filter['filter']['user_id'] = 0;
 
                         if (in_array('dep_id', $data['unique'])) {
                             $filter['filter']['dep_id'] = $item->dep_id;

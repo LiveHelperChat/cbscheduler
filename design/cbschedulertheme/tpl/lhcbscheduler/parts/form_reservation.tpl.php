@@ -32,13 +32,20 @@
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></b> - <?php echo htmlspecialchars($item->dep)?></p>
     </div>
 
+    <?php if ($item->parent instanceof erLhcoreClassModelCBSchedulerReservation) : ?>
+    <div class="col-6">
+        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call');?></b> - <a onclick="return lhc.revealModal({'height':350,'url':WWW_DIR_JAVASCRIPT +'cbscheduler/previewcall/<?php echo $item->parent_id?>'})"><i class="material-icons mr-0">info</i> [<?php echo $item->parent_id?>] Preview</a></p>
+    </div>
+    <?php endif; ?>
+
     <div class="col-6">
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Chat ID');?></b> - <?php echo htmlspecialchars($item->chat_id)?></p>
     </div>
 
-    <?php if ($item->user instanceof erLhcoreClassModelUser) : ?>
-        <div class="col-6"><p><b>Serviced by:</b> <a href="<?php echo erLhcoreClassDesign::baseurl('user/edit')?>/<?php echo $item->user->id?>"><?php echo htmlspecialchars($item->user->name_official)?></a></p></div>
-    <?php endif; ?>
+    <div class="col-6" id="call-serviced-by">
+        <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/assigntome.tpl.php'));?>
+    </div>
+
 
     <div class="col-12">
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
@@ -74,6 +81,12 @@
     </div>
     <?php endif; ?>
 
+    <div class="col-12">
+        <div class="form-group">
+            <a class="btn btn-info btn-xs" target="_blank" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons">open_in_new</i> <i class="material-icons mr-0">add_ic_call</i></a>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -85,6 +98,12 @@
             }
         }
     });
+    
+    function callAssignToMe(id) {
+        $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/assigntome/' + id, function(data) {
+            $('#call-serviced-by').html(data);
+        });
+    }
 
     $('#callback-outcome .copy-action').click(function() {
         $('#callback-outcome #' + $(this).attr('data-field')).select();
