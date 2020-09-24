@@ -52,8 +52,8 @@ $tpl->set('inputAppend',$append);
 $Result['content'] = $tpl->fetch();
 
 $Result['path'] = array (
-    array('url' => erLhcoreClassDesign::baseurl('cbscheduler/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Callback scheduler')),
-    array('url' => erLhcoreClassDesign::baseurl('cbscheduler/reservations'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Reservations'))
+    array('url' => erLhcoreClassDesign::baseurl('cbscheduler/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Callback scheduler')),
+    array('url' => erLhcoreClassDesign::baseurl('cbscheduler/reservations'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Reservations'))
 );
 
 ?>
