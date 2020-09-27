@@ -50,6 +50,9 @@ You can also have a custom button on your website to show window and modal windo
 
 ```js
 // New widget
+// For this cenario to work you have in your embed code to pass at-least one department.
+// We will use very first department and it's schedule in that case.
+// Opening popup is not supported
 function scheduleCallbackNewWidget(){
     window.$_LHC.eventListener.emitEvent('sendChildExtEvent',[{'cmd':'cbscheduler','arg':{}}]);
     // Delay for 5 seconds
