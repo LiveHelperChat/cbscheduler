@@ -38,6 +38,16 @@ Activate extensions in Live Helper Chat settings file.
 ...
 `
 
+## Updating
+
+You can update two ways. By executing this command
+
+> php cron.php -s site_admin -e cbscheduler -c cron/update_structure
+
+Or by executing SQL queries from.
+
+https://github.com/LiveHelperChat/cbscheduler/tree/master/doc/db_updates
+
 ## Commands in the chat
 
 You can use this command in the chat to show modal window for the visitor `!schedule`
