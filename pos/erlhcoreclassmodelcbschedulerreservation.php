@@ -110,6 +110,12 @@ $def->properties['parent_id']->columnName   = 'parent_id';
 $def->properties['parent_id']->propertyName = 'parent_id';
 $def->properties['parent_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+// Is phone number verified
+$def->properties['verified'] = new ezcPersistentObjectProperty();
+$def->properties['verified']->columnName   = 'verified';
+$def->properties['verified']->propertyName = 'verified';
+$def->properties['verified']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 return $def;
 
 ?>

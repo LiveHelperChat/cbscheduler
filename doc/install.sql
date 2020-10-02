@@ -6,6 +6,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `cb_time_end` bigint(20) NOT NULL,
   `parent_id` bigint(20) NOT NULL,
   `status` tinyint(4) NOT NULL,
+  `verified` tinyint(1) NOT NULL DEFAULT '0',
   `code` varchar(10) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,

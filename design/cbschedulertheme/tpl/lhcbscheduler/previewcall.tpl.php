@@ -11,7 +11,7 @@
                 <div class="col-6">
                     <div class="form-inline">
                         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone');?></b>
-                            <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;<span title="Copy" data-field="cbdata-phone" class="copy-action material-icons action-image">content_copy</span>
+                            <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;<i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-warning'?>">verified_user</i>&nbsp;<span title="Copy" data-field="cbdata-phone" class="copy-action material-icons action-image">content_copy</span>
                         </p>
                     </div>
                 </div>

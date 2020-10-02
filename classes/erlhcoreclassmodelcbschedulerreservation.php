@@ -61,6 +61,8 @@ class erLhcoreClassModelCBSchedulerReservation
             'chat_id' => $this->chat_id,
 
             'user_id' => $this->user_id,
+
+            'verified' => $this->verified,
         );
     }
 
@@ -122,10 +124,10 @@ class erLhcoreClassModelCBSchedulerReservation
                     return $this->scheduler_for_front;
 
             case 'time_till_call':
-                    if ($this->cb_time_start - time() > 0){
+                    if ($this->cb_time_start - time() > 0) {
                         $this->time_till_call = erLhcoreClassChat::formatSeconds($this->cb_time_start - time());
                     } else {
-                        $this->time_till_call = 0;
+                        $this->time_till_call = 0 . ' s.';
                     }
                     return $this->time_till_call;
 
@@ -194,6 +196,8 @@ class erLhcoreClassModelCBSchedulerReservation
     public $parent_id = 0;
 
     public $daytime = '';
+
+    public $verified = 0;
 
 }
 
