@@ -25,7 +25,10 @@
 
                 window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.close_modal', function(params) {
                     if (!params.chat_id && goToAgent == false) {
-                        window.lhcHelperfunctions.sendMessageParent('closeWidget', [{'sender' : 'closeButton'}]);
+                        var state = getstate();
+                        if (state.chatwidget.get('mode') != 'embed') {
+                            window.lhcHelperfunctions.sendMessageParent('closeWidget', [{'sender' : 'closeButton'}]);
+                        }
                     }
                 });
             }
