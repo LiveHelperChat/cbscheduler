@@ -44,7 +44,7 @@ if (isset($chat) && $chat instanceof erLhcoreClassModelChat) {
 $logo = null;
 
 $callDays = erLhcoreClassCBSchedulerValidation::getCallDays([
-    'tz' => $_GET['tz'],
+    'tz' => ((isset($_GET['tz']) && $_GET['tz'] != 'undefined') ? $_GET['tz'] : 'UTC'),
     'department' => $department
 ]);
 

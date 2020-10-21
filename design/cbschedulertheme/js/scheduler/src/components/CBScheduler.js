@@ -44,7 +44,9 @@ const CBScheduler = props => {
     // Helpers
     const getTzOffset = () => {
         try {
-            return Intl.DateTimeFormat().resolvedOptions().timeZone;
+            var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (tz == 'undefined') { tz = 'UTC'; }
+            return tz;
         } catch (e) {
             Date.prototype.stdTimezoneOffset = function() {
                 var jan = new Date(this.getFullYear(), 0, 1);
