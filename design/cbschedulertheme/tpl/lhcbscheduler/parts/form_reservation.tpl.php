@@ -99,8 +99,8 @@
         }
     });
     
-    function callAssignToMe(id) {
-        $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/assigntome/' + id, function(data) {
+    function callAssignToMe(id,action) {
+        $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/assigntome/' + id + '/(action)/' + (action ? action : 'assign'), function(data) {
             $('#call-serviced-by').html(data);
         });
     }

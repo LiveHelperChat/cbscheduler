@@ -54,7 +54,7 @@ $ViewList['editreservation'] = array(
 
 $ViewList['assigntome'] = array(
     'params' => array('id'),
-    'uparams' => array(),
+    'uparams' => array('action'),
     'functions' => array('use_admin'),
 );
 
