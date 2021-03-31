@@ -62,8 +62,19 @@
         <?php for ($i = 1; $i <= 7; $i++) : ?>
         <div role="tabpanel" class="tab-pane <?php if (($tab == '' && $i == 1) || $tab == $i) : ?>active<?php endif;?>" id="day-<?php echo $i?>">
 
-            <a href="" ng-click="cbsc.addTime(cbsc.data[<?php echo $i?>])" class="btn btn-sm btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Add');?></a>
+            <div class="form-row">
+                <div class="col-auto">
+                    <a href="" ng-click="cbsc.addTime(cbsc.data[<?php echo $i?>])" class="btn btn-sm btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Add');?></a>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control form-control-sm" ng-model="set_max_<?php echo $i?>" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Set Max Calls for all');?>" value="" />
+                </div>
+                <div class="col-auto">
+                    <button type="button" ng-click="cbsc.setMaxCalls(cbsc.data[<?php echo $i?>],set_max_<?php echo $i?>)" class="btn btn-sm btn-outline-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Set');?></button>
+                </div>
+            </div>
             <hr>
+
             <div ng-repeat="dayscheduleitems in cbsc.data[<?php echo $i?>] track by $index">
 
                 <input type="hidden" value="{{dayscheduleitems.id}}" name="idTableItem[<?php echo $i?>][{{$index}}]" />

@@ -163,4 +163,10 @@ lhcAppControllers.controller('CBSCheduler',['$scope', '$document', function($sco
         return (parts[0].length == 1 ? '0'+parts[0] : parts[0]) + ':' + (parts[1].length == 1 ? '0' + parts[1]  : parts[1]);
     }
 
+    this.setMaxCalls = function(items, maxCalls) {
+        items.forEach(function(item) {
+            item.max_calls = maxCalls;
+        });
+    }
+
 }]);
