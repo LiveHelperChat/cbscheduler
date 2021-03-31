@@ -177,7 +177,10 @@
         $('#id_timefrom,#id_timeto').fdatepicker({
             format: 'yyyy-mm-dd'
         });
+        $('.btn-block-department').makeDropdown();
     });
+
+
 </script>
 
 
