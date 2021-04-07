@@ -16,10 +16,10 @@
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Status');?></label>
                 <select class="form-control form-control-sm" name="status">
                     <option>All</option>
-                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED ? print 'selected="selected"' : ''?>>Scheduled</option>
-                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED ? print 'selected="selected"' : ''?>>Completed</option>
-                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED ? print 'selected="selected"' : ''?>>Canceled</option>
-                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED ? print 'selected="selected"' : ''?>>Not Answered</option>
+                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED ? print 'selected="selected"' : ''?>><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></option>
+                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED ? print 'selected="selected"' : ''?>><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></option>
+                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED ? print 'selected="selected"' : ''?>><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></option>
+                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED ? print 'selected="selected"' : ''?>><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></option>
                 </select>
             </div>
         </div>
