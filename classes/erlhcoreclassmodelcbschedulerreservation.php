@@ -155,6 +155,8 @@ class erLhcoreClassModelCBSchedulerReservation
 
     const STATUS_CANCELED = 2;
 
+    const NOT_ANSWERED = 3;
+
     public $id = null;
 
     public $slot_id = null;

@@ -332,7 +332,7 @@ class erLhcoreClassCBSchedulerValidation
     public static function validateCBEditReservation($item, $params = array()) {
         $definition = array(
             'status' => new ezcInputFormDefinitionElement(
-                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 2)
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 3)
             ),
             'outcome' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
@@ -684,6 +684,12 @@ class erLhcoreClassCBSchedulerValidation
         $item = new stdClass();
         $item->id = 2;
         $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');
+
+        $options[] = $item;
+
+        $item = new stdClass();
+        $item->id = 3;
+        $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');
 
         $options[] = $item;
 

@@ -40,7 +40,9 @@
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED) : ?>
                         <span class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED) : ?>
-                        <span class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
+                        <span class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
+                    <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED) : ?>
+                        <span class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
                     <?php endif; ?>
                 </td>
                 <td>

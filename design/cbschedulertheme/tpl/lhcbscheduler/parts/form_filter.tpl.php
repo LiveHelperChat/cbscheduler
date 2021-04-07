@@ -19,6 +19,7 @@
                     <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED ? print 'selected="selected"' : ''?>>Scheduled</option>
                     <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED ? print 'selected="selected"' : ''?>>Completed</option>
                     <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED ? print 'selected="selected"' : ''?>>Canceled</option>
+                    <option value="<?php echo erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED?>" <?php $input->status === erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED ? print 'selected="selected"' : ''?>>Not Answered</option>
                 </select>
             </div>
         </div>
