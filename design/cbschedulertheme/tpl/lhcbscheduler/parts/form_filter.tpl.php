@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range from');?>
                     <span onclick="cbSchedulerSetTodays(true)" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Set filter to today');?>" class="action-image badge badge-secondary">Set todays filter</span>
@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range to');?></label>
                 <div class="row">
@@ -155,6 +155,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-2">
+            <label>Sort by</label>
+            <select name="sortby" class="form-control form-control-sm">
+                <option value="">Choose</option>
+                <option <?php if ($input->sortby == 'iddesc'|| $input->sortby == '') : ?>selected="selected"<?php endif; ?> value="iddesc">Newest first</option>
+                <option <?php if ($input->sortby == 'idasc') : ?>selected="selected"<?php endif; ?> value="idasc">Oldest first</option>
+                <option <?php if ($input->sortby == 'schedulesasc') : ?>selected="selected"<?php endif; ?> value="schedulesasc">Nearest schedules (choose appropriate call status also)</option>
+            </select>
+        </div>
+
     </div>
 
     <div class="btn-group" role="group" aria-label="...">

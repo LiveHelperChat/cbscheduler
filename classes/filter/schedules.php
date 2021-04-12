@@ -100,12 +100,26 @@ $fieldsSearch['group_ids'] = array (
     )
 );
 
+$fieldsSearch['sortby'] = array (
+    'type' => 'text',
+    'trans' => 'Sort by',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => false,
+    'filter_table_field' => 'user_id',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'string')
+);
+
 $fieldSortAttr = array (
-    'field'      => false,
-    'default'    => false,
+    'field'      => 'sortby',
+    'default'    => 'iddesc',
     'serialised' => true,
-    'disabled'   => true,
-    'options'    => array()
+    'options'    => array(
+        'iddesc' => array('sort_column' => 'id DESC'),
+        'idasc' => array('sort_column' => 'id ASC'),
+        'schedulesasc' => array('sort_column' => 'cb_time_start ASC')
+    )
 );
 
 return array(

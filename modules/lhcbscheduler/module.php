@@ -36,6 +36,7 @@ $ViewList['reservations'] = array(
         'timeto_minutes',
         'user_ids',
         'group_ids',
+        'sortby',
     ),
     'functions' => array('use_admin'),
     'multiple_arguments' => array(
