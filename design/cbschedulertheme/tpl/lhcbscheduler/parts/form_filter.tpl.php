@@ -162,6 +162,7 @@
                 <option value="">Choose</option>
                 <option <?php if ($input->sortby == 'iddesc'|| $input->sortby == '') : ?>selected="selected"<?php endif; ?> value="iddesc">Newest first</option>
                 <option <?php if ($input->sortby == 'idasc') : ?>selected="selected"<?php endif; ?> value="idasc">Oldest first</option>
+                <option <?php if ($input->sortby == 'schedulesdesc') : ?>selected="selected"<?php endif; ?> value="schedulesdesc">Schedules</option>
                 <option <?php if ($input->sortby == 'schedulesasc') : ?>selected="selected"<?php endif; ?> value="schedulesasc">Nearest schedules (choose appropriate call status also)</option>
             </select>
         </div>

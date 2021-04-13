@@ -118,7 +118,8 @@ $fieldSortAttr = array (
     'options'    => array(
         'iddesc' => array('sort_column' => 'id DESC'),
         'idasc' => array('sort_column' => 'id ASC'),
-        'schedulesasc' => array('sort_column' => 'cb_time_start ASC')
+        'schedulesasc' => array('sort_column' => 'cb_time_start ASC'),
+        'schedulesdesc' => array('sort_column' => 'cb_time_start DESC')
     )
 );
 
