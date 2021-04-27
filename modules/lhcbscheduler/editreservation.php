@@ -11,7 +11,7 @@ if (ezcInputForm::hasPostData()) {
         exit ;
     }
 
-    $Errors = erLhcoreClassCBSchedulerValidation::validateCBEditReservation($item, array('user' => $currentUser->getUserData(true),'user_id' => $currentUser->getUserID()));
+    $Errors = erLhcoreClassCBSchedulerValidation::validateCBEditReservation($item, array('user' => $currentUser->getUserData(true), 'user_id' => $currentUser->getUserID()));
 
     if (count($Errors) == 0) {
         try {

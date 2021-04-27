@@ -46,7 +46,6 @@
         <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/assigntome.tpl.php'));?>
     </div>
 
-
     <div class="col-12">
         <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
         <p><?php echo htmlspecialchars($item->description)?></p>

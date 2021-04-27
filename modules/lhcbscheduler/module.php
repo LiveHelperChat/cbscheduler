@@ -166,3 +166,4 @@ $ViewList['gotoagent'] = array(
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to see reservations');
 $FunctionList['manage_schedule'] = array('explain' => 'Allow operator to configure schedules');
 $FunctionList['delete_reservation'] = array('explain' => 'Allow operator to delete reservations');
+$FunctionList['manage_assignment'] = array('explain' => 'Allow operator to manage assignment manually');

@@ -334,6 +334,9 @@ class erLhcoreClassCBSchedulerValidation
             'status' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 3)
             ),
+            'user_ids' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1), FILTER_REQUIRE_ARRAY
+            ),
             'outcome' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             )
@@ -353,8 +356,12 @@ class erLhcoreClassCBSchedulerValidation
         }
 
         // Status was changed
-        if ($originalStatus != $item->status) {
+        if ($originalStatus != $item->status && !erLhcoreClassUser::instance()->hasAccessTo('lhcbscheduler', 'manage_assignment')) {
             $item->user_id = $params['user_id'];
+        }
+
+        if (erLhcoreClassUser::instance()->hasAccessTo('lhcbscheduler', 'manage_assignment') && $form->hasValidData( 'user_ids' ) && !empty($form->user_ids) ) {
+            $item->user_id = $form->user_ids[0];
         }
 
         return $Errors;
