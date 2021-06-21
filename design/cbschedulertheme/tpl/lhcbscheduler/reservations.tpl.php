@@ -3,7 +3,7 @@
 <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/form_filter.tpl.php'));?>
 
 <?php if (isset($items)) : ?>
-    <table cellpadding="0" cellspacing="0" class="table table-sm" width="100%">
+    <table cellpadding="0" cellspacing="0" class="table table-sm" width="100%" ng-non-bindable>
         <thead>
         <tr>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','ID');?></th>

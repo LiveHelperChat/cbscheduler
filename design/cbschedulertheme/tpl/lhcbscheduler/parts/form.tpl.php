@@ -1,13 +1,13 @@
-<div class="form-group">
+<div class="form-group" ng-non-bindable>
     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Name');?></label>
     <input type="text" maxlength="250" class="form-control form-control-sm" name="name" value="<?php echo htmlspecialchars($item->name)?>" />
 </div>
 
-<div class="form-group">
+<div class="form-group" ng-non-bindable>
     <label><input type="checkbox" name="active" value="on" <?php $item->active == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Active');?></label>
 </div>
 
-<div class="row">
+<div class="row" ng-non-bindable>
     <div class="col-6">
         <div class="form-group">
             <label>Department</label>
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group" ng-non-bindable>
     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Time Zone of the schedule');?></label>
     <?php $tzlist = DateTimeZone::listIdentifiers(DateTimeZone::ALL); ?>
     <select name="UserTimeZone" class="form-control form-control-sm">

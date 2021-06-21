@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-scrollable modal-lg">
+<div class="modal-dialog modal-dialog-scrollable modal-lg" ng-non-bindable>
     <div class="modal-content">
         <div class="modal-header pt-1 pb-1 pl-2 pr-2">
             <h4 class="modal-title" id="myModalLabel"><span class="material-icons">info_outline</span>[<?php echo $item->id?>]&nbsp;<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Preview call');?></h4>

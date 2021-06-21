@@ -1,4 +1,4 @@
-<div class="row" id="callback-outcome">
+<div class="row" id="callback-outcome" ng-non-bindable>
     <div class="col-6">
         <div class="form-inline">
              <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone');?></b>

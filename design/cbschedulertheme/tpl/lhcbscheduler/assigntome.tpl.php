@@ -1,4 +1,4 @@
-<p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Serviced by');?>:</b>
+<p ng-non-bindable><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Serviced by');?>:</b>
 
     <?php if ($item->user instanceof erLhcoreClassModelUser) : ?>
         <a href="<?php echo erLhcoreClassDesign::baseurl('user/edit')?>/<?php echo $item->user->id?>"><?php echo htmlspecialchars($item->user->name_official)?></a> <button type="button" class="btn btn-xs btn-warning" onclick="callAssignToMe(<?php echo $item->id?>,'unassign')"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Remove');?></button>
