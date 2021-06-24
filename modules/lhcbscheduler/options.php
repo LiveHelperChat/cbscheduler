@@ -20,6 +20,12 @@ if ( isset($_POST['StoreOptions']) ) {
         'allow_numbers' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
+        'allow_countries' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'exclude_countries' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
         'unique' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY
         )
@@ -32,6 +38,18 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['block_numbers'] = $form->block_numbers;
     } else {
         $data['block_numbers'] = '';
+    }
+
+    if ( $form->hasValidData( 'allow_countries' )) {
+        $data['allow_countries'] = $form->allow_countries;
+    } else {
+        $data['allow_countries'] = '';
+    }
+
+    if ( $form->hasValidData( 'exclude_countries' )) {
+        $data['exclude_countries'] = $form->exclude_countries;
+    } else {
+        $data['exclude_countries'] = '';
     }
 
     if ( $form->hasValidData( 'days_upfront' )) {

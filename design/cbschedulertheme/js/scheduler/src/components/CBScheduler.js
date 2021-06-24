@@ -25,6 +25,7 @@ const CBScheduler = props => {
     const [description, setDescription] = useState((props.description != '' && props.description != null) ? props.description : null);
     const [phone, setPhone] = useState((props.phone != '' && props.phone != null) ? props.phone : null);
     const [email, setEmail] = useState((props.email != '' && props.email != null) ? props.email : null);
+    const [countries, setCountries] = useState(null);
     const [department, setDepartment] = useState(props.dep_id);
 
     // logical attributes
@@ -86,6 +87,10 @@ const CBScheduler = props => {
 
             if (result.data.email) {
                 setEmail(result.data.email);
+            }
+
+            if (result.data.countries) {
+                setCountries(result.data.countries);
             }
 
             if (department === null) {
@@ -261,7 +266,7 @@ const CBScheduler = props => {
                     </div>
 
                     <div className="form-group">
-                        <PhoneInput international={true} className={"form-control form-control-sm"+(errors.phone ? ' is-invalid' : '')} defaultCountry={defaultCountry} placeholder={t('fields.enter_phone')} value={phone} onChange={setPhone}/>
+                        <PhoneInput countries={countries !== null ? countries : undefined} international={true} className={"form-control form-control-sm"+(errors.phone ? ' is-invalid' : '')} defaultCountry={defaultCountry} placeholder={t('fields.enter_phone')} value={phone} onChange={setPhone}/>
                         {errors.phone && <div className="invalid-feedback">
                             {errors.phone}
                         </div>}

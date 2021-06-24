@@ -8,14 +8,34 @@
         <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
     <?php endif; ?>
 
-    <div class="form-group">
-        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Block phone numbers. Wildcard at the phone number is also available.');?></label>
-        <textarea placeholder="09*,070*" name="block_numbers" class="form-control form-control-sm"><?php isset($cb_options['block_numbers']) ? print htmlspecialchars($cb_options['block_numbers']) : ''?></textarea>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Block phone numbers. Wildcard at the phone number is also available.');?></label>
+                <textarea placeholder="09*,070*" name="block_numbers" class="form-control form-control-sm"><?php isset($cb_options['block_numbers']) ? print htmlspecialchars($cb_options['block_numbers']) : ''?></textarea>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Allow numbers. Wildcard at the phone number is also available.');?></label>
+                <textarea placeholder="370*,371*" name="allow_numbers" class="form-control form-control-sm"><?php isset($cb_options['allow_numbers']) ? print htmlspecialchars($cb_options['allow_numbers']) : ''?></textarea>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Allow numbers. Wildcard at the phone number is also available.');?></label>
-        <textarea placeholder="370*,371*" name="allow_numbers" class="form-control form-control-sm"><?php isset($cb_options['allow_numbers']) ? print htmlspecialchars($cb_options['allow_numbers']) : ''?></textarea>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Allow only these countries to choose');?></label>
+                <textarea placeholder="<department_id>,<country_code>,<country_code><?php echo "\n"?><department_id>,<country_code>,<country_code>" name="allow_countries" class="form-control form-control-sm"><?php isset($cb_options['allow_countries']) ? print htmlspecialchars($cb_options['allow_countries']) : ''?></textarea>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Exclude these countries for department');?></label>
+                <textarea placeholder="<department_id>,<country_code>,<country_code><?php echo "\n"?><department_id>,<country_code>,<country_code>" name="exclude_countries" class="form-control form-control-sm"><?php isset($cb_options['exclude_countries']) ? print htmlspecialchars($cb_options['exclude_countries']) : ''?></textarea>
+            </div>
+        </div>
     </div>
 
     <div class="form-group">

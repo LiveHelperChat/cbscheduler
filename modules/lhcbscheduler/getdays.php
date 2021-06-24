@@ -59,14 +59,48 @@ if (is_numeric($Params['user_parameters_unordered']['theme']) && ($theme = erLhA
     $logo =  '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('images/general/logo_user.png');
 }
 
-echo json_encode([
+
+$responseArray = [
     'days' => $callDays,
     'default_country' => $defaultCountry,
     'logo' => $logo,
     'department' => $department,
     'username' => $username,
     'email' => $email,
-]);
+];
+
+
+if (is_numeric($department)) {
+    $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+    $data = (array)$cbOptions->data;
+
+    $allowArray = [];
+    if (isset($data['allow_countries']) && !empty($data['allow_countries'])) {
+        $pairs = explode("\n",trim(strtoupper($data['allow_countries'])));
+        foreach ($pairs as $pair) {
+            $options = explode(",", str_replace(' ','',$pair));
+            $allowArray[array_shift($options)] = $options;
+        }
+    }
+
+    $excludeArray = [];
+    if (isset($data['exclude_countries']) && !empty($data['exclude_countries'])) {
+        $pairs = explode("\n",trim(strtoupper($data['exclude_countries'])));
+        foreach ($pairs as $pair) {
+            $options = explode(",", str_replace(' ','',$pair));
+            $excludeArray[array_shift($options)] = $options;
+        }
+    }
+
+    if (!empty($allowArray) && isset($allowArray[$department])) {
+        $responseArray['countries'] = $allowArray[$department];
+    } elseif (!empty($excludeArray) && isset($excludeArray[$department])) {
+        $countriesJSON = json_decode(file_get_contents('extension/cbscheduler/doc/countries.json'),true);
+        $responseArray['countries'] = array_values(array_diff(array_keys($countriesJSON),$excludeArray[$department]));
+    }
+}
+
+echo json_encode($responseArray);
 
 exit;
 ?>
