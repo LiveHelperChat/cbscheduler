@@ -27,6 +27,8 @@ const CBScheduler = props => {
     const [email, setEmail] = useState((props.email != '' && props.email != null) ? props.email : null);
     const [countries, setCountries] = useState(null);
     const [department, setDepartment] = useState(props.dep_id);
+    const [termsOfService, setTermsOfService] = useState(null);
+
 
     // logical attributes
     const [isDisabled, setDisabled] = useState(false);
@@ -36,6 +38,7 @@ const CBScheduler = props => {
     const [defaultCountry, setDefaultCountry] = useState(null);
     const [logo, setLogo] = useState(null);
     const [isLoaded, setLoaded] = useState(false);
+    const [isTermsAgree, setTermsOfServiceAgree] = useState(false);
     const [attempt, setAttempt] = useState(0);
 
     const onClose = () => {
@@ -93,6 +96,10 @@ const CBScheduler = props => {
                 setCountries(result.data.countries);
             }
 
+            if (result.data.terms_of_service) {
+                setTermsOfService(result.data.terms_of_service);
+            }
+
             if (department === null) {
                 setDepartment(result.data.department);
             }
@@ -121,7 +128,8 @@ const CBScheduler = props => {
             'email':email,
             'day':day,
             'time':time,
-            'attempt': attempt
+            'attempt': attempt,
+            'terms_agree': isTermsAgree,
         };
     }
 
@@ -190,7 +198,7 @@ const CBScheduler = props => {
     var logoFormated = <div className="col-12">
         <div className="d-flex pb-1">
             {logo !== null && <div><img src={logo} height="40"/></div>}
-            <div className="pl-2 pt-1 flex-grow-1"><h5>{t('fields.schedule_title')}</h5></div>
+            <div className="pl-0 pt-1 flex-grow-1"><h5>{t('fields.schedule_title')}</h5></div>
             {props.mode == 'widget' && <div className="pl-2"><button type="button" onClick={(e) => onClose()} className="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>}
         </div>
     </div>;
@@ -312,6 +320,14 @@ const CBScheduler = props => {
 
                     {error && <div className="alert alert-danger" role="alert">
                         {error}
+                    </div>}
+
+                    {termsOfService && <div className={"form-check form-check-sm pb-2"}>
+                        <input type="checkbox" id="id-terms-of-service" className={"form-check-input"+(errors.terms_of_service ? ' is-invalid' : '')} onChange={(e) => setTermsOfServiceAgree(e.target.checked)} />
+                        <label className="form-check-label" for="id-terms-of-service"> <small>{termsOfService}</small></label>
+                        {errors.terms_of_service && <div className="invalid-feedback font-weight-bold">
+                            {errors.terms_of_service}
+                        </div>}
                     </div>}
 
                     <div className="form-group mb-0">

@@ -26,6 +26,9 @@ if ( isset($_POST['StoreOptions']) ) {
         'exclude_countries' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
+        'terms_of_service' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
         'unique' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY
         )
@@ -44,6 +47,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['allow_countries'] = $form->allow_countries;
     } else {
         $data['allow_countries'] = '';
+    }
+
+    if ( $form->hasValidData( 'terms_of_service' )) {
+        $data['terms_of_service'] = $form->terms_of_service;
+    } else {
+        $data['terms_of_service'] = '';
     }
 
     if ( $form->hasValidData( 'exclude_countries' )) {

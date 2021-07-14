@@ -69,11 +69,14 @@ $responseArray = [
     'email' => $email,
 ];
 
+$cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+$data = (array)$cbOptions->data;
+
+if (isset($data['terms_of_service']) && $data['terms_of_service'] != '') {
+    $responseArray['terms_of_service'] = $data['terms_of_service'];
+}
 
 if (is_numeric($department)) {
-    $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
-    $data = (array)$cbOptions->data;
-
     $allowArray = [];
     if (isset($data['allow_countries']) && !empty($data['allow_countries'])) {
         $pairs = explode("\n",trim(strtoupper($data['allow_countries'])));

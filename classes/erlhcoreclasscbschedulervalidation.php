@@ -419,6 +419,9 @@ class erLhcoreClassCBSchedulerValidation
             'description' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
+            'terms_agree' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ),
             'email' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'validate_email'
             ),
@@ -463,6 +466,16 @@ class erLhcoreClassCBSchedulerValidation
 
         if ( $form->hasValidData( 'attempt' ) ) {
             $item->attempt = $form->attempt;
+        }
+
+        if ($form->hasValidData( 'terms_agree' ) && $form->terms_agree == true) {
+            $item->terms_agree = $form->terms_agree;
+        } else {
+            $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+            $data = (array)$cbOptions->data;
+            if (isset($data['terms_of_service']) && $data['terms_of_service'] != '') {
+                $Errors['terms_of_service'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','You have to agree to our terms of service.');
+            }
         }
 
         if ( !$form->hasValidData( 'username' ) || $form->username == '' ) {

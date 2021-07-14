@@ -49,6 +49,11 @@
     </div>
 
     <div class="form-group">
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Default text for terms of service. If you do not enter a text we will not show a terms of service agreement option.');?></label>
+        <input type="text" name="terms_of_service" class="form-control form-control-sm" value="<?php isset($cb_options['terms_of_service']) ? print htmlspecialchars($cb_options['terms_of_service']) : print 'I hereby agree to my phone call, being recorded for quality assurance purposes only'?>" />
+    </div>
+
+    <div class="form-group">
         <label>Scheduled call uniqueness decided by these fields</label>
         <label class="d-block"><input type="checkbox" name="unique[]" <?php if (isset($cb_options['unique']) && is_array($cb_options['unique']) && in_array('dep_id',$cb_options['unique'])) : ?>checked="checked"<?php endif;?> value="dep_id"> Department</label>
         <label class="d-block"><input type="checkbox" name="unique[]" <?php if (isset($cb_options['unique']) && is_array($cb_options['unique']) && in_array('name',$cb_options['unique'])) : ?>checked="checked"<?php endif;?> value="name"> Username</label>
