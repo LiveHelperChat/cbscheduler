@@ -53,6 +53,24 @@
         <input type="text" name="terms_of_service" class="form-control form-control-sm" value="<?php isset($cb_options['terms_of_service']) ? print htmlspecialchars($cb_options['terms_of_service']) : print 'I hereby agree to my phone call, being recorded for quality assurance purposes only'?>" />
     </div>
 
+    <h6>Auto assignment option</h6>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','How long should we wait before call is assigned to another operator? (seconds)');?></label>
+                <input type="number" placeholder="15 seconds" name="auto_assign_timeout" class="form-control form-control-sm" value="<?php isset($cb_options['auto_assign_timeout']) ? print htmlspecialchars($cb_options['auto_assign_timeout']) : '15'?>" />
+            </div>
+        </div>
+        <div class="col-6">
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Calls which will happen in x minutes should be assigned');?></label>
+            <input type="number" placeholder="10 minutes" name="call_in_minutes" class="form-control form-control-sm" value="<?php isset($cb_options['call_in_minutes']) ? print htmlspecialchars($cb_options['call_in_minutes']) : '15'?>" />
+        </div>
+    </div>
+
+
+
+
     <div class="form-group">
         <label>Scheduled call uniqueness decided by these fields</label>
         <label class="d-block"><input type="checkbox" name="unique[]" <?php if (isset($cb_options['unique']) && is_array($cb_options['unique']) && in_array('dep_id',$cb_options['unique'])) : ?>checked="checked"<?php endif;?> value="dep_id"> Department</label>

@@ -116,6 +116,16 @@ $def->properties['verified']->columnName   = 'verified';
 $def->properties['verified']->propertyName = 'verified';
 $def->properties['verified']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['status_accept'] = new ezcPersistentObjectProperty();
+$def->properties['status_accept']->columnName   = 'status_accept';
+$def->properties['status_accept']->propertyName = 'status_accept';
+$def->properties['status_accept']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
+$def->properties['tslasign'] = new ezcPersistentObjectProperty();
+$def->properties['tslasign']->columnName   = 'tslasign';
+$def->properties['tslasign']->propertyName = 'tslasign';
+$def->properties['tslasign']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 return $def;
 
 ?>

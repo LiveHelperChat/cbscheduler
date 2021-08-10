@@ -1,92 +1,138 @@
-<div class="row" id="callback-outcome" ng-non-bindable>
-    <div class="col-6">
-        <div class="form-inline">
-             <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone');?></b>
-             <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;<i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-danger'?>"><?php echo $item->verified == 1 ? 'verified_user' : 'help_outline'?></i>&nbsp;<span title="Copy" data-field="cbdata-phone" class="copy-action material-icons action-image">content_copy</span>
-             </p>
+<div id="callback-outcome" class="row" ng-non-bindable>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label fs14"><b><i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-danger'?>"><?php echo $item->verified == 1 ? 'verified_user' : 'help_outline'?></i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone');?></b></label>
+                <div class="col-sm-9">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><span title="Copy" data-field="cbdata-phone" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
+                        </div>
+                        <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label fs14"><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Username');?></b></label>
+                <div class="col-sm-9">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><span data-field="cbdata-username" title="Copy" class="copy-action mr-0 material-icons action-image">content_copy</span></div>
+                        </div>
+                        <input type="text" class="form-control form-control-sm d-inline" id="cbdata-username" readonly value="<?php echo htmlspecialchars($item->name)?>" />&nbsp;
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="col-6">
-        <div class="form-inline">
-            <p>
-                <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Username');?></b>
-                <input type="text" class="form-control form-control-sm d-inline" id="cbdata-username" readonly value="<?php echo htmlspecialchars($item->name)?>" />&nbsp;<span data-field="cbdata-username" title="Copy" class="copy-action material-icons action-image">content_copy</span>
-            </p>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 fs14 col-form-label"><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','E-mail');?></b></label>
+                <div class="col-sm-9">
+                    <label class="col-form-label"><?php echo htmlspecialchars($item->email)?></label>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','E-mail');?></b> - <?php echo htmlspecialchars($item->email)?></p>
-    </div>
-
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled for');?></b> - <?php echo htmlspecialchars($item->time_till_call)?> | <?php echo htmlspecialchars($item->scheduler_for_front)?></p>
-    </div>
-
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Subject');?></b> - <?php echo htmlspecialchars($item->subject)?></p>
-    </div>
-
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></b> - <?php echo htmlspecialchars($item->dep)?></p>
-    </div>
-
-    <?php if ($item->parent instanceof erLhcoreClassModelCBSchedulerReservation) : ?>
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call');?></b> - <a onclick="return lhc.revealModal({'height':350,'url':WWW_DIR_JAVASCRIPT +'cbscheduler/previewcall/<?php echo $item->parent_id?>'})"><i class="material-icons mr-0">info</i> [<?php echo $item->parent_id?>] Preview</a></p>
-    </div>
-    <?php endif; ?>
-
-    <div class="col-6">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Chat ID');?></b> - <?php echo htmlspecialchars($item->chat_id)?></p>
-    </div>
-
-    <div class="col-6" id="call-serviced-by">
-        <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/assigntome.tpl.php'));?>
-    </div>
-
-    <div class="col-12">
-        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
-        <p><?php echo htmlspecialchars($item->description)?></p>
-    </div>
-
-    <div class="col-12">
-        <div class="form-group">
-            <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Status');?></b></label>
-            <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
-                'input_name'     => 'status',
-                'selected_id'    => $item->status,
-                'css_class'      => 'form-control form-control-sm',
-                'list_function'  => 'erLhcoreClassCBSchedulerValidation::getStatusOptions',
-                'list_function_params'  => array(),
-            )); ?>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 fs14 col-form-label">
+                    <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled for');?></b>
+                </label>
+                <div class="col-sm-9">
+                    <label class="col-form-label"><?php echo htmlspecialchars($item->time_till_call)?> | <?php echo htmlspecialchars($item->scheduler_for_front)?></label>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="col-12">
-        <div class="form-group">
-            <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?>&nbsp;<span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
-            <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome_new)?></textarea>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label fs14">
+                    <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Subject');?></b>
+                </label>
+                <label class="col-sm-9 col-form-label">
+                    <?php echo htmlspecialchars($item->subject)?>
+                </label>
+            </div>
         </div>
-    </div>
-
-    <?php if ($item->outcome != '') : ?>
-    <div class="col-12">
-        <div class="form-group">
-            <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?>&nbsp;<span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
-            <textarea class="form-control form-control-sm" rows="10" readonly id="cbdata-outcome-all"><?php echo htmlspecialchars($item->outcome)?></textarea>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label fs14">
+                    <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></b>
+                </label>
+                <label class="col-sm-9 col-form-label">
+                    <?php echo htmlspecialchars($item->dep)?>
+                </label>
+            </div>
         </div>
-    </div>
-    <?php endif; ?>
 
-    <div class="col-12">
-        <div class="form-group">
-            <a class="btn btn-info btn-xs" target="_blank" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons">open_in_new</i> <i class="material-icons mr-0">add_ic_call</i></a>
+        <?php if ($item->parent instanceof erLhcoreClassModelCBSchedulerReservation) : ?>
+            <div class="col-6">
+                <label class="col-form-label fs14">
+                    <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call');?> <a onclick="return lhc.revealModal({'height':350,'url':WWW_DIR_JAVASCRIPT +'cbscheduler/previewcall/<?php echo $item->parent_id?>'})"><i class="material-icons mr-0">info</i> [<?php echo $item->parent_id?>] Preview</a></b>
+                </label>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($item->chat_id >= 0) : ?>
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-sm-3 fs14 col-form-label">
+                    <b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Chat ID');?></b>
+                </label>
+                <label class="col-sm-9 col-form-label">
+                    <?php echo htmlspecialchars($item->chat_id)?>
+                </label>
+            </div>
         </div>
-    </div>
+        <?php endif; ?>
 
-</div>
+        <div class="col-6" id="call-serviced-by">
+            <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/assigntome.tpl.php'));?>
+        </div>
+
+        <div class="col-12">
+            <p class="mb-2"><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
+            <p class="mb-2"><?php echo htmlspecialchars($item->description)?></p>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Status');?></b></label>
+                <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
+                    'input_name'     => 'status',
+                    'selected_id'    => $item->status,
+                    'css_class'      => 'form-control form-control-sm',
+                    'list_function'  => 'erLhcoreClassCBSchedulerValidation::getStatusOptions',
+                    'list_function_params'  => array(),
+                )); ?>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?>&nbsp;<span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
+                <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome_new)?></textarea>
+            </div>
+        </div>
+
+        <?php if ($item->outcome != '') : ?>
+        <div class="col-12">
+            <div class="form-group">
+                <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?>&nbsp;<span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
+                <textarea class="form-control form-control-sm" rows="10" readonly id="cbdata-outcome-all"><?php echo htmlspecialchars($item->outcome)?></textarea>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="col-12">
+            <div class="form-group">
+                <a class="btn btn-info btn-xs" target="_blank" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons">open_in_new</i> <i class="material-icons mr-0">add_ic_call</i></a>
+            </div>
+        </div>
+
+    </div>
 
 <script>
 

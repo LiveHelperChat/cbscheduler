@@ -2,7 +2,13 @@
 
 $tpl = erLhcoreClassTemplate::getInstance('lhcbscheduler/editreservation.tpl.php');
 
-$item =  erLhcoreClassModelCBSchedulerReservation::fetch($Params['user_parameters']['id']);
+$item = erLhcoreClassModelCBSchedulerReservation::fetch($Params['user_parameters']['id']);
+
+// Accept call on open if chat is assigned to same user and it's waiting for acceptance
+if ($item->user_id == erLhcoreClassUser::instance()->getUserID() && $item->status_accept == erLhcoreClassModelCBSchedulerReservation::PENDING_ACCEPT) {
+    $item->status_accept = erLhcoreClassModelCBSchedulerReservation::CALL_ACCEPTED;
+    $item->updateThis(array('update' => array('status_accept')));
+}
 
 if (ezcInputForm::hasPostData()) {
 
@@ -37,6 +43,11 @@ $tpl->setArray(array(
     'item' => $item,
     'tab' => ''
 ));
+
+if ($Params['user_parameters_unordered']['mode'] == 'modal') {
+    $Result['pagelayout'] = 'chattabs';
+    $tpl->set('is_modal',true);
+}
 
 $Result['content'] = $tpl->fetch();
 
