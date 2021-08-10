@@ -49,7 +49,7 @@ $ViewList['reservations'] = array(
 
 $ViewList['editreservation'] = array(
     'params' => array('id'),
-    'uparams' => array(),
+    'uparams' => array('mode'),
     'functions' => array('use_admin'),
 );
 
@@ -161,6 +161,20 @@ $ViewList['gotoagent'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array(),
+);
+
+$ViewList['phonemode'] = array(
+    'params' => array('status'),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['getnofificationsdata'] = array(
+    'params' => array(),
+    'uparams' => array('id'),
+    'functions' => array('use_admin'),
+    'multiple_arguments' => array(
+        'id'
+    )
 );
 
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to see reservations');

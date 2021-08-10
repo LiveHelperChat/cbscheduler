@@ -17,6 +17,12 @@ if ( isset($_POST['StoreOptions']) ) {
         'min_time' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'int'
         ),
+        'auto_assign_timeout' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'int'
+        ),
+        'call_in_minutes' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'int'
+        ),
         'allow_numbers' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
@@ -71,6 +77,18 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['min_time'] = $form->min_time;
     } else {
         $data['min_time'] = '';
+    }
+
+    if ( $form->hasValidData( 'auto_assign_timeout' )) {
+        $data['auto_assign_timeout'] = $form->auto_assign_timeout;
+    } else {
+        $data['auto_assign_timeout'] = '';
+    }
+
+    if ( $form->hasValidData( 'call_in_minutes' )) {
+        $data['call_in_minutes'] = $form->call_in_minutes;
+    } else {
+        $data['call_in_minutes'] = '';
     }
 
     if ( $form->hasValidData( 'allow_numbers' )) {

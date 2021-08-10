@@ -21,6 +21,8 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `chat_id` bigint(20) NOT NULL,
   `region` varchar(2) NOT NULL,
   `ctime` int(11) NOT NULL,
+  `status_accept` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `tslasign` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `slot_id` (`slot_id`),
   KEY `schedule_id` (`schedule_id`),
@@ -78,4 +80,14 @@ CREATE TABLE `lhc_cbscheduler_subject` (
   `name` varchar(50) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `lhc_cbscheduler_phone_mode` (
+                                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                                              `user_id` int(11) NOT NULL,
+                                              `on_phone` tinyint(1) unsigned NOT NULL DEFAULT 0,
+                                              `last_accepted` int(11) unsigned NOT NULL,
+                                              PRIMARY KEY (`id`),
+                                              KEY `on_phone` (`on_phone`),
+                                              KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

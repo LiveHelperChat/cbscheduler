@@ -13,13 +13,11 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
 
         $dispatcher->listen('widgetrestapi.settings', array($this, 'widgetSettings'));
-
-        $dispatcher->listen('department.edit_department_group', array(
-            $this,
-            'departmentGroupModified'
-        ));
-
+        $dispatcher->listen('department.edit_department_group', array($this,'departmentGroupModified'));
         $dispatcher->listen('chat.customcommand', array($this, 'customCommand'));
+        $dispatcher->listen('chat.syncadmininterface', array($this,'appendCallbacks'));
+        $dispatcher->listen('chat.loadinitialdata', array($this,'loadInitialData'));
+
     }
 
     public function customCommand($paramsCommand) {
@@ -57,6 +55,60 @@ class erLhcoreClassExtensionCbscheduler {
         $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=4';
     }
 
+    public function appendCallbacks($params) {
+
+        if (!erLhcoreClassUser::instance()->hasAccessTo('lhcbscheduler','use_admin')){
+            return ;
+        }
+
+        $limitation = erLhcoreClassChat::getDepartmentLimitation('lhc_cbscheduler_reservation');
+
+        // Does not have any assigned department
+        if ($limitation === false) {
+            return array();
+        }
+
+        $filter = array('sort' => 'cb_time_start ASC');
+
+        $filter['filter'] = array(
+            'status' => erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED,
+            'user_id' => erLhcoreClassUser::instance()->getUserID()
+        );
+
+        if ($limitation !== true) {
+            $filter['customfilter'][] = $limitation;
+        }
+
+        $filter['limit'] = 10;
+        $filter['offset'] = 0;
+        $filter['smart_select'] = true;
+
+        if (!empty($filterAdditional)) {
+            $filter = array_merge_recursive($filter,$filterAdditional);
+        }
+
+        $filter['customfilter'][] = '`lhc_cbscheduler_reservation`.`id` IN (SELECT `id` FROM (SELECT `id` FROM `lhc_cbscheduler_reservation` ORDER BY `id` DESC LIMIT 100) AS `sq`)';
+
+        $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
+
+        erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower'),
+            array('dep')
+        );
+
+        $params['lists']['my_calls'] = array('list' => array_values($callbackscheduler));
+
+        unset($filter['filter']['user_id']);
+        $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
+
+        erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official'),
+            array('dep')
+        );
+
+        $params['lists']['all_calls'] = array('list' => array_values($callbackscheduler));
+    }
+
     // Department group was modified we have to assign new departments to a schedule
     public function departmentGroupModified($params) {
         $departmentsGroupsToResave = erLhcoreClassModelCBSchedulerSchedulerDepGroup::getList(['filter' => ['dep_group_id' => $params['department_group']->id]]);
@@ -84,12 +136,18 @@ class erLhcoreClassExtensionCbscheduler {
             'erLhcoreClassModelCBSchedulerSlot' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulerslot.php',
             'erLhcoreClassCBSchedulerValidation' => 'extension/cbscheduler/classes/erlhcoreclasscbschedulervalidation.php',
             'erLhcoreClassModelCBSchedulerSubject' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulersubject.php',
+            'erLhcoreClassModelCBSchedulerPhoneMode' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulerphonemode.php',
             'ICS' => 'extension/cbscheduler/classes/ICS.php'
         );
 
         if (key_exists($className, $classesArray)) {
             include_once $classesArray[$className];
         }
+    }
+
+    public function loadInitialData($params)
+    {
+        $params['lists']['cbscheduler']['on_phone'] = erLhcoreClassModelCBSchedulerPhoneMode::getInstance(erLhcoreClassUser::instance()->getUserID())->on_phone;
     }
 
     public function registerAutoload() {

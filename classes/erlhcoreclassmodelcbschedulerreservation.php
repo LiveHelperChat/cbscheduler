@@ -63,6 +63,11 @@ class erLhcoreClassModelCBSchedulerReservation
             'user_id' => $this->user_id,
 
             'verified' => $this->verified,
+
+            'status_accept' => $this->status_accept,
+
+            // Time last assignment happened
+            'tslasign' => $this->tslasign,
         );
     }
 
@@ -119,6 +124,9 @@ class erLhcoreClassModelCBSchedulerReservation
                 }
                 return $this->dep;
 
+            case 'department_name':
+                return $this->department_name = (string)$this->dep;
+
             case 'scheduler_for_front':
                     $this->scheduler_for_front = date('Y-m-d H:i',$this->cb_time_start) . ' - ' . date('Y-m-d H:i',$this->cb_time_end);
                     return $this->scheduler_for_front;
@@ -131,6 +139,13 @@ class erLhcoreClassModelCBSchedulerReservation
                     }
                     return $this->time_till_call;
 
+            case 'time_till_call_seconds':
+                $this->time_till_call_seconds = $this->cb_time_start - time();
+                return $this->time_till_call_seconds;
+
+            case 'region_lower':
+                $this->region_lower = strtolower($this->region);
+                return $this->region_lower;
 
             default:
                 ;
@@ -157,6 +172,11 @@ class erLhcoreClassModelCBSchedulerReservation
 
     const NOT_ANSWERED = 3;
 
+    // Acceptance status
+    const PENDING_ACCEPT = 0;
+
+    const CALL_ACCEPTED = 1;
+
     public $id = null;
 
     public $slot_id = null;
@@ -164,6 +184,10 @@ class erLhcoreClassModelCBSchedulerReservation
     public $schedule_id = null;
 
     public $dep_id = null;
+
+    public $status_accept = self::PENDING_ACCEPT;
+
+    public $tslasign = 0;
 
     public $tz = null;
 

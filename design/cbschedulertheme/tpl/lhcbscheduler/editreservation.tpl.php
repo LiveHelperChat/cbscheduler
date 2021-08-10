@@ -1,4 +1,6 @@
+<?php if (!isset($is_modal)) : ?>
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Edit reservation');?></h1>
+<?php endif; ?>
 
 <?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('user/account','Updated'); ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
