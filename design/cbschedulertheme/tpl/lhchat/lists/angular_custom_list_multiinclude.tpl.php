@@ -19,7 +19,7 @@
                                     <td>
                                         <div class="abbr-list">
                                             <a ng-if="!chat.status_accept" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons">assignment_ind</a>
-                                            <i ng-class="{'text-success' : chat.verified}" class="material-icons text-danger">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
+                                            <i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
                                             <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
                                             <span ng-if="chat.status == 1" class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
                                             <span ng-if="chat.status == 2" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
@@ -56,7 +56,7 @@
                                     <td>
                                         <div class="abbr-list">
                                             <a ng-if="chat.user_id" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons text-success">assignment_ind</a>
-                                            <i ng-class="{'text-success' : chat.verified}" class="material-icons text-danger">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
+                                            <i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
                                             <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
                                             <span ng-if="chat.status == 1" class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
                                             <span ng-if="chat.status == 2" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
