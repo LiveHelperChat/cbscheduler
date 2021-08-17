@@ -91,3 +91,12 @@ CREATE TABLE `lhc_cbscheduler_phone_mode` (
                                               KEY `on_phone` (`on_phone`),
                                               KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `lhc_cbscheduler_phone_transforms` (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `dep_id` text NOT NULL,
+    `country` text NOT NULL,
+    `rules` text NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

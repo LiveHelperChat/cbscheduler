@@ -367,6 +367,44 @@ class erLhcoreClassCBSchedulerValidation
         return $Errors;
     }
 
+    public static function validateCBTransform($item, $params = array()) {
+        $definition = array(
+            'country' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'dep_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1), FILTER_REQUIRE_ARRAY
+            ),
+            'rules' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            )
+        );
+
+        $form = new ezcInputForm( INPUT_POST, $definition );
+        $Errors = array();
+
+        if ( $form->hasValidData( 'country' ) ) {
+            $item->country = json_encode(explode(',',str_replace(' ','',trim($form->country))));
+        } else {
+            $item->country = json_encode([]);
+        }
+
+        if ( $form->hasValidData( 'rules' ) ) {
+            $item->rules = $form->rules;
+        }
+
+        if ( $form->hasValidData( 'dep_id' ) && $form->dep_id) {
+            $item->dep_id = json_encode($form->dep_id);
+        } else {
+            $item->dep_id = json_encode([]);
+        }
+
+        $item->dep_id_array = json_decode($item->dep_id,true);
+        $item->country_array = json_decode($item->country,true);
+
+        return $Errors;
+    }
+
     public static function isBlocked($phone) {
 
         $phone = str_replace('+','',$phone);

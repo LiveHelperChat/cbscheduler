@@ -25,7 +25,12 @@
                     <?php if ($item->parent_id > 0) : ?><i class="material-icons">add_ic_call</i><?php endif;?><a href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars($item->dep)?></a></td>
                 <td><?php echo htmlspecialchars($item->user_name_official)?></td>
                 <td nowrap="nowrap">
-                    <i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-danger'?>"><?php echo $item->verified == 1 ? 'verified_user' : 'help_outline'?></i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/<?php echo strtolower($item->region)?>.png" alt="" /> <?php echo htmlspecialchars($item->phone)?>
+                    <i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-danger'?>"><?php echo $item->verified == 1 ? 'verified_user' : 'help_outline'?></i><img title="<?php echo htmlspecialchars(strtolower($item->region))?>" src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/<?php echo strtolower($item->region)?>.png" alt="" /> <?php echo htmlspecialchars($item->phone)?>
+
+                    <?php foreach ($item->phone_front as $phoneSub) :  ?>
+                    <span class="text-muted d-block"><?php echo $phoneSub?></span>
+                    <?php endforeach; ?>
+
                 </td>
                 <td>
                     <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/username_row.tpl.php')); ?>

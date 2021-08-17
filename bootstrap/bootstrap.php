@@ -137,6 +137,7 @@ class erLhcoreClassExtensionCbscheduler {
             'erLhcoreClassCBSchedulerValidation' => 'extension/cbscheduler/classes/erlhcoreclasscbschedulervalidation.php',
             'erLhcoreClassModelCBSchedulerSubject' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulersubject.php',
             'erLhcoreClassModelCBSchedulerPhoneMode' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulerphonemode.php',
+            'erLhcoreClassModelCBSchedulerPhoneTransform' => 'extension/cbscheduler/classes/erlhcoreclassmodelcbschedulerphonetransform.php',
             'ICS' => 'extension/cbscheduler/classes/ICS.php'
         );
 

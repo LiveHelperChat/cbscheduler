@@ -5,10 +5,18 @@
                 <div class="col-sm-9">
                     <div class="input-group mb-2 mr-sm-2">
                         <div class="input-group-prepend">
-                            <div class="input-group-text"><span title="Copy" data-field="cbdata-phone" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
+                            <div class="input-group-text"><span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Original phone number entered by user');?>" class="material-icons">person</span> <span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Copy');?>" data-field="cbdata-phone" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
                         </div>
                         <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;
                     </div>
+                    <?php foreach ($item->phone_front as $indexAlias => $phone) : ?>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Copy alias');?>" data-field="cbdata-phone-<?php echo $indexAlias?>" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
+                            </div>
+                            <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone-<?php echo $indexAlias?>" readonly value="<?php echo htmlspecialchars($phone)?>" />&nbsp;
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -112,7 +120,7 @@
 
         <div class="col-12">
             <div class="form-group">
-                <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?>&nbsp;<span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
+                <label><b><span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?></b></label>
                 <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome_new)?></textarea>
             </div>
         </div>
@@ -120,7 +128,7 @@
         <?php if ($item->outcome != '') : ?>
         <div class="col-12">
             <div class="form-group">
-                <label><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?>&nbsp;<span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span></b></label>
+                <label><b><span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?></b></label>
                 <textarea class="form-control form-control-sm" rows="10" readonly id="cbdata-outcome-all"><?php echo htmlspecialchars($item->outcome)?></textarea>
             </div>
         </div>

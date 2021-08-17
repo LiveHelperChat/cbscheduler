@@ -87,6 +87,30 @@ class erLhcoreClassModelCBSchedulerReservation
                 }
                 return $this->slot;
 
+            case 'phone_front':
+                $this->phone_front = [$this->phone];
+
+                $region = strtolower($this->region);
+
+                $db = ezcDbInstance::get();
+
+                $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(JSON_CONTAINS(`country`,'.$db->quote($region).',\'$\') AND JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
+
+                if (!($phoneTransform instanceof erLhcoreClassModelCBSchedulerPhoneTransform)) {
+                    $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
+                }
+
+                if ($phoneTransform instanceof erLhcoreClassModelCBSchedulerPhoneTransform) {
+                    foreach ($phoneTransform->rules_array as $transformRule) {
+                        $phoneReplaced = preg_replace('/'.str_replace('+','\+',$transformRule[0]).'/is',$transformRule[1], $this->phone);
+                        if (!in_array($phoneReplaced, $this->phone_front)){
+                            $this->phone_front[] = $phoneReplaced;
+                        }
+                    }
+                }
+                array_shift( $this->phone_front);
+                return $this->phone_front;
+
             case 'subject':
                 $this->subject = null;
                 if ($this->subject_id > 0) {

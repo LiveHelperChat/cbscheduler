@@ -101,6 +101,30 @@ $ViewList['editsubject'] = array(
     'functions' => array('manage_schedule'),
 );
 
+$ViewList['transforms'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('manage_schedule'),
+);
+
+$ViewList['newtransform'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('manage_schedule'),
+);
+
+$ViewList['edittransform'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('manage_schedule'),
+);
+
+$ViewList['deletetransform'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('manage_schedule'),
+);
+
 $ViewList['edit'] = array(
     'params' => array('id'),
     'uparams' => array(),
