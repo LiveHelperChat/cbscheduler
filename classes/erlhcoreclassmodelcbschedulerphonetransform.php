@@ -68,7 +68,7 @@ class erLhcoreClassModelCBSchedulerPhoneTransform
                     foreach ($rulesItems as $ruleItem) {
                         $ruleItemCombination = explode('==>',$ruleItem);
                         if (count($ruleItemCombination) == 2) {
-                            $this->rules_array[] = $ruleItemCombination;
+                            $this->rules_array[] = [trim($ruleItemCombination[0]),trim($ruleItemCombination[1])];
                         }
                     }
                 }

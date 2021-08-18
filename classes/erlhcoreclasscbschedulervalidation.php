@@ -383,7 +383,7 @@ class erLhcoreClassCBSchedulerValidation
         $form = new ezcInputForm( INPUT_POST, $definition );
         $Errors = array();
 
-        if ( $form->hasValidData( 'country' ) ) {
+        if ( $form->hasValidData( 'country' ) && trim($form->country) != '') {
             $item->country = json_encode(explode(',',str_replace(' ','',trim($form->country))));
         } else {
             $item->country = json_encode([]);

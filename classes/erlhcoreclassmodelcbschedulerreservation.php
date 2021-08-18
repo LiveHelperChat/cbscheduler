@@ -94,10 +94,10 @@ class erLhcoreClassModelCBSchedulerReservation
 
                 $db = ezcDbInstance::get();
 
-                $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(JSON_CONTAINS(`country`,'.$db->quote($region).',\'$\') AND JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
+                $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(JSON_CONTAINS(`country`,'.$db->quote('"'.$region.'"').',\'$\') AND JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
 
                 if (!($phoneTransform instanceof erLhcoreClassModelCBSchedulerPhoneTransform)) {
-                    $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
+                    $phoneTransform = erLhcoreClassModelCBSchedulerPhoneTransform::findOne(array('customfilter' => array('(`country` = \'[]\' AND JSON_CONTAINS(`dep_id`,'. (int)$this->dep_id . ',\'$\') )')));
                 }
 
                 if ($phoneTransform instanceof erLhcoreClassModelCBSchedulerPhoneTransform) {
