@@ -48,7 +48,6 @@ foreach (erLhcoreClassModelCBSchedulerReservation::getList([
                             WHERE 
                               lhc_cbscheduler_phone_mode.last_accepted < :last_accepted 
                               AND ro = 0 
-                              AND hide_online = 1
                               AND lhc_cbscheduler_phone_mode.on_phone = 1 
                               AND `lh_userdep`.`dep_id` = :dep_id 
                               AND (`lh_userdep`.`last_activity` > :last_activity OR `lh_userdep`.`always_on` = 1) 

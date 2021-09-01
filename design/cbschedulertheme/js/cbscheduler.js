@@ -2,11 +2,23 @@ $(document).ready(function () {
 
     var myPendingCalls = [];
     var notificationsList = [];
+    var previousState = false;
+
+    function setPhoneOn(mode){
+        var inst = $('#activate-cb-scheduler');
+        if (mode) {
+            inst.addClass('font-weight-bold');
+            inst.find('> i').text('phone');
+            inst.find('> span').text(inst.attr('data-online'));
+        } else {
+            inst.find('> i').text('phone_disabled');
+            inst.find('> span').text(inst.attr('data-offline'));
+            inst.removeClass('font-weight-bold');
+        }
+    }
 
     ee.addListener('eventLoadInitialData', function (data) {
-        if (data.cbscheduler.on_phone) {
-            $('#activate-cb-scheduler').addClass('font-weight-bold');
-        }
+        setPhoneOn(data.cbscheduler.on_phone)
     });
 
     function compareNotificationsAndHide(oldStatus, newStatus) {
@@ -28,12 +40,27 @@ $(document).ready(function () {
         var pushNotifications = [];
 
         if (data.result.my_calls && data.result.my_calls.list) {
+            var hasPendingCall = false;
             for (var i = data.result.my_calls.list.length - 1; i >= 0; i--) {
                 callsListNew.push(data.result.my_calls.list[i].id);
                 if (myPendingCalls.indexOf(data.result.my_calls.list[i].id) === -1 && that.isListLoaded == true) {
                     pushNotifications.push(data.result.my_calls.list[i].id);
                 }
+                if (!data.result.my_calls.list[i].status_accept){
+                    hasPendingCall = true;
+                }
             }
+
+            if (previousState != hasPendingCall)
+            {
+                if (hasPendingCall == true) {
+                    $('#dashboard-tab-icon-phone,#dashboard-icon-phone').addClass('text-danger blink-ani');
+                } else {
+                    $('#dashboard-tab-icon-phone,#dashboard-icon-phone').removeClass('text-danger blink-ani');
+                }
+                previousState = hasPendingCall;
+            }
+
         }
 
         compareNotificationsAndHide(myPendingCalls, callsListNew);
@@ -78,15 +105,9 @@ $(document).ready(function () {
         myPendingCalls = callsListNew;
     });
 
-
     $('#activate-cb-scheduler').click(function () {
-        if (!$(this).hasClass('font-weight-bold')) {
-            $(this).addClass('font-weight-bold');
-            $.get(WWW_DIR_JAVASCRIPT + 'user/setoffline/1');
-            $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/1');
-        } else {
-            $(this).removeClass('font-weight-bold');
-            $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/0');
-        }
+        var phoneMode = !$(this).hasClass('font-weight-bold');
+        $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(phoneMode ? '1' : '0'));
+        setPhoneOn(phoneMode);
     });
 })

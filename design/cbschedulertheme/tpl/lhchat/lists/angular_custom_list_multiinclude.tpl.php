@@ -18,12 +18,11 @@
                                 <tr ng-repeat="chat in my_calls.list track by chat.id" data-id="{{chat.id}}" onclick="return lhc.revealModal({'title':'Edit reservation','iframe':true,'height':700, 'url':WWW_DIR_JAVASCRIPT +'cbscheduler/editreservation/'+$(this).attr('data-id')+'/(mode)/modal'})">
                                     <td>
                                         <div class="abbr-list">
-                                            <a ng-if="!chat.status_accept" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons">assignment_ind</a>
-                                            <i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
-                                            <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
-                                            <span ng-if="chat.status == 1" class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
-                                            <span ng-if="chat.status == 2" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
-                                            <span ng-if="chat.status == 3" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
+                                            <a ng-if="!chat.status_accept" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons">assignment_ind</a><i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
+                                            <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
+                                            <span ng-if="chat.status == 1" class="badge mx-2 badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
+                                            <span ng-if="chat.status == 2" class="badge mx-2 badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
+                                            <span ng-if="chat.status == 3" class="badge mx-2 badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
                                             <b>{{chat.time_till_call}}</b> | {{chat.scheduler_for_front}}
                                         </div>
                                     </td>
@@ -55,12 +54,11 @@
                                 <tr ng-repeat="chat in all_calls.list track by chat.id" data-id="{{chat.id}}" onclick="return lhc.revealModal({'title':'Edit reservation','iframe':true,'height':700, 'url':WWW_DIR_JAVASCRIPT +'cbscheduler/editreservation/'+$(this).attr('data-id')+'/(mode)/modal'})">
                                     <td>
                                         <div class="abbr-list">
-                                            <a ng-if="chat.user_id" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons text-success">assignment_ind</a>
-                                            <i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
-                                            <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
-                                            <span ng-if="chat.status == 1" class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
-                                            <span ng-if="chat.status == 2" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
-                                            <span ng-if="chat.status == 3" class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
+                                            <a ng-if="chat.user_id" title="Acceptance status" ng-class="{'text-warning':!chat.status_accept}" class="material-icons text-success">assignment_ind</a><i ng-class="{'text-success' : chat.verified, 'text-danger': !chat.verified}" class="material-icons">{{chat.verified ? 'verified_user' : 'help_outline'}}</i><img src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/{{chat.region_lower}}.png" alt="" />
+                                            <span ng-if="!chat.status" ng-class="{'badge-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
+                                            <span ng-if="chat.status == 1" class="badge mx-2 badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
+                                            <span ng-if="chat.status == 2" class="badge mx-2 badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
+                                            <span ng-if="chat.status == 3" class="badge mx-2 badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
                                             <b>{{chat.time_till_call}}</b> | {{chat.scheduler_for_front}}
                                         </div>
                                     </td>
