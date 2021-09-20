@@ -4,7 +4,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `tz` varchar(50) NOT NULL,
   `cb_time_start` bigint(20) NOT NULL,
   `cb_time_end` bigint(20) NOT NULL,
-  `parent_id` bigint(20) NOT NULL,
+  `parent_id` bigint(20) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
   `code` varchar(10) NOT NULL,
