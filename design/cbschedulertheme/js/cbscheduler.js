@@ -107,7 +107,7 @@ $(document).ready(function () {
 
     $('#activate-cb-scheduler').click(function () {
         var phoneMode = !$(this).hasClass('font-weight-bold');
-        $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(phoneMode ? '1' : '0'));
+        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(phoneMode ? '1' : '0'));
         setPhoneOn(phoneMode);
     });
 })

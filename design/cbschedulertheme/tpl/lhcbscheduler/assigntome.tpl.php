@@ -30,7 +30,6 @@
         <div>
             <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                 'input_name'     => 'user_ids[]',
-                'data_prop'      => 'data-limit="1"',
                 'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Assign operator'),
                 'selected_id'    => [$item->user_id],
                 'css_class'      => 'form-control',
