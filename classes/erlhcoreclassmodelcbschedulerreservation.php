@@ -257,7 +257,7 @@ class erLhcoreClassModelCBSchedulerReservation
 
     public $verified = 0;
 
-    public $log_actions = 0;
+    public $log_actions = '';
 
 }
 
