@@ -126,6 +126,11 @@ $def->properties['tslasign']->columnName   = 'tslasign';
 $def->properties['tslasign']->propertyName = 'tslasign';
 $def->properties['tslasign']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['log_actions'] = new ezcPersistentObjectProperty();
+$def->properties['log_actions']->columnName   = 'log_actions';
+$def->properties['log_actions']->propertyName = 'log_actions';
+$def->properties['log_actions']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
 return $def;
 
 ?>

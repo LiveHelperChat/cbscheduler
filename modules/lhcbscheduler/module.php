@@ -53,6 +53,12 @@ $ViewList['editreservation'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['logreservation'] = array(
+    'params' => array('id'),
+    'uparams' => array('mode'),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['assigntome'] = array(
     'params' => array('id'),
     'uparams' => array('action'),

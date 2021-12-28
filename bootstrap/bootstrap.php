@@ -93,7 +93,7 @@ class erLhcoreClassExtensionCbscheduler {
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
             array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower'),
-            array('dep')
+            array('dep','log_actions','user')
         );
 
         $params['lists']['my_calls'] = array('list' => array_values($callbackscheduler));
@@ -103,7 +103,7 @@ class erLhcoreClassExtensionCbscheduler {
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
             array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official'),
-            array('dep')
+            array('dep','log_actions','user')
         );
 
         $params['lists']['all_calls'] = array('list' => array_values($callbackscheduler));

@@ -74,9 +74,20 @@ foreach (erLhcoreClassModelCBSchedulerReservation::getList([
             $stmt->bindValue(':last_accepted', time(),PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $user_id,PDO::PARAM_INT);
             $stmt->execute();
-
-            echo "Assigned user [" . $user_id . "] to ".$reservation->id,"\n";
+            $statsImport = time() . "|||Assigned user [" . $user_id . "] to " . $reservation->id;
+        } else {
+            $statsImport = time() . '|||No online operator were found! ' . $reservation->id;
         }
+
+        echo $statsImport;
+
+        // Log outcome
+        $log = $reservation->log_actions_array;
+        array_unshift ($log, $statsImport);
+        $log = array_slice($log,0,100);
+        $reservation->log_actions_array = $log;
+        $reservation->log_actions = json_encode($reservation->log_actions_array);
+        $reservation->updateThis(['update' => ['log_actions']]);
     }
 
     $db->commit();

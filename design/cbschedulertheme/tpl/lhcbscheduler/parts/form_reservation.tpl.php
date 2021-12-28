@@ -96,11 +96,11 @@
         </div>
         <?php endif; ?>
 
-        <div class="col-6" id="call-serviced-by">
+        <div class="col-6" id="call-serviced-by" ng-non-bindable>
             <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/assigntome.tpl.php'));?>
         </div>
 
-        <div class="col-12">
+        <div class="col-12" ng-non-bindable>
             <p class="mb-2"><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Description');?></b></p>
             <p class="mb-2"><?php echo htmlspecialchars($item->description)?></p>
         </div>
@@ -118,15 +118,17 @@
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12" ng-non-bindable>
             <div class="form-group">
-                <label><b><span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?></b></label>
-                <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars($item->outcome_new)?></textarea>
+                <label>
+                    <b><span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?></b>
+                </label>
+                <textarea name="outcome" id="cbdata-outcome" class="form-control form-control-sm"><?php echo htmlspecialchars((string)$item->outcome_new)?></textarea>
             </div>
         </div>
 
         <?php if ($item->outcome != '') : ?>
-        <div class="col-12">
+        <div class="col-12" ng-non-bindable>
             <div class="form-group">
                 <label><b><span data-field="cbdata-outcome-all" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Present outcome of the call');?></b></label>
                 <textarea class="form-control form-control-sm" rows="10" readonly id="cbdata-outcome-all"><?php echo htmlspecialchars($item->outcome)?></textarea>
@@ -137,6 +139,8 @@
         <div class="col-12">
             <div class="form-group">
                 <a class="btn btn-info btn-xs" target="_blank" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons">open_in_new</i> <i class="material-icons mr-0">add_ic_call</i></a>
+                <button type="button" onclick="return lhc.revealModal({'title' : 'Log', 'height':350, backdrop:true, 'url': WWW_DIR_JAVASCRIPT + 'cbscheduler/logreservation/<?php echo $item->id?>'})" class="btn btn-link btn-xs"><span class="material-icons">history</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Log')?></button>
+                
             </div>
         </div>
 
