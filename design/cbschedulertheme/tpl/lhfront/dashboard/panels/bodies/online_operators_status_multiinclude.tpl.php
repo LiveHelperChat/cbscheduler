@@ -1,0 +1,1 @@
+<span class="material-icons">{{operator.on_phone ? 'phone' : 'phone_disabled'}}</span>

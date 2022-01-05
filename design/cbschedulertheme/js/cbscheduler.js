@@ -17,8 +17,15 @@ $(document).ready(function () {
         }
     }
 
-    ee.addListener('eventLoadInitialData', function (data) {
-        setPhoneOn(data.cbscheduler.on_phone)
+    ee.addListener('eventGetSyncFilter', function(_that) {
+        if (typeof _that.toggleWidgetData['conop_sort'] !== 'undefined' && _that.toggleWidgetData['conop_sort'] !== '') {
+            _that.custom_extension_filter += '/(cbonop)/'+_that.toggleWidgetData['conop_sort'];
+        }
+    });
+
+    ee.addListener('eventLoadInitialData', function (data, scope, _that) {
+        setPhoneOn(data.cbscheduler.on_phone);
+        _that.toggleWidgetData['conop_sort'] = _that.restoreLocalSetting('conop_sort','',false);
     });
 
     function compareNotificationsAndHide(oldStatus, newStatus) {

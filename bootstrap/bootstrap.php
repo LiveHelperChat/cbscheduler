@@ -106,6 +106,42 @@ class erLhcoreClassExtensionCbscheduler {
             array('dep','log_actions','user')
         );
 
+        $onlineOperators = [];
+
+        foreach ($params['lists']['online_op']['list'] as $index => $listItem) {
+            $onlineOperators[$listItem->user_id] = $index;
+        }
+
+        if (!empty($onlineOperators)) {
+            $usersOnPhone = erLhcoreClassModelCBSchedulerPhoneMode::getList(['filterin' => ['on_phone' => 1, 'user_id' => array_keys($onlineOperators)]]);
+            foreach ($usersOnPhone as $userOnPhone) {
+                $params['lists']['online_op']['list'][$onlineOperators[$userOnPhone->user_id]]->on_phone = 1;
+            }
+        }
+
+        // Sort if required
+        $urlCfgDefault = ezcUrlConfiguration::getInstance();
+        $url = erLhcoreClassURL::getInstance();
+        $urlCfgDefault->addUnorderedParameter( 'cbonop');
+        $url->applyConfiguration( $urlCfgDefault );
+        $callbackSort = $url->getParam('cbonop');
+
+        if (in_array($callbackSort,['cb_desc','cb_asc'])) {
+            $onlineOperatorsCB = $offlineOperatorsCB = [];
+            foreach ($params['lists']['online_op']['list'] as $item) {
+                if (isset($item->on_phone) && $item->on_phone == 1) {
+                    $onlineOperatorsCB[] = $item;
+                } else {
+                    $offlineOperatorsCB[] = $item;
+                }
+            }
+            if ($callbackSort == 'cb_asc') {
+                $params['lists']['online_op']['list'] = array_values(array_merge($onlineOperatorsCB,$offlineOperatorsCB));
+            } else {
+                $params['lists']['online_op']['list'] = array_values(array_merge($offlineOperatorsCB,$onlineOperatorsCB));
+            }
+        }
+
         $params['lists']['all_calls'] = array('list' => array_values($callbackscheduler));
     }
 
