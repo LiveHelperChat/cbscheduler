@@ -4,19 +4,6 @@ $(document).ready(function () {
     var notificationsList = [];
     var previousState = false;
 
-    function setPhoneOn(mode){
-        var inst = $('#activate-cb-scheduler');
-        if (mode) {
-            inst.addClass('font-weight-bold');
-            inst.find('> i').text('phone');
-            inst.find('> span').text(inst.attr('data-online'));
-        } else {
-            inst.find('> i').text('phone_disabled');
-            inst.find('> span').text(inst.attr('data-offline'));
-            inst.removeClass('font-weight-bold');
-        }
-    }
-
     ee.addListener('eventGetSyncFilter', function(_that) {
         if (typeof _that.toggleWidgetData['conop_sort'] !== 'undefined' && _that.toggleWidgetData['conop_sort'] !== '') {
             _that.custom_extension_filter += '/(cbonop)/'+_that.toggleWidgetData['conop_sort'];
@@ -24,8 +11,18 @@ $(document).ready(function () {
     });
 
     ee.addListener('eventLoadInitialData', function (data, scope, _that) {
-        setPhoneOn(data.cbscheduler.on_phone);
+        _that.cb_pm = data.cbscheduler.on_phone;
         _that.toggleWidgetData['conop_sort'] = _that.restoreLocalSetting('conop_sort','',false);
+    });
+
+    ee.addListener('cbSetPhoneMode', function (_that, inst) {
+        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!inst.on_phone ? '1' : '0') + '/' + inst.user_id);
+        inst.on_phone = !inst.on_phone;
+    });
+
+    ee.addListener('cbSetPhoneModeSelf', function (_that) {
+        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!_that.cb_pm ? '1' : '0'));
+        _that.cb_pm = !_that.cb_pm;
     });
 
     function compareNotificationsAndHide(oldStatus, newStatus) {
@@ -43,6 +40,9 @@ $(document).ready(function () {
     };
 
     ee.addListener('eventLoadChatList', function (data, scope, that) {
+
+        that.cb_pm = data.cb_pm;
+
         var callsListNew = [];
         var pushNotifications = [];
 
@@ -110,11 +110,5 @@ $(document).ready(function () {
         }
 
         myPendingCalls = callsListNew;
-    });
-
-    $('#activate-cb-scheduler').click(function () {
-        var phoneMode = !$(this).hasClass('font-weight-bold');
-        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(phoneMode ? '1' : '0'));
-        setPhoneOn(phoneMode);
     });
 })

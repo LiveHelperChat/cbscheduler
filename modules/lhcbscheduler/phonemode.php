@@ -6,7 +6,17 @@ if (!isset($_SERVER['HTTP_X_CSRFTOKEN']) || !$currentUser->validateCSFRToken($_S
     die('Invalid CSRF Token');
 }
 
-$instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($currentUser->getUserID());
+if (is_numeric($Params['user_parameters']['user_id']) && $Params['user_parameters']['user_id'] > 0) {
+    $user = erLhcoreClassModelUser::fetch($Params['user_parameters']['user_id']);
+    if (!($user instanceof erLhcoreClassModelUser)) {
+        exit;
+    }
+    $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($Params['user_parameters']['user_id']);
+} else {
+    $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($currentUser->getUserID());
+}
+
+
 $instance->on_phone = $Params['user_parameters']['status'] == 1 ? 1 : 0;
 $instance->updateThis();
 

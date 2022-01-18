@@ -1,1 +1,1 @@
-<span class="material-icons">{{operator.on_phone ? 'phone' : 'phone_disabled'}}</span>
+<span class="material-icons action-image" ng-click="lhc.emitEvent('cbSetPhoneMode',operator)">{{operator.on_phone ? 'phone' : 'phone_disabled'}}ff</span>

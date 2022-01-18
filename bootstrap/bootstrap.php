@@ -70,9 +70,11 @@ class erLhcoreClassExtensionCbscheduler {
 
         $filter = array('sort' => 'cb_time_start ASC');
 
+        $currentUserId = erLhcoreClassUser::instance()->getUserID();
+
         $filter['filter'] = array(
             'status' => erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED,
-            'user_id' => erLhcoreClassUser::instance()->getUserID()
+            'user_id' => $currentUserId
         );
 
         if ($limitation !== true) {
@@ -112,10 +114,15 @@ class erLhcoreClassExtensionCbscheduler {
             $onlineOperators[$listItem->user_id] = $index;
         }
 
+        $params['main_attr']['cb_pm'] = 0;
+
         if (!empty($onlineOperators)) {
             $usersOnPhone = erLhcoreClassModelCBSchedulerPhoneMode::getList(['filterin' => ['on_phone' => 1, 'user_id' => array_keys($onlineOperators)]]);
             foreach ($usersOnPhone as $userOnPhone) {
                 $params['lists']['online_op']['list'][$onlineOperators[$userOnPhone->user_id]]->on_phone = 1;
+                if ($userOnPhone->user_id == $currentUserId) {
+                    $params['main_attr']['cb_pm'] = 1;
+                }
             }
         }
 

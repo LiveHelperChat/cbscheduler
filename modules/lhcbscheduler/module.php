@@ -194,7 +194,7 @@ $ViewList['gotoagent'] = array(
 );
 
 $ViewList['phonemode'] = array(
-    'params' => array('status'),
+    'params' => array('status','user_id'),
     'functions' => array('use_admin'),
 );
 
