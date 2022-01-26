@@ -211,3 +211,4 @@ $FunctionList['use_admin'] = array('explain' => 'Allow operator to see reservati
 $FunctionList['manage_schedule'] = array('explain' => 'Allow operator to configure schedules');
 $FunctionList['delete_reservation'] = array('explain' => 'Allow operator to delete reservations');
 $FunctionList['manage_assignment'] = array('explain' => 'Allow operator to manage assignment manually');
+$FunctionList['change_phone_mode'] = array('explain' => 'Allow operator to change other operators phone mode');
