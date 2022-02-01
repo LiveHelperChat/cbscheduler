@@ -20,3 +20,4 @@
     </div>
 
 </form>
+<script>$('.btn-block-department').makeDropdown();</script>
