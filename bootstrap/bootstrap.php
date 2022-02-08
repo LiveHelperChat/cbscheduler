@@ -17,7 +17,14 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('chat.customcommand', array($this, 'customCommand'));
         $dispatcher->listen('chat.syncadmininterface', array($this,'appendCallbacks'));
         $dispatcher->listen('chat.loadinitialdata', array($this,'loadInitialData'));
+        $dispatcher->listen('user.account.update', array($this,'accountUpdate'));
+        $dispatcher->listen('user.user_modified', array($this,'accountUpdate'));
+    }
 
+    public function accountUpdate($params) {
+        $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['userData']->id);
+        $instance->on_phone = isset($_POST['HidePhoneStatus']) ? 0 : 1;
+        $instance->updateThis();
     }
 
     public function customCommand($paramsCommand) {
