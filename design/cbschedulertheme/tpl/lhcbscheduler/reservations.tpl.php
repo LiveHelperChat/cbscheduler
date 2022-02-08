@@ -22,8 +22,8 @@
             <tr>
                 <td><?php echo $item->id?></td>
                 <td>
-                    <?php if ($item->parent_id > 0) : ?><i class="material-icons">add_ic_call</i><?php endif;?><a href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars($item->dep)?></a></td>
-                <td><?php echo htmlspecialchars($item->user_name_official)?></td>
+                    <?php if ($item->parent_id > 0) : ?><i class="material-icons">add_ic_call</i><?php endif;?><a href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><?php echo date('Y-m-d H:i:s',$item->ctime)?> | <?php echo htmlspecialchars((string)$item->dep)?></a></td>
+                <td><?php echo htmlspecialchars((string)$item->user_name_official)?></td>
                 <td nowrap="nowrap">
                     <i class="material-icons <?php echo $item->verified == 1 ? 'text-success' : 'text-danger'?>"><?php echo $item->verified == 1 ? 'verified_user' : 'help_outline'?></i><img title="<?php echo htmlspecialchars(strtolower($item->region))?>" src="<?php echo erLhcoreClassDesign::design('images/flags'); ?>/<?php echo strtolower($item->region)?>.png" alt="" /> <?php echo htmlspecialchars($item->phone)?>
 

@@ -41,7 +41,9 @@ $(document).ready(function () {
 
     ee.addListener('eventLoadChatList', function (data, scope, that) {
 
+        // Init main attributes
         that.cb_pm = data.cb_pm;
+        that.cb_pc = data.cb_pc;
 
         var callsListNew = [];
         var pushNotifications = [];
@@ -53,7 +55,7 @@ $(document).ready(function () {
                 if (myPendingCalls.indexOf(data.result.my_calls.list[i].id) === -1 && that.isListLoaded == true) {
                     pushNotifications.push(data.result.my_calls.list[i].id);
                 }
-                if (!data.result.my_calls.list[i].status_accept){
+                if (!data.result.my_calls.list[i].status_accept) {
                     hasPendingCall = true;
                 }
             }
@@ -61,9 +63,9 @@ $(document).ready(function () {
             if (previousState != hasPendingCall)
             {
                 if (hasPendingCall == true) {
-                    $('#dashboard-tab-icon-phone,#dashboard-icon-phone').addClass('text-danger blink-ani');
+                    $('#dashboard-tab-icon-phone').addClass('text-danger blink-ani');
                 } else {
-                    $('#dashboard-tab-icon-phone,#dashboard-icon-phone').removeClass('text-danger blink-ani');
+                    $('#dashboard-tab-icon-phone').removeClass('text-danger blink-ani');
                 }
                 previousState = hasPendingCall;
             }

@@ -198,6 +198,12 @@ $ViewList['phonemode'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['onlineoperators'] = array(
+    'params' => array(),
+    'uparams' => array('dep_id','call_id'),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['getnofificationsdata'] = array(
     'params' => array(),
     'uparams' => array('id'),

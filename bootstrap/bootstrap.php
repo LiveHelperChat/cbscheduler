@@ -93,6 +93,17 @@ class erLhcoreClassExtensionCbscheduler {
 
         $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
 
+        $params['main_attr']['cb_pc'] = 0; // Pending calls
+
+        if (count($callbackscheduler) > 0) {
+            /*foreach ($callbackscheduler as $myCall) {
+                if ($myCall->status_accept == 0) {
+                }
+            }*/
+            // We want always show different icon if agent has call assigned to him
+            $params['main_attr']['cb_pc'] = 1;
+        }
+
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
             array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower'),
             array('dep','log_actions','user')
@@ -115,6 +126,7 @@ class erLhcoreClassExtensionCbscheduler {
         }
 
         $params['main_attr']['cb_pm'] = 0;
+
 
         if (!empty($onlineOperators)) {
             $usersOnPhone = erLhcoreClassModelCBSchedulerPhoneMode::getList(['filterin' => ['on_phone' => 1, 'user_id' => array_keys($onlineOperators)]]);
