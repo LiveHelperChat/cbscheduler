@@ -19,6 +19,17 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('chat.loadinitialdata', array($this,'loadInitialData'));
         $dispatcher->listen('user.account.update', array($this,'accountUpdate'));
         $dispatcher->listen('user.user_modified', array($this,'accountUpdate'));
+        $dispatcher->listen('chat.operator_inactivemode_changed', array($this,'wentInactive'));
+    }
+
+    public function wentInactive($params) {
+
+        echo "adsasd";
+        if ($params['user']->inactive_mode == 1) {
+            $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['user']->id);
+            $instance->on_phone = 0;
+            $instance->updateThis();
+        }
     }
 
     public function accountUpdate($params) {
