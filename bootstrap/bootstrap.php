@@ -23,8 +23,6 @@ class erLhcoreClassExtensionCbscheduler {
     }
 
     public function wentInactive($params) {
-
-        echo "adsasd";
         if ($params['user']->inactive_mode == 1) {
             $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['user']->id);
             $instance->on_phone = 0;
