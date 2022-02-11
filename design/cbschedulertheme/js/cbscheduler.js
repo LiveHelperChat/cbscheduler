@@ -77,36 +77,30 @@ $(document).ready(function () {
         if (pushNotifications.length > 0) {
             $.get(WWW_DIR_JAVASCRIPT + 'cbscheduler/getnofificationsdata/(id)/' + pushNotifications.join('/'), function (data) {
                 data.forEach(function (item) {
-                    if (confLH.new_chat_sound_enabled == 1 && confLH.sn_off == 1) {
-                        lhinst.playNewChatAudio('new_chat');
+                    lhinst.playNewChatAudio('new_chat');
+                    if (window.Notification && window.Notification.permission == 'granted') {
+                        var notification = new Notification(item.nick, {
+                            icon: WWW_DIR_JAVASCRIPT_FILES_NOTIFICATION + '/notification.png',
+                            body: item.body,
+                            requireInteraction: true
+                        });
+                        notification.onclick = function () {
+                            lhc.revealModal({
+                                'title': 'Edit reservation',
+                                'iframe': true,
+                                'height': 700,
+                                'url': WWW_DIR_JAVASCRIPT + 'cbscheduler/editreservation/' + item.id + '/(mode)/modal'
+                            })
+                            delete notificationsList[item.id];
+                        };
 
-                        if (window.Notification && window.Notification.permission == 'granted') {
-                            var notification = new Notification(item.nick, {
-                                icon: WWW_DIR_JAVASCRIPT_FILES_NOTIFICATION + '/notification.png',
-                                body: item.body,
-                                requireInteraction: true
-                            });
-                            notification.onclick = function () {
-                                lhc.revealModal({
-                                    'title': 'Edit reservation',
-                                    'iframe': true,
-                                    'height': 700,
-                                    'url': WWW_DIR_JAVASCRIPT + 'cbscheduler/editreservation/' + item.id + '/(mode)/modal'
-                                })
+                        notification.onclose = function () {
+                            if (typeof notificationsList[item.id] !== 'undefined') {
                                 delete notificationsList[item.id];
-                            };
-
-                            notification.onclose = function () {
-                                if (typeof notificationsList[item.id] !== 'undefined') {
-                                    delete notificationsList[item.id];
-                                }
-                            };
-
-                            notificationsList[item.id] = notification;
-                        }
-
+                            }
+                        };
+                        notificationsList[item.id] = notification;
                     }
-                    ;
                 });
             });
         }
