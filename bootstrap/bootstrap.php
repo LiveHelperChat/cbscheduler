@@ -105,7 +105,7 @@ class erLhcoreClassExtensionCbscheduler {
             $filter = array_merge_recursive($filter,$filterAdditional);
         }
 
-        $filter['customfilter'][] = '`lhc_cbscheduler_reservation`.`id` IN (SELECT `id` FROM (SELECT `id` FROM `lhc_cbscheduler_reservation` ORDER BY `id` DESC LIMIT 100) AS `sq`)';
+        $filter['customfilter'][] = '`lhc_cbscheduler_reservation`.`id` IN (SELECT `id` FROM (SELECT `id` FROM `lhc_cbscheduler_reservation` ORDER BY `id` DESC LIMIT 5000) AS `sq`)';
 
         $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
 
