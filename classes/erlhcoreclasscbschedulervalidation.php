@@ -304,7 +304,11 @@ class erLhcoreClassCBSchedulerValidation
                     // Switch to user Time Zone
                     $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
-                    $slotTimeStart = $scheduleDate->format('H:i');
+                    if (isset($params['12h']) && $params['12h'] == true) {
+                        $slotTimeStart = $scheduleDate->format('g:i a');
+                    } else {
+                        $slotTimeStart = $scheduleDate->format('H:i');
+                    }
 
                     /*
                      * End time manipulations
@@ -319,7 +323,11 @@ class erLhcoreClassCBSchedulerValidation
                     // Switch to user Time Zone
                     $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
-                    $slotTimeEnd = $scheduleDate->format('H:i');
+                    if (isset($params['12h']) && $params['12h'] == true) {
+                        $slotTimeEnd = $scheduleDate->format('g:i a');
+                    } else {
+                        $slotTimeEnd = $scheduleDate->format('H:i');
+                    }
 
                     $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd];
                 }
