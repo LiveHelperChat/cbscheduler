@@ -184,7 +184,7 @@ class erLhcoreClassModelCBSchedulerScheduler
                 'start_time' => $slot->time_start_h . ':' . $slot->time_start_m,
                 'end_time' => $slot->time_end_h . ':' . $slot->time_end_m,
                 'start_hour' => $slot->time_start_h,
-                'start_minute' => $slot->start_minute,
+                'start_minute' => $slot->time_start_m,
                 'max_calls' => $slot->max_calls
             );
         }
