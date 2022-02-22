@@ -27,38 +27,35 @@ if (empty($country)) {
 $twelfthFormatCountries = ['us', 'gb', 'ph', 'ca', 'au', 'nz', 'in', 'eg', 'sa', 'co', 'pk', 'my','mx','ie','ni','hn','sv','jo','bd'];
 $requestPayload['12h'] = in_array($country,$twelfthFormatCountries);
 
-$item = new erLhcoreClassModelCBSchedulerReservation();
-
 $outputResponse = [];
 
 try {
-    $errors = erLhcoreClassCBSchedulerValidation::validateSchedule($item, $requestPayload);
+    $item = new erLhcoreClassModelCBSchedulerReservation();
+    $errors = erLhcoreClassCBSchedulerValidation::validateCancelSchedule($item, $requestPayload);
 
     if (empty($errors)) {
 
+        $item->status = erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED;
+        $item->outcome = "\n".erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Call was canceled by visitor.');
         $item->saveThis();
 
         // Save message within a chat
         if ($item->chat_id > 0) {
             $msg = new erLhcoreClassModelmsg();
-            $msg->msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor has scheduled a call!') . ' [url=' . erLhcoreClassDesign::baseurl('cbscheduler/editreservation') . '/' . $item->id . ']' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'view reservation') . '[/url]';
+            $msg->msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor has canceled a scheduled call!') . ' [url=' . erLhcoreClassDesign::baseurl('cbscheduler/editreservation') . '/' . $item->id . ']' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'view reservation') . '[/url]';
             $msg->chat_id = $item->chat_id;
             $msg->user_id = - 1;
             $msg->time = time();
             erLhcoreClassChat::getSession()->save($msg);
 
             $chat = erLhcoreClassModelChat::fetch($item->chat_id);
-            if ($chat instanceof erLhcoreClassModelChat){
+            if ($chat instanceof erLhcoreClassModelChat) {
                 $chat->last_msg_id = $msg->id;
                 $chat->updateThis(['update' => ['last_msg_id']]);
             }
         }
 
-        erLhcoreClassRestAPIHandler::outputResponse(['error' => false, 'data' => [
-            'ics' => (erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurl('cbscheduler/download') . '/' . $item->id . '/' . $item->code),
-            'id' => $item->id,
-            'code' => $item->code]]);
-
+        erLhcoreClassRestAPIHandler::outputResponse(['error' => false, 'data' => ['message' => $item->cancel_message]]);
         exit;
 
     } else {

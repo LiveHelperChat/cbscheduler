@@ -41,6 +41,162 @@ class erLhcoreClassCBSchedulerValidation
         return $Errors;
     }
 
+    public static function validateCancelSchedule(& $item, $params)
+    {
+        $definition = array(
+            'dep_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
+            'email' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'validate_email'
+            ),
+            'phone' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'timezone' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'username' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'chat_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            )
+        );
+
+        $Errors = array();
+
+        $form = new erLhcoreClassInputForm(INPUT_GET, $definition, null, $params);
+
+        if ( !$form->hasValidData( 'email' ) ) {
+            $Errors['email'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a valid email address');
+        } elseif ($form->hasValidData( 'email' )) {
+            $item->email = $form->email;
+        }
+
+        if ( !$form->hasValidData( 'username' ) || $form->username == '' ) {
+            $Errors['username'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a username');
+        } elseif ($form->hasValidData( 'username' )) {
+            $item->name = $form->username;
+        }
+
+        if ( $form->hasValidData( 'chat_id' )) {
+            $item->chat_id = $form->chat_id;
+        }
+
+        if ( !$form->hasValidData( 'dep_id' ) ) {
+            throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department is missing'));
+        } elseif ($form->hasValidData( 'dep_id' )) {
+            $item->dep_id = $form->dep_id;
+        }
+
+        if ( !$form->hasValidData( 'phone' ) || $form->phone == '' ) {
+            $Errors['phone'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a phone');
+        } elseif ($form->hasValidData( 'phone' )) {
+
+            // We need to check is there any scheduled calls for this phone number
+
+            $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
+            try {
+                $cbNumberProto = $phoneUtil->parse($form->phone);
+
+                if ($phoneUtil->isValidNumber($cbNumberProto)) {
+
+                    $item->phone = $phoneUtil->format($cbNumberProto, \libphonenumber\PhoneNumberFormat::E164);
+
+                    $item->region = $phoneUtil->getRegionCodeForNumber($cbNumberProto);
+
+                    if (self::isBlocked($item->phone)) {
+                        $Errors['phone'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Invalid phone number!');
+                    }
+
+                } else {
+                    $Errors['phone'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Your phone number does not look as valid phone number!');
+                }
+
+            } catch (\libphonenumber\NumberParseException $e) {
+                $Errors['phone'] = $e->getMessage();
+            }
+        }
+
+        if ( $form->hasValidData( 'timezone' ) ) {
+            $item->tz = $form->timezone;
+            self::setTimezone($item->tz);
+        }
+
+        // Both fields were selected
+        if (!isset($Errors['phone'])) {
+
+            // Default filter
+            $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'user_id' => 0, 'dep_id' => $item->dep_id]];
+
+            $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+
+            $data = (array)$cbOptions->data;
+
+            if (isset($data['unique']) && is_array($data['unique']) && !empty($data['unique'])) {
+                $filter = [];
+
+                $filter['filter']['status'] = 0;
+                $filter['filter']['user_id'] = 0;
+
+                if (in_array('dep_id', $data['unique'])) {
+                    $filter['filter']['dep_id'] = $item->dep_id;
+                }
+
+                if (in_array('name', $data['unique'])) {
+                    $filter['filter']['name'] = $item->name;
+                }
+
+                if (in_array('email', $data['unique'])) {
+                    $filter['filter']['email'] = $item->email;
+                }
+
+                if (in_array('phone', $data['unique'])) {
+                    $filter['filter']['phone'] = $item->phone;
+                }
+            }
+
+            $presentRecord = erLhcoreClassModelCBSchedulerReservation::findOne($filter);
+
+            // Check is there any scheduled call already
+            // If it's reschedule just set present id to past ID so all attribute will be overriden
+            if ($presentRecord instanceof erLhcoreClassModelCBSchedulerReservation) {
+
+                /*You have already a call scheduled for DD MMM YYYY at HH:MM*/
+                $scheduleDate = new DateTime('now', new DateTimeZone($presentRecord->tz));
+                $scheduleDate->setTimestamp($presentRecord->cb_time_start);
+
+                if ($params['12h'] && $params['12h'] == true) {
+                    $hourStart = $scheduleDate->format('g:i a');
+                } else {
+                    $hourStart = $scheduleDate->format('H:i');
+                }
+
+                $scheduleDate->setTimestamp($presentRecord->cb_time_end);
+
+                if ($params['12h'] && $params['12h'] == true) {
+                    $hourEnd = $scheduleDate->format('g:i a');
+                } else {
+                    $hourEnd = $scheduleDate->format('H:i');
+                }
+
+                $presentRecord->cancel_message = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Your call scheduled at') . ' ' .
+                    $scheduleDate->format('d') . ' ' .
+                    $scheduleDate->format('M') . ' ' .
+                    $scheduleDate->format('Y') . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','between') . ' ' . $hourStart . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and') . ' ' . $hourEnd . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'has been canceled!');
+
+                $item = $presentRecord;
+
+            } else {
+                throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'We could not find a scheduled call for provided phone number! Please check your phone number and try again.'),100);
+            }
+        }
+
+        return $Errors;
+    }
+
     public static function validateCBSchedule($item)
     {
         $definition = array(
@@ -468,6 +624,9 @@ class erLhcoreClassCBSchedulerValidation
             'terms_agree' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
             ),
+            'reschedule' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ),
             'email' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'validate_email'
             ),
@@ -656,22 +815,33 @@ class erLhcoreClassCBSchedulerValidation
                     $presentRecord = erLhcoreClassModelCBSchedulerReservation::findOne($filter);
 
                     // Check is there any scheduled call already
-                    if ($presentRecord instanceof erLhcoreClassModelCBSchedulerReservation) {
+                    // If it's reschedule just set present id to past ID so all attribute will be overriden
+                    if ($presentRecord instanceof erLhcoreClassModelCBSchedulerReservation && !(isset($params['reschedule']) && $params['reschedule'] == true && $item->id = $presentRecord->id)) {
 
                         /*You have already a call scheduled for DD MMM YYYY at HH:MM*/
                         $scheduleDate = new DateTime('now', new DateTimeZone($presentRecord->tz));
                         $scheduleDate->setTimestamp($presentRecord->cb_time_start);
-                        $hourStart =  $scheduleDate->format('H:i');
+
+                        if ($params['12h'] && $params['12h'] == true) {
+                            $hourStart = $scheduleDate->format('g:i a');
+                        } else {
+                            $hourStart = $scheduleDate->format('H:i');
+                        }
 
                         $scheduleDate->setTimestamp($presentRecord->cb_time_end);
-                        $hourEnd =  $scheduleDate->format('H:i');
+
+                        if ($params['12h'] && $params['12h'] == true) {
+                            $hourEnd = $scheduleDate->format('g:i a');
+                        } else {
+                            $hourEnd = $scheduleDate->format('H:i');
+                        }
 
                         throw new Exception(
                             erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','You have already a call scheduled for') . ' ' .
                             $scheduleDate->format('d') . ' ' .
                             $scheduleDate->format('M') . ' ' .
                             $scheduleDate->format('Y') . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','between') . ' ' . $hourStart . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and') . ' ' . $hourEnd
-                        );
+                        , 100);
                     }
 
                     $daySelected = array();

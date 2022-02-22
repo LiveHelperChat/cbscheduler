@@ -159,6 +159,11 @@ $ViewList['schedulecb'] = array(
     'uparams' => array('department'),
 );
 
+$ViewList['cancelschedulecb'] = array(
+    'params' => array(),
+    'uparams' => array('department'),
+);
+
 $ViewList['lang'] = array(
     'params' => array(),
     'uparams' => array(),

@@ -4,6 +4,9 @@ import axios from "axios";
 import PhoneInput from 'react-phone-number-input'
 import {useTranslation} from 'react-i18next';
 
+import CancelModule from "./parts/CancelModule";
+
+
 const CBScheduler = props => {
 
     // Attributes lists
@@ -16,10 +19,13 @@ const CBScheduler = props => {
 
     // Error message
     const [error, setError] = useState(null);
+    const [error_code, setErrorCode] = useState(null);
 
     // Single type attribtues
     const [day, setDay] = useState(null);
     const [time, setTime] = useState(null);
+    const [timeLiteralValue, setTimeLiteralValue] = useState(null);
+    const [dateLiteralValue, setDateLiteralValue] = useState(null);
     const [username, setUsername] = useState((props.username != '' && props.username != null && props.username != 'Visitor' && props.username != 'undefined') ? props.username : null);
     const [subject, setSubject] = useState((props.subject != '' && props.subject != null) ? props.subject : null);
     const [description, setDescription] = useState((props.description != '' && props.description != null) ? props.description : null);
@@ -31,6 +37,7 @@ const CBScheduler = props => {
 
 
     // logical attributes
+    const [isCancelMode, setCancelMode] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [isScheduled, setScheduled] = useState(false);
@@ -114,6 +121,10 @@ const CBScheduler = props => {
         });
     }
 
+    const cancelScheduled = (mode) => {
+        setCancelMode(mode);
+    }
+
     const getPostData = () => {
         return {
             'username':username,
@@ -141,12 +152,40 @@ const CBScheduler = props => {
         })
     }
 
-    const scheduleCallback = () => {
+    const setDayAction = (e) => {
+        setError(null);
+        setErrorCode(null);
+
+        if (e.target.value) {
+            setDateLiteralValue(e.target.options[e.target.selectedIndex].text);
+        }
+
+        setDay(e.target.value)
+    }
+
+    const setTimeLiteral = (e) => {
+        if (e.target.value) {
+            setTimeLiteralValue(e.target.options[e.target.selectedIndex].text.replace(' - ',' ' + t('fields.and') + ' '));
+        } else {
+            setError(null);
+            setErrorCode(null);
+        }
+        setTime(e.target.value);
+    }
+
+    const reScheduleCallback = () => {
+        let postData = getPostData();
+        postData['reschedule'] = true;
+        scheduleCallback(postData);
+    }
+    
+    const scheduleCallback = (postData) => {
 
         setSubmitting(true);
-        axios.post(props.base_path  + "cbscheduler/schedulecb", getPostData()).then(result => {
+        axios.post(props.base_path  + "cbscheduler/schedulecb", (typeof postData !== 'undefined' ? postData : getPostData())).then(result => {
             setErrors([]);
             setError(null);
+            setErrorCode(null);
 
             if (result.data.error == true) {
                 setSubmitting(false);
@@ -158,6 +197,10 @@ const CBScheduler = props => {
                     if (result.data.messages.errorModal) {
                         setAttempt(attempt + 1);
                     }
+                }
+
+                if (result.data.code) {
+                    setErrorCode(result.data.code);
                 }
 
                 if (result.data.message) {
@@ -231,6 +274,10 @@ const CBScheduler = props => {
         </React.Fragment>)
     }
 
+    if (isCancelMode === true) {
+        return <CancelModule username={username} phone={phone} email={email} base_path={props.base_path} timezone={timezone} dep_id={department} chat_id={props.chat_id} hash={props.hash} countries={countries !== null ? countries : undefined} logoFormated={logoFormated} setCancelMode={() => cancelScheduled(false)} defaultCountry={defaultCountry} />
+    }
+
     return (
         <React.Fragment>
             <div className="row">
@@ -291,7 +338,7 @@ const CBScheduler = props => {
                     <p className="mb-2"><small>{t('fields.choose_day_time', {timezone:timezone})}</small></p>
 
                     <div className="form-group">
-                        <select className={"form-control form-control-sm"+(errors.day ? ' is-invalid' : '')} defaultValue={day} onChange={(e) => setDay(e.target.value)}>
+                        <select className={"form-control form-control-sm"+(errors.day ? ' is-invalid' : '')} defaultValue={day} onChange={(e) => setDayAction(e)}>
                             <option value="">{t('fields.choose_day')}</option>
                             {days.map(day => (
                                 <option value={day.id}>{day.name}</option>
@@ -303,7 +350,7 @@ const CBScheduler = props => {
                     </div>
 
                     {day && times.length > 0 && <div className="form-group">
-                        <select className="form-control form-control-sm" defaultValue={time} className={"form-control form-control-sm"+(errors.time ? ' is-invalid' : '')} onChange={(e) => setTime(e.target.value)}>
+                        <select className="form-control form-control-sm" defaultValue={time} className={"form-control form-control-sm"+(errors.time ? ' is-invalid' : '')} onChange={(e) => setTimeLiteral(e)}>
                             <option value="">{t('fields.choose_time')}</option>
                             {times.map(time => (
                                 <option value={time.id}>{time.name}</option>
@@ -320,6 +367,10 @@ const CBScheduler = props => {
 
                     {error && <div className="alert alert-danger" role="alert">
                         {error}
+                        {error_code && error_code == 100 && <div className="pt-3">
+                            <div className="pb-1">{t('fields.reschedule_option')} {dateLiteralValue} {t('fields.between')} {timeLiteralValue}?</div>
+                            <button type="button" disabled={isDisabled || isSubmitting} onClick={() => reScheduleCallback()} className="btn btn-sm btn-info">{isSubmitting && <i className="material-icons">&#xf113;</i>} {t('fields.yes')}</button>
+                        </div>}
                     </div>}
 
                     {termsOfService && <div className={"form-check form-check-sm pb-2"}>
@@ -332,6 +383,9 @@ const CBScheduler = props => {
 
                     <div className="form-group mb-0">
                         <button type="button" disabled={isDisabled || isSubmitting} className="btn btn-sm btn-secondary" onClick={() => scheduleCallback()}>{isSubmitting && <i className="material-icons">&#xf113;</i>} {t('fields.schedule_callback')}</button>
+                        <div>
+                            <button type="button" onClick={() => cancelScheduled(true)} className="btn btn-sm text-secondary btn-link pull-right">{t('fields.cancel_scheduled')}</button>
+                        </div>
                     </div>
 
 

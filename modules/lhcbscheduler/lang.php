@@ -36,6 +36,13 @@ $translations = array(
         "verification_failed" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','My username and e-mail verification failed to schedule a call.'),
         "close" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Close'),
         "loading" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Loading...'),
+        "yes" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Yes'),
+        "reschedule_option" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Would you like to reschedule for'),
+        "between" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','between'),
+        "and" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and'),
+        "cancel_scheduled" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call'),
+        "return" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Return'),
+        "cancel_action" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel scheduled call')
     ]
 );
 
