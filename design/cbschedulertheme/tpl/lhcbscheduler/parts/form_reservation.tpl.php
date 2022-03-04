@@ -7,14 +7,16 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text"><span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Original phone number entered by user');?>" class="material-icons">person</span> <span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Copy');?>" data-field="cbdata-phone" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
                         </div>
-                        <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />&nbsp;
+                        <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone" readonly value="<?php echo htmlspecialchars($item->phone)?>" />
+                        <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/phone_number_link.tpl.php'));?>
                     </div>
                     <?php foreach ($item->phone_front as $indexAlias => $phone) : ?>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><span title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Copy alias');?>" data-field="cbdata-phone-<?php echo $indexAlias?>" class="mr-0 copy-action material-icons action-image">content_copy</span></div>
                             </div>
-                            <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone-<?php echo $indexAlias?>" readonly value="<?php echo htmlspecialchars($phone)?>" />&nbsp;
+                            <input type="text" class="form-control form-control-sm d-inline" id="cbdata-phone-<?php echo $indexAlias?>" readonly value="<?php echo htmlspecialchars($phone)?>" />
+                            <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/phone_number_link_alias.tpl.php'));?>
                         </div>
                     <?php endforeach; ?>
                 </div>
