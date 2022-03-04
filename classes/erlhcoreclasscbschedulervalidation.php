@@ -129,7 +129,7 @@ class erLhcoreClassCBSchedulerValidation
         if (!isset($Errors['phone'])) {
 
             // Default filter
-            $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'user_id' => 0, 'dep_id' => $item->dep_id]];
+            $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, /*'user_id' => 0, */'dep_id' => $item->dep_id]];
 
             $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
 
@@ -139,7 +139,7 @@ class erLhcoreClassCBSchedulerValidation
                 $filter = [];
 
                 $filter['filter']['status'] = 0;
-                $filter['filter']['user_id'] = 0;
+                /*$filter['filter']['user_id'] = 0;*/
 
                 if (in_array('dep_id', $data['unique'])) {
                     $filter['filter']['dep_id'] = $item->dep_id;
@@ -779,7 +779,7 @@ class erLhcoreClassCBSchedulerValidation
                     $item->schedule_id = $schedulerItem->id;
 
                     // Default filter
-                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'user_id' => 0, 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
+                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, /*'user_id' => 0,*/ 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
 
                     $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
 
@@ -789,7 +789,7 @@ class erLhcoreClassCBSchedulerValidation
                         $filter = [];
                         
                         $filter['filter']['status'] = 0;
-                        $filter['filter']['user_id'] = 0;
+                        //$filter['filter']['user_id'] = 0;
 
                         if (in_array('dep_id', $data['unique'])) {
                             $filter['filter']['dep_id'] = $item->dep_id;

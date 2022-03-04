@@ -38,6 +38,13 @@ Activate extensions in Live Helper Chat settings file.
 ...
 `
 
+## Why my visitor can't cancel a call?
+
+Call can be canceled only if
+
+* All unique attributes matches scheduled call
+* Call status is scheduled
+
 ## Updating
 
 You can update two ways. By executing this command
