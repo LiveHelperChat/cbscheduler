@@ -328,7 +328,7 @@
       <translation>Tag</translation>
     </message>
     <message>
-      <source>Problem description*</source>
+      <source>Describe the details of your query*</source>
       <translation>Problembeschreibung*</translation>
     </message>
     <message>
