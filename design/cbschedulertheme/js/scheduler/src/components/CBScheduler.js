@@ -240,8 +240,8 @@ const CBScheduler = props => {
 
     var logoFormated = <div className="col-12">
         <div className="d-flex pb-1">
-            {logo !== null && <div><img src={logo} height="40"/></div>}
-            <div className="pl-0 pt-1 flex-grow-1"><h5>{t('fields.schedule_title')}</h5></div>
+            {logo !== null && <div className="pr-2"><img src={logo} height="40"/></div>}
+            <div className="pl-0 pt-1 flex-grow-1"><h5>{isCancelMode === true ? t('fields.cancel_title') : t('fields.schedule_title')}</h5></div>
             {props.mode == 'widget' && <div className="pl-2"><button type="button" onClick={(e) => onClose()} className="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>}
         </div>
     </div>;

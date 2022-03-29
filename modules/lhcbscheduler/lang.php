@@ -19,7 +19,6 @@ $translations = array(
         "day" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Day'),
         "problem" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Describe the details of your query*'),
         "enter_phone" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Enter phone number*'),
-        "day" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Day'),
         "choose_day" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Choose a day'),
         "schedule_callback" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Schedule a callback'),
         "choose_time" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Choose a time'),
@@ -31,6 +30,7 @@ $translations = array(
         "choose_day_time" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Choose day and time we should call you. Times are represented in {{timezone}} timezone.'),
         "no_free_days" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','At the moment we do not have any free slots for a callback.'),
         "schedule_title" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Schedule a callback'),
+        "cancel_title" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call'),
         "live_support" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Live support'),
         "try_again" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Try again'),
         "verification_failed" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','My username and e-mail verification failed to schedule a call.'),
@@ -42,7 +42,7 @@ $translations = array(
         "and" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and'),
         "cancel_scheduled" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call'),
         "return" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Return'),
-        "cancel_action" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel scheduled call')
+        "cancel_action" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call')
     ]
 );
 
