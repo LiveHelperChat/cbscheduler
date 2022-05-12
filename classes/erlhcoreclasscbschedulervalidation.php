@@ -362,7 +362,7 @@ class erLhcoreClassCBSchedulerValidation
                     $hasSlots = false;
                     foreach ($slots as $slot) {
                         if (
-                            erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) < $slot->max_calls &&
+                            erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) < $slot->max_calls &&
                             ($currentDay == false || (
                                  ($slot->time_start_h > $scheduleCompare->format('H')) ||
                                  ($slot->time_start_m > $scheduleCompare->format('i') && $slot->time_start_h == $scheduleCompare->format('H'))
@@ -442,7 +442,7 @@ class erLhcoreClassCBSchedulerValidation
 
                     if ( ($slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
                         ($slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
-                        erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
+                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
                     ) {
                         continue;
                     }
@@ -869,7 +869,7 @@ class erLhcoreClassCBSchedulerValidation
 
                     if (!($slot instanceof erLhcoreClassModelCBSchedulerSlot) || ($slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
                         ($slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
-                        erLhcoreClassModelCBSchedulerReservation::getCount(['filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
+                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
                     ) {
                         throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.'));
                     }
