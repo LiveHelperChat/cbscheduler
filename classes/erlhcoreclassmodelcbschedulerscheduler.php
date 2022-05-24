@@ -18,7 +18,8 @@ class erLhcoreClassModelCBSchedulerScheduler
             'id' => $this->id,
             'name' => $this->name,
             'tz' => $this->tz,
-            'active' => $this->active
+            'active' => $this->active,
+            'multi_department' => $this->multi_department
         );
     }
 
@@ -206,6 +207,8 @@ class erLhcoreClassModelCBSchedulerScheduler
     public $tz = '';
 
     public $active = 1;
+
+    public $multi_department = 0;
 
     public $name = '';
 }

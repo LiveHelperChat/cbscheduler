@@ -24,6 +24,11 @@ $def->properties['active']->columnName   = 'active';
 $def->properties['active']->propertyName = 'active';
 $def->properties['active']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['multi_department'] = new ezcPersistentObjectProperty();
+$def->properties['multi_department']->columnName   = 'multi_department';
+$def->properties['multi_department']->propertyName = 'multi_department';
+$def->properties['multi_department']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 return $def;
 
 ?>

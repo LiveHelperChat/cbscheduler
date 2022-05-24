@@ -128,8 +128,26 @@ class erLhcoreClassCBSchedulerValidation
         // Both fields were selected
         if (!isset($Errors['phone'])) {
 
-            // Default filter
-            $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, /*'user_id' => 0, */'dep_id' => $item->dep_id]];
+            // Schedule which was used during scheduling this call
+            $schedules = erLhcoreClassModelCBSchedulerSchedulerDep::getList(array('filter' => array('dep_id' => $item->dep_id)));
+            $schedulerItem = null;
+
+            foreach ($schedules as $schedule) {
+                $schedulerItem = erLhcoreClassModelCBSchedulerScheduler::fetch($schedule->schedule_id);
+                if ($schedulerItem->active == 1) {
+                    break;
+                } else {
+                    $schedulerItem = null;
+                }
+            }
+
+            $filter = ['filter' => ['phone' => $item->phone, 'status' => 0]];
+
+            if ($schedulerItem instanceof erLhcoreClassModelCBSchedulerScheduler && $schedulerItem->multi_department == 1) {
+                $filter['filterin']['dep_id'] = erLhcoreClassModelCBSchedulerSchedulerDep::getCount(array('filter' => array('schedule_id' => $schedulerItem->id)), null, 'dep_id', false, false, true, true);
+            } else {
+                $filter['filter']['dep_id'] = $item->dep_id;
+            }
 
             $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
 
@@ -139,10 +157,13 @@ class erLhcoreClassCBSchedulerValidation
                 $filter = [];
 
                 $filter['filter']['status'] = 0;
-                /*$filter['filter']['user_id'] = 0;*/
 
                 if (in_array('dep_id', $data['unique'])) {
-                    $filter['filter']['dep_id'] = $item->dep_id;
+                    if ($schedulerItem instanceof erLhcoreClassModelCBSchedulerScheduler && $schedulerItem->multi_department == 0) {
+                        $filter['filter']['dep_id'] = $item->dep_id;
+                    } else {
+                        $filter['filterin']['dep_id'] = erLhcoreClassModelCBSchedulerSchedulerDep::getCount(array('filter' => array('schedule_id' => $schedulerItem->id)), null, 'dep_id', false, false, true, true);
+                    }
                 }
 
                 if (in_array('name', $data['unique'])) {
@@ -227,6 +248,9 @@ class erLhcoreClassCBSchedulerValidation
             'active' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
             ),
+            'multi_department' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ),
         );
 
         $form = new ezcInputForm( INPUT_POST, $definition );
@@ -236,6 +260,12 @@ class erLhcoreClassCBSchedulerValidation
             $item->name = $form->name;
         } else {
             $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a schedule name!');
+        }
+
+        if ( $form->hasValidData( 'multi_department' ) && $form->multi_department == true) {
+            $item->multi_department = 1;
+        } else {
+            $item->multi_department = 0;
         }
 
         if ( $form->hasValidData( 'active' ) && $form->active == true) {
@@ -779,7 +809,13 @@ class erLhcoreClassCBSchedulerValidation
                     $item->schedule_id = $schedulerItem->id;
 
                     // Default filter
-                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, /*'user_id' => 0,*/ 'schedule_id' => $item->schedule_id, 'dep_id' => $item->dep_id]];
+                    $filter = ['filter' => ['phone' => $item->phone, 'status' => 0, 'schedule_id' => $item->schedule_id]];
+
+                    if ($schedulerItem->multi_department == 1) {
+                        $filter['filterin']['dep_id'] = erLhcoreClassModelCBSchedulerSchedulerDep::getCount(array('filter' => array('schedule_id' => $schedulerItem->id)), null, 'dep_id', false, false, true, true);
+                    } else {
+                        $filter['filter']['dep_id'] = $item->dep_id;
+                    }
 
                     $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
 
@@ -789,10 +825,13 @@ class erLhcoreClassCBSchedulerValidation
                         $filter = [];
                         
                         $filter['filter']['status'] = 0;
-                        //$filter['filter']['user_id'] = 0;
 
                         if (in_array('dep_id', $data['unique'])) {
-                            $filter['filter']['dep_id'] = $item->dep_id;
+                            if ($schedulerItem->multi_department == 0) {
+                                $filter['filter']['dep_id'] = $item->dep_id;
+                            } else {
+                                $filter['filterin']['dep_id'] = erLhcoreClassModelCBSchedulerSchedulerDep::getCount(array('filter' => array('schedule_id' => $schedulerItem->id)), null, 'dep_id', false, false, true, true);
+                            }
                         }
 
                         if (in_array('name', $data['unique'])) {

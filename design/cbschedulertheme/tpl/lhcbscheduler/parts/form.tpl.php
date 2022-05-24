@@ -7,6 +7,11 @@
     <label><input type="checkbox" name="active" value="on" <?php $item->active == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Active');?></label>
 </div>
 
+<div class="form-group" ng-non-bindable>
+    <label class="mb-0"><input type="checkbox" name="multi_department" value="on" <?php $item->multi_department == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Check all departments on cancellations attempt');?></label>
+    <p><small><i>If a call is cancelled for one department the system will check all departments and cancel if a reservation was found in any department within this schedule.</i></small></p>
+</div>
+
 <div class="row" ng-non-bindable>
     <div class="col-6">
         <div class="form-group">
