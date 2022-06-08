@@ -41,6 +41,28 @@ class erLhcoreClassExtensionCbscheduler {
 
             $params = $paramsCommand['params'];
 
+            $items = erLhcoreClassModelCBSchedulerSchedulerDep::getList(['filter' => ['dep_id' => $params['chat']->dep_id]]);
+
+            $validSchedule = false;
+
+            foreach ($items as $item) {
+                $schedule = erLhcoreClassModelCBSchedulerScheduler::findOne(['filter' => ['id' => $item->schedule_id, 'active' => 1]]);
+                if ($schedule instanceof erLhcoreClassModelCBSchedulerScheduler){
+                    $validSchedule = true;
+                }
+            }
+
+            if ($validSchedule == false) {
+                return array(
+                    'status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW,
+                    'processed' => true,
+                    'ignore' => true,
+                    'info' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','We could not found any active schedule! Command was ignored.'),
+                    'raw_message' => '!schedule',
+                    'process_status' => ''
+                );
+            }
+
             // Store as message to visitor
             $msg = new erLhcoreClassModelmsg();
             $msg->msg = isset($paramsCommand['argument']) && !empty($paramsCommand['argument']) ? $paramsCommand['argument'] : erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','We will show modal window to schedule a call!');
