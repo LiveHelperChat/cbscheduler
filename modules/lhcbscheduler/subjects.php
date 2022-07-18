@@ -20,7 +20,7 @@ $pages->paginate();
 $tpl->set('pages',$pages);
 
 if ($pages->items_total > 0) {
-    $items = erLhcoreClassModelCBSchedulerSubject::getList(array_merge(array('limit' => $pages->items_per_page, 'offset' => $pages->low),$filterParams['filter']));
+    $items = erLhcoreClassModelCBSchedulerSubject::getList(array_merge(array('limit' => $pages->items_per_page, 'offset' => $pages->low),$filterParams['filter'],['sort' => '`pos` ASC, `name` ASC']));
     $tpl->set('items',$items);
 }
 
