@@ -515,7 +515,9 @@ class erLhcoreClassCBSchedulerValidation
                         $slotTimeEnd = $scheduleDate->format('H:i');
                     }
 
-                    $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd];
+                    $offset = $scheduleDate->getOffset();
+
+                    $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : '') . ($offset/3600) . ')'];
                 }
             }
         }
