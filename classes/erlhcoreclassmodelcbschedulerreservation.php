@@ -196,6 +196,26 @@ class erLhcoreClassModelCBSchedulerReservation
         }
     }
 
+    public function afterSave($params = array())
+    {
+        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.reservation.after_save',array(
+            'cbscheduler' => & $this
+        ));
+    }
+
+    public function afterUpdate($params = array())
+    {
+        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.reservation.after_update',array(
+            'cbscheduler' => & $this
+        ));
+    }
+
+    public function afterRemove() {
+        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.reservation.after_remove',array(
+            'cbscheduler' => & $this
+        ));
+    }
+
     const STATUS_SCHEDULED = 0;
 
     const STATUS_COMPLETED = 1;

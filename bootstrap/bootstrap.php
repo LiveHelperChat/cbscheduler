@@ -20,6 +20,7 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('user.account.update', array($this,'accountUpdate'));
         $dispatcher->listen('user.user_modified', array($this,'accountUpdate'));
         $dispatcher->listen('chat.operator_inactivemode_changed', array($this,'wentInactive'));
+        $dispatcher->listen('restapi.swagger', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerRestAPI::swaggerDefinition');
     }
 
     public function wentInactive($params) {
