@@ -66,11 +66,23 @@
 
                         var username = null;
 
-                        prefillValues.forEach(function(item){
+                        prefillValues.forEach(function(item) {
                             if (typeof item.Username !== 'undefined') {
                                 username = item.Username;
                             }
                         });
+
+                        if (username === null || username === "") {
+                            try {
+                                state.chatwidget.get('jsVarsPrefill').forEach(function(item) {
+                                    if (typeof item.Username !== 'undefined') {
+                                        username = item.Username;
+                                    }
+                                });
+                            } catch (e) {
+                                // Older lhc version just
+                            }
+                        }
 
                         var params = {
                             'path' : window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/',
