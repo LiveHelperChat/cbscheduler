@@ -371,7 +371,6 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $tsCompare = $scheduleCompare->getTimestamp();
 
-                
                 for ($i = 0; $i < $daysLimit; $i++) {
 
                     $ts = time() + ($i * 24 * 3600);
@@ -471,18 +470,23 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleDate = new DateTime('now', new DateTimeZone($params['tz']));
                 $scheduleDate->setTimestamp(mktime(date('H'), date('i'), date('s'), $daySelected['m'], $daySelected['d'], $daySelected['y']));
                 $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                $timestampDefault = $scheduleDate->getTimestamp();
 
                 // Schedule present day
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
 
                 // Are we working with current day
                 $currentDay = $scheduleCompare->format('Ymd') == $scheduleDate->format('Ymd');
+                $currentDayN = $scheduleCompare->format('N');
 
                 // Visitor selected day in schedule time zone
                 $scheduleDaySelected = new DateTime('now', new DateTimeZone($schedulerItem->tz));
-                $scheduleDaySelected->setTimestamp($scheduleDate->getTimestamp());
+                $scheduleDaySelected->setTimestamp($timestampDefault);
 
-                $slots = erLhcoreClassModelCBSchedulerSlot::getList(['sort' => 'day ASC, time_start_h ASC, time_start_m ASC', 'filterin' => ['day' => $scheduleDate->format('N')/*self::getDayRange()*/ ], 'filter' => ['active' => 1, 'schedule_id' => $schedulerItem->id]]);
+                $scheduleDaySelectedReservation = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                $scheduleDaySelectedReservation->setTimestamp($timestampDefault);
+
+                $slots = erLhcoreClassModelCBSchedulerSlot::getList(['sort' => 'day ASC, time_start_h ASC, time_start_m ASC', 'filterin' => ['day' => /*$scheduleDate->format('N')*/self::getDayRange($scheduleDate->format('N')) ], 'filter' => ['active' => 1, 'schedule_id' => $schedulerItem->id]]);
 
                 if ($currentDay == true && isset($data['min_time']) && is_numeric($data['min_time']) && (int)$data['min_time'] > 0) {
                     $scheduleCompare->add(new DateInterval('P0Y0M0DT0H'.$data['min_time'].'M0S'));
@@ -490,9 +494,29 @@ class erLhcoreClassCBSchedulerValidation
 
                 foreach ($slots as $slot) {
 
-                    if ( ($slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
-                        ($slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
-                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
+                    // Switch to schedule Time Zone
+                    $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+
+                    $dayPrefix = ''; // Debug
+                    //$dayPrefix = '{'.$scheduleDaySelected->format('N').'}';
+                    if ($scheduleDaySelected->format('N') != $slot->day) {
+                        //$dayPrefix .= '[' . $slot->day . ']';
+                        if ($scheduleDaySelected->format('N') > $slot->day) {
+                            $scheduleDate->setTimestamp($timestampDefault - (24 * 3600));
+                        } else {
+                            $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));
+                        }
+                    } else { // Set original timestamp
+                        $scheduleDate->setTimestamp($timestampDefault);
+                    }
+
+                    $scheduleDaySelectedReservation->setTimestamp($scheduleDate->getTimestamp());
+
+                    if (
+                        ($scheduleDaySelectedReservation->format('Ymd') < $scheduleCompare->format('Ymd') && $currentDay == true) ||
+                        ($scheduleDaySelected->format('N') == $slot->day && $slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
+                        ($scheduleDaySelected->format('N') == $slot->day && $slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
+                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelectedReservation->format('Ymd')]]) >= $slot->max_calls
                     ) {
                         continue;
                     }
@@ -500,9 +524,6 @@ class erLhcoreClassCBSchedulerValidation
                     /*
                      * Start time manipulations
                      * */
-
-                    // Switch to schedule Time Zone
-                    $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
 
                     // We need to convert schedule star/end time to user time zone start end time.
                     $scheduleDate->setTime($slot->time_start_h, $slot->time_start_m);
@@ -532,7 +553,7 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
                     // If start or end date is different than user timezone day, ignore it
-                    if ($scheduleDaySelected->format('Ymd') != $scheduleDate->format('Ymd') || $scheduleDaySelected->format('Ymd') != $slotTimeStartDate) {
+                    if ($scheduleDaySelected->format('Ymd') != $slotTimeStartDate) {
                         continue;
                     }
 
@@ -544,7 +565,7 @@ class erLhcoreClassCBSchedulerValidation
 
                     $offset = $scheduleDate->getOffset();
 
-                    $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : ($offset < 0 ? '' : '-')) . ($offset/3600) . ')'];
+                    $times[] = ['id' => $slot->id, 'name' => $dayPrefix . $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : ($offset < 0 ? '' : '-')) . ($offset/3600) . ')'];
                 }
             }
         }
@@ -923,7 +944,9 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTimestamp(mktime(date('H'), date('i'), date('s'), $daySelected['m'], $daySelected['d'], $daySelected['y']));
                     $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
 
-                    $slot = erLhcoreClassModelCBSchedulerSlot::findOne(['filter' => ['id'=> $item->slot_id, 'active' => 1, 'day' => $scheduleDate->format('N'), 'schedule_id' => $schedulerItem->id]]);
+                    $timestampDefault = $scheduleDate->getTimestamp();
+
+                    $slot = erLhcoreClassModelCBSchedulerSlot::findOne(['filter' => ['id'=> $item->slot_id, 'active' => 1, /*'day' => $scheduleDate->format('N'),*/ 'schedule_id' => $schedulerItem->id]]);
 
                     // Schedule present day
                     $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
@@ -935,11 +958,22 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDaySelected = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                     $scheduleDaySelected->setTimestamp($scheduleDate->getTimestamp());
 
-                    if (!($slot instanceof erLhcoreClassModelCBSchedulerSlot) || ($slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
-                        ($slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
-                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDaySelected->format('Ymd')]]) >= $slot->max_calls
+                    if ($scheduleDaySelected->format('N') != $slot->day) {
+                        if ($scheduleDaySelected->format('N') > $slot->day) {
+                            $scheduleDate->setTimestamp($timestampDefault - (24 * 3600));
+                        } else {
+                            $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));
+                        }
+                    } else { // Set original timestamp
+                        $scheduleDate->setTimestamp($timestampDefault);
+                    }
+
+                    if (!($slot instanceof erLhcoreClassModelCBSchedulerSlot) ||
+                        ($scheduleDaySelected->format('N') == $slot->day && $slot->time_start_h < $scheduleCompare->format('H') && $currentDay == true) ||
+                        ($scheduleDaySelected->format('N') == $slot->day && $slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
+                        erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) >= $slot->max_calls
                     ) {
-                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.'));
+                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.') . $scheduleDaySelected->format('Ymd') . print_r($slot, true) . $schedulerItem->tz . $scheduleDate->format('N') . $item->slot_id);
                     }
 
                     $scheduleDate->setTime($slot->time_start_h,$slot->time_start_m);
@@ -948,7 +982,7 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTime($slot->time_end_h,$slot->time_end_m);
                     $item->cb_time_end = $scheduleDate->getTimestamp();
 
-                    $item->daytime = $scheduleDaySelected->format('Ymd');
+                    $item->daytime = $scheduleDate->format('Ymd');
                 }
             }
         }
