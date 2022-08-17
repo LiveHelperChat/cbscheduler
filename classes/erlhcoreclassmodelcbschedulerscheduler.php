@@ -193,9 +193,9 @@ class erLhcoreClassModelCBSchedulerScheduler
         foreach ($returnData as $day => & $dayData) {
             usort($dayData, function ($a, $b) {
                 if ($a['start_hour'] == $b['start_hour']) {
-                    return (int)$a['start_minute'] > (int)$b['start_minute'];
+                    return (int)$a['start_minute'] > (int)$b['start_minute'] ? 1 : -1;
                 }
-                return (int)$a['start_hour'] > (int)$b['start_hour'];
+                return (int)$a['start_hour'] > (int)$b['start_hour'] ? 1 : -1;
             });
         }
 

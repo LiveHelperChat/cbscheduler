@@ -424,6 +424,26 @@ class erLhcoreClassCBSchedulerValidation
         return $days;
     }
 
+    public static function getDayRange($day) {
+
+        $days = [$day];
+
+        if ($day + 1 > 7) {
+            $days[] = 1;
+        } else {
+            $days[] = $day + 1;
+        }
+
+        if ($day - 1 == 0) {
+            $days[] = 7;
+        } else {
+            $days[] = $day - 1;
+        }
+
+        return $days;
+
+    }
+
     public static function getCallTimes($params) {
 
         self::setTimezone($params['tz']);
@@ -462,7 +482,7 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleDaySelected = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $scheduleDaySelected->setTimestamp($scheduleDate->getTimestamp());
 
-                $slots = erLhcoreClassModelCBSchedulerSlot::getList(['sort' => 'time_start_h ASC, time_start_m ASC', 'filter' => ['active' => 1, 'day' => $scheduleDate->format('N'), 'schedule_id' => $schedulerItem->id]]);
+                $slots = erLhcoreClassModelCBSchedulerSlot::getList(['sort' => 'day ASC, time_start_h ASC, time_start_m ASC', 'filterin' => ['day' => $scheduleDate->format('N')/*self::getDayRange()*/ ], 'filter' => ['active' => 1, 'schedule_id' => $schedulerItem->id]]);
 
                 if ($currentDay == true && isset($data['min_time']) && is_numeric($data['min_time']) && (int)$data['min_time'] > 0) {
                     $scheduleCompare->add(new DateInterval('P0Y0M0DT0H'.$data['min_time'].'M0S'));
@@ -496,6 +516,8 @@ class erLhcoreClassCBSchedulerValidation
                         $slotTimeStart = $scheduleDate->format('H:i');
                     }
 
+                    $slotTimeStartDate = $scheduleDate->format('Ymd');
+
                     /*
                      * End time manipulations
                      * */
@@ -509,6 +531,11 @@ class erLhcoreClassCBSchedulerValidation
                     // Switch to user Time Zone
                     $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
+                    // If start or end date is different than user timezone day, ignore it
+                    if ($scheduleDaySelected->format('Ymd') != $scheduleDate->format('Ymd') || $scheduleDaySelected->format('Ymd') != $slotTimeStartDate) {
+                        continue;
+                    }
+
                     if (isset($params['12h']) && $params['12h'] == true) {
                         $slotTimeEnd = $scheduleDate->format('g:i a');
                     } else {
@@ -517,7 +544,7 @@ class erLhcoreClassCBSchedulerValidation
 
                     $offset = $scheduleDate->getOffset();
 
-                    $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : '') . ($offset/3600) . ')'];
+                    $times[] = ['id' => $slot->id, 'name' => $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : ($offset < 0 ? '' : '-')) . ($offset/3600) . ')'];
                 }
             }
         }
