@@ -371,6 +371,9 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $tsCompare = $scheduleCompare->getTimestamp();
 
+                // This slot goes to next day
+                $hasNext = false;
+
                 for ($i = 0; $i < $daysLimit; $i++) {
 
                     $ts = time() + ($i * 24 * 3600);
@@ -389,6 +392,13 @@ class erLhcoreClassCBSchedulerValidation
                     $currentDay = $scheduleCompare->format('Ymd') == $scheduleDate->format('Ymd');
 
                     $hasSlots = false;
+
+                    if ($hasNext == true) {
+                        $hasSlots = true;
+                    }
+
+                    $hasNext = false;
+
                     foreach ($slots as $slot) {
                         if (
                             erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) < $slot->max_calls &&
@@ -397,8 +407,28 @@ class erLhcoreClassCBSchedulerValidation
                                  ($slot->time_start_m > $scheduleCompare->format('i') && $slot->time_start_h == $scheduleCompare->format('H'))
                                 ) )
                         ) {
-                            $hasSlots = true;
-                            break;
+
+                            // Just afterwards to restore TZ
+                            $tsRestore = $scheduleDate->getTimestamp();
+
+                            // We need to convert schedule star/end time to user time zone start end time.
+                            $scheduleDate->setTime($slot->time_start_h, $slot->time_start_m);
+                            $scheduleDateYMD = $scheduleDate->format('Ymd');
+
+                            // Switch to user Time Zone
+                            $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
+
+                            if ($scheduleDate->format('Ymd') == $scheduleDateYMD) { // We have to have at-least one date in user time zone
+                                $hasSlots = true;
+                            }
+
+                            if ($scheduleDate->format('Ymd') > $scheduleDateYMD) {
+                                $hasNext = true;
+                            }
+
+                            // Restore Time
+                            $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                            $scheduleDate->setTimestamp($tsRestore);
                         }
                     }
 
