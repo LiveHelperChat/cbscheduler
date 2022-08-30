@@ -31,20 +31,12 @@ const ChooseTZModule = props => {
     return <div className="row">
         <div className="col-12 pb-2">
             <div className="form-group">
-            <div className="input-group input-group-sm">
-                <select className="form-control" onChange={(e) => {props.setTimeZone(e.target.value)}}>
+                <select className="form-control form-control-sm" onChange={(e) => {props.setTimeZone(e.target.value)}}>
                     {timeZones.map(timeZone => (
                         <option selected={props.time_zone == timeZone} value={timeZone}>{timeZone}</option>
                     ))}
                 </select>
-                <div className="input-group-append">
-                    <span className="input-group-text">
-                        <a onClick={(e) => {props.exitEditTZ()}} title={t('fields.finish_edit')}>&#10004;</a>
-                    </span>
-                </div>
             </div>
-            </div>
-
         </div>
     </div>
 }

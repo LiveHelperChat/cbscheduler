@@ -358,7 +358,7 @@ const CBScheduler = props => {
 
                     <p className="mb-2"><small>{t('fields.choose_day_time')}<button title={t('fields.choose_tz')} onClick={() => chooseTimeZone()} className="btn btn-sm btn-link pt-0 pl-1 pr-1 btn-no-outline text-decoration-none" type="button">{timezone} <span className="editable-icon">&#x0270E;</span></button>{t('fields.timezone')}</small></p>
 
-                    {isChooseTZMode && <ChooseTZModule exitEditTZ={(e) => {chooseTimeZone()}} setTimeZone={(e) => changeTimeZone(e)} time_zone={timezone} base_path={props.base_path} />}
+                    {isChooseTZMode && <ChooseTZModule setTimeZone={(e) => changeTimeZone(e)} time_zone={timezone} base_path={props.base_path} />}
 
                     <div className="form-group">
                         <select id="cbscheduler-day" className={"form-control form-control-sm"+(errors.day ? ' is-invalid' : '')} defaultValue={day} onChange={(e) => setDayAction(e)}>
