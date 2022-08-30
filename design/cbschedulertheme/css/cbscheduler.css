@@ -170,6 +170,17 @@
     animation: spin 2s linear infinite;
 }
 
+.editable-icon{
+    opacity: 0.5;
+    filter: grayscale(1);
+    font-size: 11px;
+}
+
+.btn-no-outline:focus,.btn-no-outline:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

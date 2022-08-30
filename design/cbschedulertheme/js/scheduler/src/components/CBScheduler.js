@@ -5,7 +5,7 @@ import PhoneInput from 'react-phone-number-input'
 import {useTranslation} from 'react-i18next';
 
 import CancelModule from "./parts/CancelModule";
-
+import ChooseTZModule from "./parts/ChooseTZModule";
 
 const CBScheduler = props => {
 
@@ -38,6 +38,7 @@ const CBScheduler = props => {
 
     // logical attributes
     const [isCancelMode, setCancelMode] = useState(false);
+    const [isChooseTZMode, setChooseTZMode] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [isScheduled, setScheduled] = useState(false);
@@ -115,6 +116,10 @@ const CBScheduler = props => {
         });
     }
 
+    const chooseTimeZone = (e) => {
+        setChooseTZMode(!isChooseTZMode);
+    }
+
     const getSubjects = (e) => {
         axios.get(props.base_path  + "cbscheduler/getsubjects").then(result => {
             setSubjects(result.data);
@@ -178,7 +183,21 @@ const CBScheduler = props => {
         postData['reschedule'] = true;
         scheduleCallback(postData);
     }
-    
+
+    const changeTimeZone = (e) => {
+        setTimezone(e);
+    }
+
+    useEffect(() => {
+        if (isLoaded === true) {
+            setDay(null);
+            setTime(null);
+            setTimes([]);
+            document.getElementById('cbscheduler-day').value = "";
+            getDays();
+        }
+    },[timezone]);
+
     const scheduleCallback = (postData) => {
 
         setSubmitting(true);
@@ -278,6 +297,8 @@ const CBScheduler = props => {
         return <CancelModule username={username} phone={phone} email={email} base_path={props.base_path} timezone={timezone} dep_id={department} chat_id={props.chat_id} hash={props.hash} countries={countries !== null ? countries : undefined} logoFormated={logoFormated} setCancelMode={() => cancelScheduled(false)} defaultCountry={defaultCountry} />
     }
 
+
+
     return (
         <React.Fragment>
             <div className="row">
@@ -335,10 +356,12 @@ const CBScheduler = props => {
                         </div>}
                     </div>
 
-                    <p className="mb-2"><small>{t('fields.choose_day_time', {timezone:timezone})}</small></p>
+                    <p className="mb-2"><small>{t('fields.choose_day_time')}<button title={t('fields.choose_tz')} onClick={() => chooseTimeZone()} className="btn btn-sm btn-link pt-0 pl-1 pr-1 btn-no-outline text-decoration-none" type="button">{timezone} <span className="editable-icon">&#x0270E;</span></button>{t('fields.timezone')}</small></p>
+
+                    {isChooseTZMode && <ChooseTZModule exitEditTZ={(e) => {chooseTimeZone()}} setTimeZone={(e) => changeTimeZone(e)} time_zone={timezone} base_path={props.base_path} />}
 
                     <div className="form-group">
-                        <select className={"form-control form-control-sm"+(errors.day ? ' is-invalid' : '')} defaultValue={day} onChange={(e) => setDayAction(e)}>
+                        <select id="cbscheduler-day" className={"form-control form-control-sm"+(errors.day ? ' is-invalid' : '')} defaultValue={day} onChange={(e) => setDayAction(e)}>
                             <option value="">{t('fields.choose_day')}</option>
                             {days.map(day => (
                                 <option value={day.id}>{day.name}</option>

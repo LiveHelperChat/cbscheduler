@@ -6,7 +6,7 @@ var date = new Date();
 
 i18n.use(Backend).use(initReactI18next).init({
     backend: {
-        loadPath: (typeof WWW_DIR_JAVASCRIPT !== 'undefined' ? WWW_DIR_JAVASCRIPT : window.lhcChat['base_url'])+'cbscheduler/lang/{{ns}}?l={{lng}}&v=4'+(""+date.getFullYear() + date.getMonth() + date.getDate())
+        loadPath: (typeof WWW_DIR_JAVASCRIPT !== 'undefined' ? WWW_DIR_JAVASCRIPT : window.lhcChat['base_url'])+'cbscheduler/lang/{{ns}}?l={{lng}}&v=5'+(""+date.getFullYear() + date.getMonth() + date.getDate())
     },
     lng: 'eng',
     fallbackLng: 'eng',
