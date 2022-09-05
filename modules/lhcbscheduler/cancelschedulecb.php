@@ -55,7 +55,10 @@ try {
             }
         }
 
-        erLhcoreClassRestAPIHandler::outputResponse(['error' => false, 'data' => ['message' => $item->cancel_message]]);
+        erLhcoreClassRestAPIHandler::outputResponse(['error' => false, 'data' => [
+            'cancel_data' => $item->cancel_data
+        ]]);
+
         exit;
 
     } else {

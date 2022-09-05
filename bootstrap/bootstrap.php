@@ -21,6 +21,7 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('user.user_modified', array($this,'accountUpdate'));
         $dispatcher->listen('chat.operator_inactivemode_changed', array($this,'wentInactive'));
         $dispatcher->listen('restapi.swagger', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerRestAPI::swaggerDefinition');
+        $dispatcher->listen('lhabstract.erlhabstractmodelwidgettheme.fields', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerTheme::themeDefinition');
     }
 
     public function wentInactive($params) {
@@ -91,7 +92,7 @@ class erLhcoreClassExtensionCbscheduler {
     }
 
     public function widgetSettings($params) {
-        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=7';
+        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=8';
     }
 
     public function appendCallbacks($params) {

@@ -203,10 +203,13 @@ class erLhcoreClassCBSchedulerValidation
                     $hourEnd = $scheduleDate->format('H:i');
                 }
 
-                $presentRecord->cancel_message = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Your call scheduled at') . ' ' .
-                    $scheduleDate->format('d') . ' ' .
-                    $scheduleDate->format('M') . ' ' .
-                    $scheduleDate->format('Y') . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','between') . ' ' . $hourStart . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and') . ' ' . $hourEnd . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'has been canceled!');
+                $presentRecord->cancel_data = [
+                    'd' => $scheduleDate->format('d'),
+                    'M' => $scheduleDate->format('M'),
+                    'Y' => $scheduleDate->format('Y'),
+                    'hour_start' => $hourStart,
+                    'hour_end' => $hourEnd,
+                ];
 
                 $item = $presentRecord;
 

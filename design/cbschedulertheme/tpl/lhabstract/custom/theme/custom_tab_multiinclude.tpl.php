@@ -1,0 +1,1 @@
+<li role="presentation" class="nav-item"><a class="nav-link" href="#cbscheduler" aria-controls="cbscheduler" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Callback Scheduler');?></a></li>

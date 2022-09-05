@@ -78,7 +78,7 @@ const CancelModule = props => {
         {isScheduled && <div>
 
             <div className="alert alert-info" role="alert">
-                {cbData.message}
+                {t('fields.cancel_success', cbData.cancel_data)}
             </div>
 
             <div className="form-group mb-0">

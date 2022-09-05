@@ -13,37 +13,36 @@ if ($item->dep_id == null) {
 
 $tpl->set('item', $item);
 $tpl->set('department', is_numeric($Params['user_parameters_unordered']['department']) ? (int)$Params['user_parameters_unordered']['department'] : null);
+$tpl->set('theme_id', null);
+$tpl->set('theme_v', null);
+
+if (isset($Params['user_parameters_unordered']['theme']) && !empty($Params['user_parameters_unordered']['theme']) && ($themeId = erLhcoreClassChat::extractTheme($Params['user_parameters_unordered']['theme'])) !== false) {
+    $theme = erLhAbstractModelWidgetTheme::fetch($themeId);
+    if ($theme instanceof erLhAbstractModelWidgetTheme) {
+        $theme->translate();
+        $Result['theme'] = $theme;
+        $tpl->set('theme_id', $theme->id);
+        $tpl->set('theme_v', $theme->modified);
+    }
+} else {
+    $defaultTheme = erLhcoreClassModelChatConfig::fetch('default_theme_id')->current_value;
+    if ($defaultTheme > 0) {
+        $theme = erLhAbstractModelWidgetTheme::fetch($defaultTheme);
+        if ($theme instanceof erLhAbstractModelWidgetTheme) {
+            $theme->translate();
+            $Result['theme'] = $theme;
+            $tpl->set('theme_id', $theme->id);
+            $tpl->set('theme_v', $theme->modified);
+        }
+    }
+}
 
 $Result['content'] = $tpl->fetch();
 $Result['pagelayout'] = 'userchat';
 $Result['hide_close_window'] = true;
 $Result['hide_modal_header'] = true;
-
-// Theme handling
-if (isset($Params['user_parameters_unordered']['theme']) && (int)$Params['user_parameters_unordered']['theme'] > 0){
-    try {
-        $theme = erLhAbstractModelWidgetTheme::fetch($Params['user_parameters_unordered']['theme']);
-        $theme->translate();
-        $Result['theme'] = $theme;
-    } catch (Exception $e) {
-
-    }
-} else {
-    $defaultTheme = erLhcoreClassModelChatConfig::fetch('default_theme_id')->current_value;
-    if ($defaultTheme > 0) {
-        try {
-            $theme = erLhAbstractModelWidgetTheme::fetch($defaultTheme);
-            $theme->translate();
-            $Result['theme'] = $theme;
-        } catch (Exception $e) {
-
-        }
-    }
-}
-
-$Result['additional_header_js'] = '<script type="text/javascript" src="' . erLhcoreClassDesign::designJS('js/scheduler/dist/react.cbscheduler.app.js') . '"></script>';
 $Result['additional_header_css'] = '<link rel="stylesheet" href="' . erLhcoreClassDesign::designCSS('css/cbscheduler.css') . '"/>';
-
+ 
 $Result['path'] = array(
     array(
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Schedule callback')

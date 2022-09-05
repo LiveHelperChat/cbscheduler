@@ -45,9 +45,23 @@ $translations = array(
         "and" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','and'),
         "cancel_scheduled" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call'),
         "return" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Return'),
-        "cancel_action" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call')
+        "cancel_action" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Cancel a scheduled call'),
+        "cancel_success" => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Your call scheduled at {{d}} {{M}} {{Y}} between {{hour_start}} and {{hour_end}} has been canceled!')
     ]
 );
+
+if (isset($_GET['theme']) && !empty($_GET['theme']) && ($themeId = erLhcoreClassChat::extractTheme($_GET['theme'])) !== false) {
+    $theme = erLhAbstractModelWidgetTheme::fetch($themeId);
+    if ($theme instanceof erLhAbstractModelWidgetTheme) {
+        $theme->translate();
+        foreach (array('username','schedule_title','live_support','schedule_callback','call_scheduled','cancel_title','cancel_success','cancel_action') as $attrTranslateCore) {
+            $attrTranslate = 'cbscheduler_' . $attrTranslateCore;
+            if (isset($theme->bot_configuration_array[$attrTranslate]) && !empty($theme->bot_configuration_array[$attrTranslate])) {
+                $translations['fields'][$attrTranslateCore] = $theme->bot_configuration_array[$attrTranslate];
+            }
+        }
+    }
+}
 
 echo json_encode($translations);
 
