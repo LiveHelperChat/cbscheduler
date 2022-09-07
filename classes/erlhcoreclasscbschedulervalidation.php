@@ -1015,6 +1015,7 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTime($slot->time_end_h,$slot->time_end_m);
                     $item->cb_time_end = $scheduleDate->getTimestamp();
 
+                    $scheduleDate->setTimestamp( $item->cb_time_end - 1);
                     $item->daytime = $scheduleDate->format('Ymd');
                 }
             }
