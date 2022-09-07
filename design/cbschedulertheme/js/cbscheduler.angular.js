@@ -66,6 +66,11 @@ lhcAppControllers.controller('CBSCheduler',['$scope', '$document', function($sco
             }
         });
 
+        if (end_hour == 24 && end_minute == 0) {
+            end_hour = 23;
+            end_minute = 55;
+        }
+
         return {
             'start_hour' : start_hour,
             'start_minute' : start_minute,
