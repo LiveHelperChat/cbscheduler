@@ -145,8 +145,8 @@ class erLhcoreClassExtensionCbscheduler {
         }
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
-            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower'),
-            array('dep','log_actions','user')
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','subject_front'),
+            array('dep','log_actions','user','subject')
         );
 
         $params['lists']['my_calls'] = array('list' => array_values($callbackscheduler));
@@ -155,8 +155,8 @@ class erLhcoreClassExtensionCbscheduler {
         $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
-            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official'),
-            array('dep','log_actions','user')
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official','subject_front'),
+            array('dep','log_actions','user','subject')
         );
 
         $onlineOperators = [];

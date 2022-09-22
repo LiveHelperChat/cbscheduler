@@ -11,8 +11,9 @@
                             <table class="table table-sm mb-0 table-small table-fixed list-chat-table">
                                 <thead>
                                 <tr>
-                                    <th width="80%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Visitor');?>" class="material-icons">access_time</i> Time of the callback</th>
-                                    <th width="20%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Department');?>" class="material-icons">home</i> Department</th>
+                                    <th width="70%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Visitor');?>" class="material-icons">access_time</i> Time of the callback</th>
+                                    <th width="15%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Subject');?>" class="material-icons">home</i> Subject</th>
+                                    <th width="15%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Department');?>" class="material-icons">home</i> Department</th>
                                 </tr>
                                 </thead>
                                 <tr ng-repeat="chat in my_calls.list track by chat.id" data-id="{{chat.id}}" onclick="return lhc.revealModal({'title':'Edit reservation','iframe':true,'height':700, 'url':WWW_DIR_JAVASCRIPT +'cbscheduler/editreservation/'+$(this).attr('data-id')+'/(mode)/modal'})">
@@ -26,6 +27,9 @@
                                             <span ng-if="chat.status == 3" class="badge mx-2 badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
                                             <b>{{chat.time_till_call}}</b> | {{chat.scheduler_for_front}}
                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="abbr-list" title="{{chat.subject_id}}">{{chat.subject_front}}</div>
                                     </td>
                                     <td>
                                         <div class="abbr-list" title="{{chat.department_name}}}">{{chat.department_name}}</div>
@@ -50,6 +54,7 @@
                                 <tr>
                                     <th width="60%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Visitor');?>" class="material-icons">access_time</i> Time of the callback</th>
                                     <th width="20%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Agent');?>" class="material-icons">face</i> Agent</th>
+                                    <th width="20%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Subject');?>" class="material-icons">label</i> Subject</th>
                                     <th width="20%"><i title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Department');?>" class="material-icons">home</i> Department</th>
                                 </tr>
                                 </thead>
@@ -67,6 +72,9 @@
                                     </td>
                                     <td>
                                         <div class="abbr-list" title="{{chat.user_name_official}}">{{chat.user_name_official}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="abbr-list" title="{{chat.subject_id}}">{{chat.subject_front}}</div>
                                     </td>
                                     <td>
                                         <div class="abbr-list" title="{{chat.department_name}}}">{{chat.department_name}}</div>

@@ -119,6 +119,10 @@ class erLhcoreClassModelCBSchedulerReservation
                 }
                 return $this->subject;
 
+            case 'subject_front':
+                $this->subject_front = (string)$this->subject;
+                return $this->subject_front;
+
             case 'parent':
                 $this->parent = null;
                 if ($this->parent_id > 0) {
