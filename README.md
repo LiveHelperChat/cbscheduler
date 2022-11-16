@@ -65,6 +65,8 @@ You can also have a custom button on your website to show window and modal windo
 
 ### New widget javascript
 
+Open in the widget
+
 ```js
 // New widget
 // For this cenario to work you have in your embed code to pass at-least one department.
@@ -76,6 +78,11 @@ function scheduleCallbackNewWidget(){
     // window.$_LHC.eventListener.emitEvent('sendChildExtEvent',[{'cmd':'cbscheduler','arg':{"delay":5}}]);
     window.$_LHC.eventListener.emitEvent('showWidget');
 }
+```
+
+Event directly from the widget. Can be used in `custom_html` attribute in widget theme.
+```js
+window.lhcHelperfunctions.emitEvent('extensionExecute',['cbscheduler',[{'delay':3}]])
 ```
 
 ### Old widget javascript

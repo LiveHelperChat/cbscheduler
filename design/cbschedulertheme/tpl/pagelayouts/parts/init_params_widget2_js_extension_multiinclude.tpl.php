@@ -1,0 +1,1 @@
+<?php $params['lhc_event']['ext_modules']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=8'; ?>
