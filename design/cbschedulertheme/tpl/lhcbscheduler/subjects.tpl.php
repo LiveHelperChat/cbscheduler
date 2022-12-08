@@ -5,6 +5,7 @@
         <thead>
         <tr>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Name');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Position');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Active');?></th>
             <th width="1%"></th>
@@ -13,6 +14,13 @@
         <?php foreach ($items as $item) : ?>
             <tr>
                 <td><?php echo htmlspecialchars($item->name)?></td>
+                <td>
+                    <?php $dep_ids_array = $item->dep_ids_array; if (empty($dep_ids_array)) : ?>
+                        <span class="material-icons" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Any');?>">all_inclusive</span>
+                    <?php else : ?>
+                        <?php foreach ($item->dep_ids_array as $index => $depId) : ?><?php if ($index > 0) : ?>, <?php endif; ?><?php echo htmlspecialchars(erLhcoreClassModelDepartament::fetch($depId)); ?><?php endforeach; ?>
+                    <?php endif; ?>
+                </td>
                 <td>
                     <?php echo $item->pos; ?>
                 </td>

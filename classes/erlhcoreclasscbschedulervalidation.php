@@ -11,6 +11,9 @@ class erLhcoreClassCBSchedulerValidation
             'pos' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0)
             ),
+            'dep_ids' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1), FILTER_REQUIRE_ARRAY
+            ),
             'active' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
             ),
@@ -36,6 +39,14 @@ class erLhcoreClassCBSchedulerValidation
             $item->active = 1;
         } else {
             $item->active = 0;
+        }
+
+        if ( $form->hasValidData( 'dep_ids' ) ) {
+            $item->dep_ids = json_encode($form->dep_ids);
+            $item->dep_ids_array = $form->dep_ids;
+        } else {
+            $item->dep_ids = '';
+            $item->dep_ids_array = [];
         }
 
         return $Errors;

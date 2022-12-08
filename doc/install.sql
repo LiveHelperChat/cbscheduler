@@ -81,6 +81,7 @@ CREATE TABLE `lhc_cbscheduler_subject` (
   `pos` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1,
+  `dep_ids` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

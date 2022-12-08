@@ -19,6 +19,7 @@ class erLhcoreClassModelCBSchedulerSubject
             'name' => $this->name,
             'pos' => $this->pos,
             'active' => $this->active,
+            'dep_ids' => $this->dep_ids,
         );
     }
 
@@ -40,6 +41,13 @@ class erLhcoreClassModelCBSchedulerSubject
 
                 return $this->schedule;
 
+            case 'dep_ids_array':
+                $this->dep_ids_array = json_decode($this->dep_ids, true);
+                if (!is_array($this->dep_ids_array)) {
+                    $this->dep_ids_array = [];
+                }
+                return $this->dep_ids_array;
+
             default:
                 ;
                 break;
@@ -49,6 +57,8 @@ class erLhcoreClassModelCBSchedulerSubject
     public $id = null;
 
     public $name = '';
+
+    public $dep_ids = '';
 
     public $pos = 0;
 

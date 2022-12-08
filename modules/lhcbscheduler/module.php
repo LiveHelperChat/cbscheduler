@@ -192,7 +192,7 @@ $ViewList['gettimes'] = array(
 
 $ViewList['getsubjects'] = array(
     'params' => array(),
-    'uparams' => array(),
+    'uparams' => array('department'),
     'functions' => array(),
 );
 

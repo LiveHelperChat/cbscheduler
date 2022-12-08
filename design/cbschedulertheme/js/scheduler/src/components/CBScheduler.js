@@ -110,6 +110,7 @@ const CBScheduler = props => {
 
             if (department === null) {
                 setDepartment(result.data.department);
+
             }
 
             setLoaded(true);
@@ -121,7 +122,7 @@ const CBScheduler = props => {
     }
 
     const getSubjects = (e) => {
-        axios.get(props.base_path  + "cbscheduler/getsubjects").then(result => {
+        axios.get(props.base_path  + "cbscheduler/getsubjects/(department)/" + department).then(result => {
             setSubjects(result.data);
         });
     }
