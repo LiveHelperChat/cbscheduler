@@ -1,8 +1,8 @@
 <div class="modal-dialog modal-dialog-scrollable modal-lg" ng-non-bindable>
     <div class="modal-content">
-        <div class="modal-header pt-1 pb-1 pl-2 pr-2">
+        <div class="modal-header pt-1 pb-1 ps-2 pe-2">
             <h4 class="modal-title" id="myModalLabel"><span class="material-icons">info_outline</span>[<?php echo $item->id?>]&nbsp;<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Preview call');?></h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body mx550">
@@ -43,7 +43,7 @@
 
                 <?php if ($item->parent instanceof erLhcoreClassModelCBSchedulerReservation) : ?>
                     <div class="col-6">
-                        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call');?></b> - <a onclick="return lhc.revealModal({'url':WWW_DIR_JAVASCRIPT +'cbscheduler/previewcall/<?php echo $item->parent_id?>'})"><i class="material-icons mr-0">open_in_new</i> Preview</a></p>
+                        <p><b><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call');?></b> - <a onclick="return lhc.revealModal({'url':WWW_DIR_JAVASCRIPT +'cbscheduler/previewcall/<?php echo $item->parent_id?>'})"><i class="material-icons me-0">open_in_new</i> Preview</a></p>
                     </div>
                 <?php endif; ?>
 

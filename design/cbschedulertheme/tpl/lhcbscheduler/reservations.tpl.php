@@ -41,13 +41,13 @@
                 </td>
                 <td>
                     <?php if ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED) : ?>
-                        <span class="badge <?php $item->time_till_call > 0 ? print ' badge-warning' : print ' badge-danger'?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
+                        <span class="badge <?php $item->time_till_call > 0 ? print ' badge-warning' : print ' bg-danger'?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED) : ?>
-                        <span class="badge badge-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
+                        <span class="badge bg-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED) : ?>
-                        <span class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
+                        <span class="badge bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::NOT_ANSWERED) : ?>
-                        <span class="badge badge-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
+                        <span class="badge bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span>
                     <?php endif; ?>
                 </td>
                 <td>
@@ -55,10 +55,10 @@
                 </td>
                 <td nowrap="">
                     <div class="btn-group" role="group" aria-label="..." style="width:60px;">
-                        <a class="btn btn-info btn-xs" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons mr-0">add_ic_call</i></a>
-                        <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
+                        <a class="btn btn-info btn-xs" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons me-0">add_ic_call</i></a>
+                        <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" ><i class="material-icons me-0">&#xE254;</i></a>
                         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhcbscheduler','delete_reservation')) : ?>
-                        <a class="btn btn-danger btn-xs csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/deletereservation')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE872;</i></a>
+                        <a class="btn btn-danger btn-xs csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/deletereservation')?>/<?php echo $item->id?>" ><i class="material-icons me-0">&#xE872;</i></a>
                         <?php endif; ?>
                     </div>
                 </td>

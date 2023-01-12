@@ -86,8 +86,8 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range from');?>
-                    <span onclick="cbSchedulerSetTodays(true)" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Set filter to today');?>" class="action-image badge badge-secondary">Set todays filter</span>
-                    <span onclick="cbSchedulerSetTodays(false)" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Set filter to today');?>" class="action-image badge badge-secondary">Reset</span>
+                    <span onclick="cbSchedulerSetTodays(true)" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Set filter to today');?>" class="action-image badge bg-secondary">Set todays filter</span>
+                    <span onclick="cbSchedulerSetTodays(false)" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Set filter to today');?>" class="action-image badge bg-secondary">Reset</span>
                 </label>
                 <div class="row">
                     <div class="col-md-12">

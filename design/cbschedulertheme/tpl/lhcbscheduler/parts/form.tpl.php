@@ -59,7 +59,7 @@
     <ul class="nav nav-tabs mb-3" role="tablist">
     <?php $weekDays = erLhcoreClassCBSchedulerValidation::weekDays();
     for ($i = 1; $i <= 7; $i++) : ?>
-        <li role="presentation" class="nav-item"><a href="#day-<?php echo $i?>" class="nav-link<?php if (($tab == '' && $i == 1) || $tab == $i) : ?> active<?php endif;?>" aria-controls="account" role="tab" data-toggle="tab"><?php echo $weekDays[$i]?></a></li>
+        <li role="presentation" class="nav-item"><a href="#day-<?php echo $i?>" class="nav-link<?php if (($tab == '' && $i == 1) || $tab == $i) : ?> active<?php endif;?>" aria-controls="account" role="tab" data-bs-toggle="tab"><?php echo $weekDays[$i]?></a></li>
     <?php endfor; ?>
     </ul>
 
@@ -117,7 +117,7 @@
                         </div>
                     </div>
 
-                    <div class="col-3 pr-1">
+                    <div class="col-3 pe-1">
                         <div class="form-group">
                             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Max Calls');?></label>
                             <a href="" ng-if="!dayscheduleitems.max_callsEnabled" ng-click="dayscheduleitems.max_callsEnabled=true"><i class="material-icons">mode_edit</i>{{dayscheduleitems.max_calls}}</a>
@@ -128,7 +128,7 @@
                     <div class="col-3">
                         <div class="form-group">
                             <div class="btn-group" role="group" aria-label="...">
-                                <button ng-click="cbsc.removeTime(cbsc.data[<?php echo $i?>],dayscheduleitems)" type="button" class="btn btn-danger btn-xs"><i class="material-icons mr-0">&#xE872;</i></button>
+                                <button ng-click="cbsc.removeTime(cbsc.data[<?php echo $i?>],dayscheduleitems)" type="button" class="btn btn-danger btn-xs"><i class="material-icons me-0">&#xE872;</i></button>
                             </div>
                         </div>
                     </div>

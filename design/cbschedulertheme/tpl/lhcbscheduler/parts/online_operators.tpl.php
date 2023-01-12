@@ -2,9 +2,9 @@
 
 <?php if (isset($reservation)) : ?>
 <ul>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Eligible for auto assign based on last auto assignment');?> - <?php if ($reservation->user_id == 0 || (time() - $reservation->tslasign) > $timeoutSeconds) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger font-weight-bold">N</span><?php endif; ?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Eligible for auto assign based on callback start time');?> - <?php if ($reservation->cb_time_start < (time()+$callInSeconds)) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger font-weight-bold">N</span><?php endif; ?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Call is not accepted by another operator');?> - <?php if ($reservation->status_accept != erLhcoreClassModelCBSchedulerReservation::CALL_ACCEPTED) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger font-weight-bold">N</span><?php endif; ?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Eligible for auto assign based on last auto assignment');?> - <?php if ($reservation->user_id == 0 || (time() - $reservation->tslasign) > $timeoutSeconds) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger fw-bold">N</span><?php endif; ?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Eligible for auto assign based on callback start time');?> - <?php if ($reservation->cb_time_start < (time()+$callInSeconds)) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger fw-bold">N</span><?php endif; ?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Call is not accepted by another operator');?> - <?php if ($reservation->status_accept != erLhcoreClassModelCBSchedulerReservation::CALL_ACCEPTED) : ?><span class="text-success">Y</span><?php else : ?><span class="text-danger fw-bold">N</span><?php endif; ?></li>
 </ul>
 <?php endif; ?>
 
