@@ -101,7 +101,7 @@ const CancelModule = props => {
             </div>
 
             <div className="row">
-                <div className="col-6 pr-2">
+                <div className="col-6 pe-2">
                     <div className="form-group">
                         <input title={t('fields.username')} placeholder={t('fields.username')} type="text" maxLength="250" onChange={(e) => setUsername(e.target.value)} className={"form-control form-control-sm"+(errors.username ? ' is-invalid' : '')} defaultValue={username} />
                         {errors.username && <div className="invalid-feedback">
@@ -109,7 +109,7 @@ const CancelModule = props => {
                         </div>}
                     </div>
                 </div>
-                <div className="pl-2 col-6">
+                <div className="ps-2 col-6">
                     <div className="form-group">
                         <input title={t('fields.email')} placeholder={t('fields.email')} type="text" maxLength="250" defaultValue={email} onChange={(e) => setEmail(e.target.value)} className={"form-control form-control-sm"+(errors.email ? ' is-invalid' : '')} />
                         {errors.email && <div className="invalid-feedback">

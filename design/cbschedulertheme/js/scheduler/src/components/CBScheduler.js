@@ -260,9 +260,9 @@ const CBScheduler = props => {
 
     var logoFormated = <div className="col-12">
         <div className="d-flex pb-1">
-            {logo !== null && <div className="pr-2"><img src={logo} height="40"/></div>}
-            <div className="pl-0 pt-1 flex-grow-1"><h5>{isCancelMode === true ? t('fields.cancel_title') : t('fields.schedule_title')}</h5></div>
-            {props.mode == 'widget' && <div className="pl-2"><button type="button" onClick={(e) => onClose()} className="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>}
+            {logo !== null && <div className="pe-2"><img src={logo} height="40"/></div>}
+            <div className="ps-0 pt-1 flex-grow-1"><h5>{isCancelMode === true ? t('fields.cancel_title') : t('fields.schedule_title')}</h5></div>
+            {props.mode == 'widget' && <div className="ps-2"><button type="button" onClick={(e) => onClose()} className="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button></div>}
         </div>
     </div>;
 
@@ -311,7 +311,7 @@ const CBScheduler = props => {
                 {!isScheduled && <div className="col-12">
 
                     <div className="row">
-                        <div className="col-6 pr-2">
+                        <div className="col-6 pe-2">
                             <div className="form-group">
                                 <input title={t('fields.username')} placeholder={t('fields.username')} type="text" maxLength="250" onChange={(e) => setUsername(e.target.value)} className={"form-control form-control-sm"+(errors.username ? ' is-invalid' : '')} defaultValue={username} />
                                 {errors.username && <div className="invalid-feedback">
@@ -319,7 +319,7 @@ const CBScheduler = props => {
                                 </div>}
                             </div>
                         </div>
-                        <div className="pl-2 col-6">
+                        <div className="ps-2 col-6">
                             <div className="form-group">
                                 <input title={t('fields.email')} placeholder={t('fields.email')} type="text" maxLength="250" defaultValue={email} onChange={(e) => setEmail(e.target.value)} className={"form-control form-control-sm"+(errors.email ? ' is-invalid' : '')} />
                                 {errors.email && <div className="invalid-feedback">
@@ -357,7 +357,7 @@ const CBScheduler = props => {
                         </div>}
                     </div>
 
-                    <p className="mb-2"><small>{t('fields.choose_day_time')}<button title={t('fields.choose_tz')} onClick={() => chooseTimeZone()} className="btn btn-sm btn-link pt-0 pl-1 pr-1 btn-no-outline text-decoration-none" type="button">{timezone} <span className="editable-icon">&#x0270E;</span></button>{t('fields.timezone')}</small></p>
+                    <p className="mb-2"><small>{t('fields.choose_day_time')}<button title={t('fields.choose_tz')} onClick={() => chooseTimeZone()} className="btn btn-sm btn-link pt-0 ps-1 pe-1 btn-no-outline text-decoration-none" type="button">{timezone} <span className="editable-icon">&#x0270E;</span></button>{t('fields.timezone')}</small></p>
 
                     {isChooseTZMode && <ChooseTZModule setTimeZone={(e) => changeTimeZone(e)} time_zone={timezone} base_path={props.base_path} />}
 
@@ -400,7 +400,7 @@ const CBScheduler = props => {
                     {termsOfService && <div className={"form-check form-check-sm pb-2"}>
                         <input type="checkbox" id="id-terms-of-service" className={"form-check-input"+(errors.terms_of_service ? ' is-invalid' : '')} onChange={(e) => setTermsOfServiceAgree(e.target.checked)} />
                         <label className="form-check-label" for="id-terms-of-service"> <small>{termsOfService}</small></label>
-                        {errors.terms_of_service && <div className="invalid-feedback font-weight-bold">
+                        {errors.terms_of_service && <div className="invalid-feedback fw-bold">
                             {errors.terms_of_service}
                         </div>}
                     </div>}
