@@ -41,7 +41,7 @@
                 </td>
                 <td>
                     <?php if ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED) : ?>
-                        <span class="badge <?php $item->time_till_call > 0 ? print ' badge-warning' : print ' bg-danger'?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
+                        <span class="badge <?php $item->time_till_call > 0 ? print ' bg-warning' : print ' bg-danger'?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_COMPLETED) : ?>
                         <span class="badge bg-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span>
                     <?php elseif ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED) : ?>
