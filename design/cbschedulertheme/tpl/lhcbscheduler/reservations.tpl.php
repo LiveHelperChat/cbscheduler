@@ -12,7 +12,10 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone number');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Username');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','E-mail');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled for');?></th>
+            <th>
+                <span class="material-icons text-muted" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Time is shown in your time zone');?>">help</span>
+                <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled for');?>
+            </th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','User timezone');?></th>
             <th width="5%"></th>
@@ -77,8 +80,8 @@
 
 <form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>" method="get" ng-init="depSchedule='0'">
 
-    <div class="form-row align-items-center">
-        <div class="col-auto">
+    <div class="row align-items-center">
+        <div class="col">
             <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
                 'input_name'     => 'department',
                 'ng-model'     => 'depSchedule',
@@ -90,7 +93,7 @@
                 'list_function'  => 'erLhcoreClassModelDepartament::getList'
             )); ?>
         </div>
-        <div class="col-auto">
+        <div class="col">
             <button type="submit" ng-disabled="!(depSchedule != '0')" class="btn btn-sm btn-primary">Schedule a follow up call</button>
         </div>
     </div>
