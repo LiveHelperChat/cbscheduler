@@ -431,7 +431,7 @@ class erLhcoreClassCBSchedulerValidation
                             $scheduleDateYMD = $scheduleDate->format('Ymd');
 
                             // Switch to user Time Zone
-                            //$scheduleDate->setTimezone(new DateTimeZone($params['tz']));
+                            $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
                             if ($scheduleDate->format('Ymd') == $scheduleDateYMD) { // We have to have at-least one date in user time zone
                                 $hasSlots = true;
@@ -442,7 +442,7 @@ class erLhcoreClassCBSchedulerValidation
                             }
 
                             // Restore Time
-                            //$scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                            $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
                             $scheduleDate->setTimestamp($tsRestore);
                         }
                     }

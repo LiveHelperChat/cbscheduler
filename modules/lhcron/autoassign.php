@@ -27,8 +27,6 @@ $filterParams = [
     'filter' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED]
 ];
 
-print_r($filterParams);
-
 foreach (erLhcoreClassModelCBSchedulerReservation::getList($filterParams) as $reservation) {
 
     $db->beginTransaction();
