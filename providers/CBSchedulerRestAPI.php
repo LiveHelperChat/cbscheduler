@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\cbscheduler\providers {
-
+    #[\AllowDynamicProperties]
     class CBSchedulerRestAPI {
 
         public static function swaggerDefinition($params) {

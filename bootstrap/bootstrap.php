@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassExtensionCbscheduler {
 
     public function __construct() {
@@ -121,9 +121,8 @@ class erLhcoreClassExtensionCbscheduler {
             $filter['customfilter'][] = $limitation;
         }
 
-        $filter['limit'] = 10;
+        $filter['limit'] = 30;
         $filter['offset'] = 0;
-        $filter['smart_select'] = true;
 
         if (!empty($filterAdditional)) {
             $filter = array_merge_recursive($filter,$filterAdditional);

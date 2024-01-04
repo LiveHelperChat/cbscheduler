@@ -20,12 +20,16 @@ $isOnlineUser = (int)erLhcoreClassModelChatConfig::fetch('sync_sound_settings')-
 
 $db = ezcDbInstance::get();
 
-foreach (erLhcoreClassModelCBSchedulerReservation::getList([
+$filterParams = [
     'sort' => 'cb_time_start ASC',
     'filterlt' => ['cb_time_start' => (time()+$callInSeconds)],
     'filternot' => ['status_accept' => erLhcoreClassModelCBSchedulerReservation::CALL_ACCEPTED],
     'filter' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED]
-    ]) as $reservation) {
+];
+
+print_r($filterParams);
+
+foreach (erLhcoreClassModelCBSchedulerReservation::getList($filterParams) as $reservation) {
 
     $db->beginTransaction();
 
