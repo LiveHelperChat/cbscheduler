@@ -384,6 +384,7 @@ class erLhcoreClassCBSchedulerValidation
                 $scheduleDate = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
                 $tsCompare = $scheduleCompare->getTimestamp();
+                $scheduleDateYMDSchedule = $scheduleDate->format('Ymd');
 
                 // This slot goes to next day
                 $hasNext = false;
@@ -428,28 +429,22 @@ class erLhcoreClassCBSchedulerValidation
 
                             // We need to convert schedule star/end time to user time zone start end time.
                             $scheduleDate->setTime($slot->time_start_h, $slot->time_start_m);
-                            $scheduleDateYMD = $scheduleDate->format('Ymd');
 
-                            // Switch to user Time Zone
-                            $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
-
-                            if ($scheduleDate->format('Ymd') == $scheduleDateYMD) { // We have to have at-least one date in user time zone
+                            if ($scheduleDate->format('Ymd') >= $scheduleDateYMDSchedule) { // We have to have at-least one date in user time zone
                                 $hasSlots = true;
                             }
 
-                            if ($scheduleDate->format('Ymd') > $scheduleDateYMD) {
+                            if ($scheduleDate->format('Ymd') > $scheduleDateYMDSchedule) {
                                 $hasNext = true;
                             }
 
-                            // Restore Time
-                            $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
                             $scheduleDate->setTimestamp($tsRestore);
                         }
                     }
 
                     if ($hasSlots === true) {
                         $item = new stdClass();
-                        $item->id = date('Ymd',$ts);
+                        $item->id = $scheduleDate->format('Ymd');
 
                         if ($i == 0) {
                             $item->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Today');
@@ -470,7 +465,7 @@ class erLhcoreClassCBSchedulerValidation
 
     public static function getDayRange($day) {
 
-        $days = [$day];
+        $days = [$day/*,$day + 1, $day - 1*/];
 
         if ($day + 1 > 7) {
             $days[] = 1;
@@ -512,17 +507,23 @@ class erLhcoreClassCBSchedulerValidation
                 $daySelected['d'] = substr($params['day'],6,2);
 
                 // We need to convert visitor week day to schedule week day.
-                $scheduleDate = new DateTime('now', new DateTimeZone($params['tz']));
-                $scheduleDate->setTimestamp(mktime(date('H'), date('i'), date('s'), $daySelected['m'], $daySelected['d'], $daySelected['y']));
-                $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                //$scheduleDate = new DateTime('now', new DateTimeZone($params['tz']));
+                $scheduleDateVisitor = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                $scheduleDateVisitor->setDate($daySelected['y'],$daySelected['m'],$daySelected['d']);
+                $scheduleDateVisitor->setTimezone(new DateTimeZone($params['tz']));
+
+                $scheduleDate = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                //$scheduleDate->setTimestamp(mktime(0, 0, 0, $daySelected['m'], $daySelected['d'], $daySelected['y']));
+                //$scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                $scheduleDate->setDate($daySelected['y'],$daySelected['m'],$daySelected['d']);
                 $timestampDefault = $scheduleDate->getTimestamp();
+
 
                 // Schedule present day
                 $scheduleCompare = new DateTime('now', new DateTimeZone($schedulerItem->tz));
 
                 // Are we working with current day
                 $currentDay = $scheduleCompare->format('Ymd') == $scheduleDate->format('Ymd');
-                $currentDayN = $scheduleCompare->format('N');
 
                 // Visitor selected day in schedule time zone
                 $scheduleDaySelected = new DateTime('now', new DateTimeZone($schedulerItem->tz));
@@ -543,15 +544,18 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
 
                     $dayPrefix = ''; // Debug
+
                     //$dayPrefix = '{'.$scheduleDaySelected->format('N').'}';
                     if ($scheduleDaySelected->format('N') != $slot->day) {
                         //$dayPrefix .= '[' . $slot->day . ']';
-                        if ($scheduleDaySelected->format('N') > $slot->day) {
+                        if ($slot->day == 1 && $scheduleDaySelected->format('N') == 7) {
+                            $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));
+                        } else if ( ($scheduleDaySelected->format('N') > $slot->day) || ($slot->day == 7 && $scheduleDaySelected->format('N') == 1)) {
                             $scheduleDate->setTimestamp($timestampDefault - (24 * 3600));
                         } else {
                             $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));
                         }
-                    } else { // Set original timestamp
+                    } else {
                         $scheduleDate->setTimestamp($timestampDefault);
                     }
 
@@ -565,6 +569,7 @@ class erLhcoreClassCBSchedulerValidation
                     ) {
                         continue;
                     }
+                    // Continue sort for times if monday
 
                     /*
                      * Start time manipulations
@@ -587,6 +592,9 @@ class erLhcoreClassCBSchedulerValidation
                     /*
                      * End time manipulations
                      * */
+                    if ( $scheduleDateVisitor->format('Ymd') != $slotTimeStartDate) {
+                        continue;
+                    }
 
                     // Switch to schedule Time Zone
                     $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
@@ -598,9 +606,6 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDate->setTimezone(new DateTimeZone($params['tz']));
 
                     // If start or end date is different than user timezone day, ignore it
-                    if ($scheduleDaySelected->format('Ymd') != $slotTimeStartDate) {
-                        continue;
-                    }
 
                     if (isset($params['12h']) && $params['12h'] == true) {
                         $slotTimeEnd = $scheduleDate->format('g:i a');
@@ -610,8 +615,14 @@ class erLhcoreClassCBSchedulerValidation
 
                     $offset = $scheduleDate->getOffset();
 
-                    $times[] = ['id' => $slot->id, 'name' => $dayPrefix . $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : ($offset < 0 ? '' : '-')) . ($offset/3600) . ')'];
+                    $times[] = ['id' => $slot->id, 'h' => (int)str_replace(':','',$slotTimeStart), 'name' => /*$slot->day .'[' . $slot->id . ']' . '-' . $dayPrefix .*/ $slotTimeStart . ' - ' . $slotTimeEnd . ' (UTC'. ($offset > 0 ? '+' : ($offset < 0 ? '' : '-')) . ($offset/3600) . ')'];
                 }
+
+                // Sort by hour always
+                usort($times, function($a, $b) {
+                    return $a['h'] > $b['h'];
+                });
+
             }
         }
 
@@ -984,10 +995,13 @@ class erLhcoreClassCBSchedulerValidation
                     $daySelected['m'] = substr($item->day,4,2);
                     $daySelected['d'] = substr($item->day,6,2);
 
+                    $scheduleDateVisitor = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                    $scheduleDateVisitor->setDate($daySelected['y'],$daySelected['m'],$daySelected['d']);
+                    $scheduleDateVisitor->setTimezone(new DateTimeZone($item->tz));
+
                     // We need to convert visitor week day to schedule week day.
-                    $scheduleDate = new DateTime('now', new DateTimeZone($item->tz));
-                    $scheduleDate->setTimestamp(mktime(date('H'), date('i'), date('s'), $daySelected['m'], $daySelected['d'], $daySelected['y']));
-                    $scheduleDate->setTimezone(new DateTimeZone($schedulerItem->tz));
+                    $scheduleDate = new DateTime('now', new DateTimeZone($schedulerItem->tz));
+                    $scheduleDate->setDate($daySelected['y'], $daySelected['m'], $daySelected['d']);
 
                     $timestampDefault = $scheduleDate->getTimestamp();
 
