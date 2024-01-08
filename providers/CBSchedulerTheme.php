@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\cbscheduler\providers {
-
+    #[\AllowDynamicProperties]
     class CBSchedulerTheme {
         public static function themeDefinition($params) {
             $params['fields']['cbscheduler_username'] = array(

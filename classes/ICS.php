@@ -39,7 +39,7 @@
  *   A url to attach to the the event. Make sure to add the protocol (http://
  *   or https://).
  */
-
+#[\AllowDynamicProperties]
 class ICS {
     const DT_FORMAT = 'Ymd\THis\Z';
 
