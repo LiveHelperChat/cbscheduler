@@ -121,7 +121,7 @@ class erLhcoreClassExtensionCbscheduler {
             $filter['customfilter'][] = $limitation;
         }
 
-        $filter['limit'] = 30;
+        $filter['limit'] = 10;
         $filter['offset'] = 0;
 
         if (!empty($filterAdditional)) {
