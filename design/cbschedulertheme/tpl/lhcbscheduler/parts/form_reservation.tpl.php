@@ -120,7 +120,7 @@
             </div>
         </div>
 
-        <div class="col-12" ng-non-bindable>
+        <div class="col-12" ng-non-bindable id="outcome-new-controller" style="display: none">
             <div class="form-group">
                 <label>
                     <b><span data-field="cbdata-outcome" title="Copy" class="copy-action material-icons action-image">content_copy</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Outcome of the call');?></b>
@@ -142,7 +142,6 @@
             <div class="form-group">
                 <a class="btn btn-info btn-xs" target="_blank" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Follow up');?>" href="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/scheduleadmin')?>/(parent)/<?php echo $item->id?>" ><i class="material-icons">open_in_new</i> <i class="material-icons me-0">add_ic_call</i></a>
                 <button type="button" onclick="return lhc.revealModal({'title' : 'Log', 'height':350, backdrop:true, 'url': WWW_DIR_JAVASCRIPT + 'cbscheduler/logreservation/<?php echo $item->id?>'})" class="btn btn-link btn-xs"><span class="material-icons">history</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Log')?></button>
-                
             </div>
         </div>
 
@@ -150,7 +149,20 @@
 
 <script>
 
+    function outcomeAvailable(){
+        let outcome_status = <?php echo json_encode(isset($outcome_status) ? $outcome_status : [])?>;
+        if ( outcome_status.length == 0 || outcome_status.indexOf(parseInt($('#id_status').val())) !== -1) {
+            $('#outcome-new-controller').show();
+        } else {
+            $('#outcome-new-controller').hide();
+            $('#cbdata-outcome').val('');
+        }
+    }
+
+    outcomeAvailable();
+
     $('#id_status').change(function () {
+        outcomeAvailable();
         if (<?php echo $item->status?> == 1 && $(this).val() != 1) {
             if (!confirm("<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Are you sure you want to schedule this call again?');?>")) {
                 $(this).val(1);

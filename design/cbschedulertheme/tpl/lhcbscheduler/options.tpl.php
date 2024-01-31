@@ -68,9 +68,6 @@
         </div>
     </div>
 
-
-
-
     <div class="form-group">
         <label>Scheduled call uniqueness decided by these fields</label>
         <label class="d-block"><input type="checkbox" name="unique[]" <?php if (isset($cb_options['unique']) && is_array($cb_options['unique']) && in_array('dep_id',$cb_options['unique'])) : ?>checked="checked"<?php endif;?> value="dep_id"> Department</label>
@@ -80,6 +77,21 @@
         <label class="d-block"><input type="checkbox" name="unique[]" <?php if (isset($cb_options['unique']) && is_array($cb_options['unique']) && in_array('schedule_id',$cb_options['unique'])) : ?>checked="checked"<?php endif;?> value="schedule_id"> Schedule</label>
     </div>
     <p><small>If none is selected by default we use Phone, Schedule and Department combination.</small></p>
+
+    <div class="form-group">
+        <label>Outcome of the call is available only if call is in one of those statuses. If none is selected for all statuses will be shown.</label>
+        <div class="row">
+            <?php echo erLhcoreClassRenderHelper::renderCheckbox(array(
+                'list_function' => 'erLhcoreClassCBSchedulerValidation::getStatusOptions',
+                'selected_id' => (isset($cb_options['outcome_status']) && is_array($cb_options['outcome_status']) ? $cb_options['outcome_status'] : []),
+                'input_name' => 'outcome_status[]',
+                'wrap_prepend' => '<div class="col-3">',
+                'wrap_append' => '</div>',
+                'list_function_params' => array('limit' => false)
+            ));
+            ?>
+        </div>
+    </div>
 
     <input type="submit" class="btn btn-secondary" name="StoreOptions" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Save'); ?>" />
 

@@ -37,6 +37,9 @@ if ( isset($_POST['StoreOptions']) ) {
         ),
         'unique' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY
+        ),
+        'outcome_status' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'int',null,FILTER_REQUIRE_ARRAY
         )
     );
 
@@ -47,6 +50,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['block_numbers'] = $form->block_numbers;
     } else {
         $data['block_numbers'] = '';
+    }
+
+    if ( $form->hasValidData( 'outcome_status' )) {
+        $data['outcome_status'] = $form->outcome_status;
+    } else {
+        $data['outcome_status'] = [];
     }
 
     if ( $form->hasValidData( 'allow_countries' )) {
