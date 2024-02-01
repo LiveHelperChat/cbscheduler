@@ -10,9 +10,6 @@ if ($item->user_id == erLhcoreClassUser::instance()->getUserID() && $item->statu
     $item->updateThis(array('update' => array('status_accept')));
 }
 
-$cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
-$data = (array)$cbOptions->data;
-
 if (ezcInputForm::hasPostData()) {
 
     if (isset($_POST['Cancel_action'])) {
@@ -44,8 +41,7 @@ if (ezcInputForm::hasPostData()) {
 
 $tpl->setArray(array(
     'item' => $item,
-    'tab' => '',
-    'outcome_status' => ((isset($data['outcome_status']) && is_array($data['outcome_status'])) ? $data['outcome_status'] : [])
+    'tab' => ''
 ));
 
 if ($Params['user_parameters_unordered']['mode'] == 'modal') {

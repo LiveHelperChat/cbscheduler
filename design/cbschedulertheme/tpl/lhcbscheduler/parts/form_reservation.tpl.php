@@ -148,9 +148,9 @@
     </div>
 
 <script>
-
+    <?php $item->schedule->status_configuration_array;?>
     function outcomeAvailable(){
-        let outcome_status = <?php echo json_encode(isset($outcome_status) ? $outcome_status : [])?>;
+        let outcome_status = <?php echo json_encode(isset($item->schedule->status_configuration_array) ? $item->schedule->status_configuration_array : [])?>;
         if ( outcome_status.length == 0 || outcome_status.indexOf(parseInt($('#id_status').val())) !== -1) {
             $('#outcome-new-controller').show();
         } else {

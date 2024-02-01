@@ -88,6 +88,13 @@ class erLhcoreClassModelCBSchedulerReservation
                 }
                 return $this->slot;
 
+            case 'schedule':
+                $this->schedule = null;
+                if ($this->schedule_id > 0) {
+                    $this->schedule = erLhcoreClassModelCBSchedulerScheduler::fetch($this->schedule_id);
+                }
+                return $this->schedule;
+
             case 'phone_front':
                 $this->phone_front = [$this->phone];
 

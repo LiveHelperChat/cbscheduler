@@ -43,7 +43,7 @@ class erLhcoreClassModelCBSchedulerSlot
             case 'schedule':
                 $this->schedule = null;
                 if ($this->schedule_id > 0) {
-                    $this->schedule = erLhcoreClassModelChat::fetch($this->schedule_id);
+                    $this->schedule = erLhcoreClassModelCBSchedulerScheduler::fetch($this->schedule_id);
                 }
                 return $this->schedule;
 

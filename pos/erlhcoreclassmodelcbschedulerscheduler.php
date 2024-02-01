@@ -19,6 +19,11 @@ $def->properties['tz']->columnName   = 'tz';
 $def->properties['tz']->propertyName = 'tz';
 $def->properties['tz']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->properties['status_configuration'] = new ezcPersistentObjectProperty();
+$def->properties['status_configuration']->columnName   = 'status_configuration';
+$def->properties['status_configuration']->propertyName = 'status_configuration';
+$def->properties['status_configuration']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
 $def->properties['active'] = new ezcPersistentObjectProperty();
 $def->properties['active']->columnName   = 'active';
 $def->properties['active']->propertyName = 'active';

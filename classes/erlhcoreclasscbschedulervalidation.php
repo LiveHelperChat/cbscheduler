@@ -265,10 +265,21 @@ class erLhcoreClassCBSchedulerValidation
             'multi_department' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
             ),
+            'status_configuration' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
+            ),
         );
 
         $form = new ezcInputForm( INPUT_POST, $definition );
         $Errors = array();
+
+        if ( $form->hasValidData( 'status_configuration' )) {
+            $item->status_configuration = json_encode($form->status_configuration);
+            $item->status_configuration_array = $form->status_configuration;
+        } else {
+            $item->status_configuration = '';
+            $item->status_configuration_array = [];
+        }
 
         if ( $form->hasValidData( 'name' ) && $form->name != '') {
             $item->name = $form->name;

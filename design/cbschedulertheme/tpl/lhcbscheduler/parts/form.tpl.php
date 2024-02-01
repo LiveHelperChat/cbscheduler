@@ -54,6 +54,21 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label>Outcome of the call is available only if call is in one of those statuses. If none is selected for all statuses will be shown.</label>
+    <div class="row">
+        <?php echo erLhcoreClassRenderHelper::renderCheckbox(array(
+            'list_function' => 'erLhcoreClassCBSchedulerValidation::getStatusOptions',
+            'selected_id' => $item->status_configuration_array,
+            'input_name' => 'status_configuration[]',
+            'wrap_prepend' => '<div class="col-3">',
+            'wrap_append' => '</div>',
+            'list_function_params' => array('limit' => false)
+        ));
+        ?>
+    </div>
+</div>
+
 <div ng-controller="CBSCheduler as cbsc" ng-cloak ng-init='cbsc.data = <?php echo json_encode(erLhcoreClassModelCBSchedulerScheduler::getData($item), JSON_HEX_APOS)?>;'>
 
     <ul class="nav nav-tabs mb-3" role="tablist">
@@ -67,7 +82,7 @@
         <?php for ($i = 1; $i <= 7; $i++) : ?>
         <div role="tabpanel" class="tab-pane <?php if (($tab == '' && $i == 1) || $tab == $i) : ?>active<?php endif;?>" id="day-<?php echo $i?>">
 
-            <div class="form-row">
+            <div class="row">
                 <div class="col-auto">
                     <a href="" ng-click="cbsc.addTime(cbsc.data[<?php echo $i?>])" class="btn btn-sm btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Add');?></a>
                 </div>
@@ -78,6 +93,8 @@
                     <button type="button" ng-click="cbsc.setMaxCalls(cbsc.data[<?php echo $i?>],set_max_<?php echo $i?>)" class="btn btn-sm btn-outline-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Set');?></button>
                 </div>
             </div>
+
+
             <hr>
 
             <div ng-repeat="dayscheduleitems in cbsc.data[<?php echo $i?>] track by $index">

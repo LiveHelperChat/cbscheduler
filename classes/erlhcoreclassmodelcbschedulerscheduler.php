@@ -19,7 +19,8 @@ class erLhcoreClassModelCBSchedulerScheduler
             'name' => $this->name,
             'tz' => $this->tz,
             'active' => $this->active,
-            'multi_department' => $this->multi_department
+            'multi_department' => $this->multi_department,
+            'status_configuration' => $this->status_configuration
         );
     }
 
@@ -39,6 +40,16 @@ class erLhcoreClassModelCBSchedulerScheduler
                     $this->slots = [];
                 }
                 return $this->slots;
+
+            case 'status_configuration_array':
+                    $this->status_configuration_array = [];
+                    if ($this->status_configuration != '') {
+                        $jsonData = json_decode($this->status_configuration,true);
+                        if ($jsonData !== null) {
+                            $this->status_configuration_array = $jsonData;
+                        }
+                    }
+                return $this->status_configuration_array;
 
             case 'department_ids':
                     $this->department_ids = erLhcoreClassModelCBSchedulerSchedulerDep::getCount(array('filter' => array('schedule_id' => $this->id, 'dep_group_id' => 0)), '', false, 'dep_id', false, true, true);
@@ -211,6 +222,7 @@ class erLhcoreClassModelCBSchedulerScheduler
     public $multi_department = 0;
 
     public $name = '';
+    public $status_configuration = '';
 }
 
 ?>
