@@ -631,7 +631,7 @@ class erLhcoreClassCBSchedulerValidation
 
                 // Sort by hour always
                 usort($times, function($a, $b) {
-                    return $a['h'] > $b['h'];
+                    return $a['h'] > $b['h'] ? 1 : 0;
                 });
 
             }
@@ -854,6 +854,10 @@ class erLhcoreClassCBSchedulerValidation
             throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Department is missing'));
         } elseif ($form->hasValidData( 'dep_id' )) {
             $item->dep_id = $form->dep_id;
+        }
+
+        if (empty($Errors) && erLhcoreClassModelChatBlockedUser::isBlocked(array('ip' => erLhcoreClassIPDetect::getIP(), 'dep_id' => $item->dep_id, 'nick' => $item->name))) {
+            $Errors['phone'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','At this moment you can contact us via email only. Sorry for the inconveniences.');
         }
 
         if ( !$form->hasValidData( 'phone' ) || $form->phone == '' ) {
