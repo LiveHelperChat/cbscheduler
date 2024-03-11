@@ -1047,7 +1047,7 @@ class erLhcoreClassCBSchedulerValidation
                         ($scheduleDaySelected->format('N') == $slot->day && $slot->time_start_m < $scheduleCompare->format('i') && $currentDay == true && $slot->time_start_h == $scheduleCompare->format('H')) ||
                         erLhcoreClassModelCBSchedulerReservation::getCount(['filternot' => ['status' => erLhcoreClassModelCBSchedulerReservation::STATUS_CANCELED],'filter' => ['slot_id' => $slot->id, 'daytime' => $scheduleDate->format('Ymd')]]) >= $slot->max_calls
                     ) {
-                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.') . $scheduleDaySelected->format('Ymd') . print_r($slot, true) . $schedulerItem->tz . $scheduleDate->format('N') . $item->slot_id);
+                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.')  /*$scheduleDaySelected->format('Ymd') . print_r($slot, true) . $schedulerItem->tz . $scheduleDate->format('N') . $item->slot_id*/);
                     }
 
                     $scheduleDate->setTime($slot->time_start_h,$slot->time_start_m);
@@ -1055,6 +1055,14 @@ class erLhcoreClassCBSchedulerValidation
 
                     $scheduleDate->setTime($slot->time_end_h,$slot->time_end_m);
                     $item->cb_time_end = $scheduleDate->getTimestamp();
+
+                    $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+
+                    $data = (array)$cbOptions->data;
+
+                    if ($item->cb_time_start < time() || (isset($data['min_time']) && is_numeric($data['min_time']) && (int)$data['min_time'] > 0 && $item->cb_time_start < time() + ((int)$data['min_time'] * 60))) {
+                        throw new Exception(erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Slot became unavailable. Please choose another time.'));
+                    }
 
                     $scheduleDate->setTimestamp( $item->cb_time_end - 1);
                     $item->daytime = $scheduleDate->format('Ymd');
