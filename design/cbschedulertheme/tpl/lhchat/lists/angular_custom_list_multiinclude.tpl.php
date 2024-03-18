@@ -76,7 +76,9 @@
                 $iconData = [];
                 $iconData['icon_attr'] = 'time_till_call';
                 $iconData['icon_attr_type'] = 'string';
+                $iconData['class'] = 'fw-bold';
                 $optionsPanel['custom_icons'][] = $iconData;
+
 
                 // Schedule for
                 $iconData = [];
@@ -135,37 +137,37 @@
             </div>
             <div class="col-6">
                     <?php
-                        $permissionsWidget = [];
-                        $optionsPanel = ["panelid" => "all_calls", "limitid" => "limitall_calls","userid" => "all_callsu"];
+                    $permissionsWidget = [];
+                    $optionsPanel = ["panelid" => "all_calls", "limitid" => "limitall_calls","userid" => "all_callsu"];
 
-                        /* Icons in the list */
-                        $iconData = [];
-                        $iconData['icon_attr'] = 'id';
-                        $iconData['icon_attr_type'] = 'string';
-                        $iconData['icon_attr_prepend'] = '[';
-                        $iconData['icon_attr_append'] = '] ';
-                        $optionsPanel['custom_icons'][] = $iconData;
+                    /* Icons in the list */
+                    $iconData = [];
+                    $iconData['icon_attr'] = 'id';
+                    $iconData['icon_attr_type'] = 'string';
+                    $iconData['icon_attr_prepend'] = '[';
+                    $iconData['icon_attr_append'] = '] ';
+                    $optionsPanel['custom_icons'][] = $iconData;
 
-                        // Assignment status
-                        $iconData = [];
-                        $iconData['class'] = 'material-icons text-success';
-                        $iconData['class_false'] = ['text-warning' => 'status_accept'];
-                        $iconData['icon_attr'] = 'user_id';
-                        $iconData['icon_attr_type'] = 'bool';
-                        $iconData['icon_attr_true'] = 'assignment_ind';
-                        $iconData['title'] = 'Acceptance status';
-                        $optionsPanel['custom_icons'][] = $iconData;
+                    // Assignment status
+                    $iconData = [];
+                    $iconData['class'] = 'material-icons text-success';
+                    $iconData['class_false'] = ['text-warning' => 'status_accept'];
+                    $iconData['icon_attr'] = 'user_id';
+                    $iconData['icon_attr_type'] = 'bool';
+                    $iconData['icon_attr_true'] = 'assignment_ind';
+                    $iconData['title'] = 'Acceptance status';
+                    $optionsPanel['custom_icons'][] = $iconData;
 
-                        // Verified
-                        $iconData = [];
-                        $iconData['class'] = 'material-icons';
-                        $iconData['class_false'] = ['text-danger' => 'verified'];
-                        $iconData['class_true'] = ['text-success' => 'verified'];
-                        $iconData['icon_attr'] = 'verified';
-                        $iconData['icon_attr_type'] = 'bool';
-                        $iconData['icon_attr_true'] = 'verified_user';
-                        $iconData['icon_attr_false'] = 'help_outline';
-                        $optionsPanel['custom_icons'][] = $iconData;
+                    // Verified
+                    $iconData = [];
+                    $iconData['class'] = 'material-icons';
+                    $iconData['class_false'] = ['text-danger' => 'verified'];
+                    $iconData['class_true'] = ['text-success' => 'verified'];
+                    $iconData['icon_attr'] = 'verified';
+                    $iconData['icon_attr_type'] = 'bool';
+                    $iconData['icon_attr_true'] = 'verified_user';
+                    $iconData['icon_attr_false'] = 'help_outline';
+                    $optionsPanel['custom_icons'][] = $iconData;
 
                     /* <span ng-if="!chat.status" ng-class="{'bg-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span> */
                     $iconData = [];
@@ -203,18 +205,19 @@
                     $iconData['icon_attr_true'] = 'Not Answered';
                     $optionsPanel['custom_icons'][] = $iconData;
 
-                        // Time till call
-                        $iconData = [];
-                        $iconData['icon_attr'] = 'time_till_call';
-                        $iconData['icon_attr_type'] = 'string';
-                        $optionsPanel['custom_icons'][] = $iconData;
+                    // Time till call
+                    $iconData = [];
+                    $iconData['icon_attr'] = 'time_till_call';
+                    $iconData['icon_attr_type'] = 'string';
+                    $iconData['class'] = 'fw-bold';
+                    $optionsPanel['custom_icons'][] = $iconData;
 
-                        // Schedule for
-                        $iconData = [];
-                        $iconData['icon_attr'] = 'scheduler_for_front';
-                        $iconData['icon_attr_type'] = 'string';
-                        $iconData['icon_attr_prepend'] = ' | ';
-                        $optionsPanel['custom_icons'][] = $iconData;
+                    // Schedule for
+                    $iconData = [];
+                    $iconData['icon_attr'] = 'scheduler_for_front';
+                    $iconData['icon_attr_type'] = 'string';
+                    $iconData['icon_attr_prepend'] = ' | ';
+                    $optionsPanel['custom_icons'][] = $iconData;
 
                     ?>
 
