@@ -49,7 +49,9 @@ $filterParams['input_form']->form_action = erLhcoreClassDesign::baseurl('cbsched
 $tpl->set('input',$filterParams['input_form']);
 $tpl->set('inputAppend',$append);
 
+$Result['require_angular'] = true;
 $Result['content'] = $tpl->fetch();
+
 
 $Result['path'] = array (
     array('url' => erLhcoreClassDesign::baseurl('cbscheduler/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Callback scheduler')),

@@ -39,6 +39,7 @@ $tpl->setArray(array(
 ));
 
 $Result['content'] = $tpl->fetch();
+$Result['require_angular'] = true;
 
 $Result['additional_footer_js'] = '<script type="text/javascript" language="javascript" src="'.erLhcoreClassDesign::designJS('js/cbscheduler.angular.js').'"></script>';
 

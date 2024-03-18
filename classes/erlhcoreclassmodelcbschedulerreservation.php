@@ -130,6 +130,13 @@ class erLhcoreClassModelCBSchedulerReservation
                 $this->subject_front = (string)$this->subject;
                 return $this->subject_front;
 
+            case 'subject_list':
+                $this->subject_list = [];
+                if (!empty((string)$this->subject)){
+                    $this->subject_list = [(string)$this->subject];
+                }
+                return $this->subject_list;
+
             case 'parent':
                 $this->parent = null;
                 if ($this->parent_id > 0) {
@@ -146,12 +153,17 @@ class erLhcoreClassModelCBSchedulerReservation
 
             case 'user_name_official':
                 $this->user_name_official = null;
-
                 if ($this->user instanceof erLhcoreClassModelUser) {
                     $this->user_name_official = $this->user->name_official;
                 }
-
                 return $this->user_name_official;
+
+            case 'plain_user_name':
+                $this->plain_user_name = null;
+                if ($this->user instanceof erLhcoreClassModelUser) {
+                    $this->plain_user_name = $this->user->name_official;
+                }
+                return $this->plain_user_name;
 
             case 'dep':
                 $this->dep = null;
@@ -179,9 +191,17 @@ class erLhcoreClassModelCBSchedulerReservation
                 $this->time_till_call_seconds = $this->cb_time_start - time();
                 return $this->time_till_call_seconds;
 
+            case 'time_till_call_seconds_neg':
+                $this->time_till_call_seconds_neg = $this->time_till_call_seconds <= 0;
+                return $this->time_till_call_seconds_neg;
+
             case 'region_lower':
                 $this->region_lower = strtolower($this->region);
                 return $this->region_lower;
+
+            case 'country_code':
+                $this->country_code = strtolower($this->region);
+                return $this->country_code;
 
             case 'log_actions_array':
                 $this->log_actions_array = array();

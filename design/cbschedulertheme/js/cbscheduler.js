@@ -3,26 +3,69 @@ $(document).ready(function () {
     var myPendingCalls = [];
     var notificationsList = [];
     var previousState = false;
+    var cb_pm = false;
+    var cb_pc = false;
 
-    ee.addListener('eventGetSyncFilter', function(_that) {
-        if (typeof _that.toggleWidgetData['conop_sort'] !== 'undefined' && _that.toggleWidgetData['conop_sort'] !== '') {
+    function updatePhoneMode()
+    {
+        if (cb_pm == false) {
+            $('#set-phone-mode').removeClass('fw-bold');
+            $('#set-phone-mode > .phone-on').hide();
+            $('#set-phone-mode > .phone-off').show();
+            $('#phone-mode-icon').text('phone_disabled');
+        } else {
+            $('#set-phone-mode > .phone-on').show();
+            $('#set-phone-mode > .phone-off').hide();
+            $('#phone-mode-icon').text('phone');
+            $('#set-phone-mode').addClass('fw-bold');
+        }
+
+        if (cb_pc == true) {
+            $('#dashboard-icon-phone').addClass('text-danger');
+            $('#dashboard-icon-phone > span.pc-status').text('(!)');
+        } else {
+            $('#dashboard-icon-phone').removeClass('text-danger');
+            $('#dashboard-icon-phone > span.pc-status').text('');
+        }
+    }
+
+    $('#set-phone-mode').click(function(){
+        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!cb_pm ? '1' : '0'));
+        cb_pm = !cb_pm;
+        updatePhoneMode();
+    })
+
+    // Migrated
+    ee.addListener('eventGetSyncFilterSvelte', function(_that) {
+        if (typeof _that.toggleWidgetData !== 'undefined' && typeof _that.toggleWidgetData['conop_sort'] !== 'undefined' && _that.toggleWidgetData['conop_sort'] !== '') {
             _that.custom_extension_filter += '/(cbonop)/'+_that.toggleWidgetData['conop_sort'];
         }
     });
 
-    ee.addListener('eventLoadInitialData', function (data, scope, _that) {
-        _that.cb_pm = data.cbscheduler.on_phone;
-        _that.toggleWidgetData['conop_sort'] = _that.restoreLocalSetting('conop_sort','',false);
+    // Migrated
+    ee.addListener('callbackModalOpen', function (chat) {
+        return lhc.revealModal({'title':'Edit reservation','iframe':true,'height':700, 'url':WWW_DIR_JAVASCRIPT +'cbscheduler/editreservation/' + chat.id + '/(mode)/modal'})
     });
 
-    ee.addListener('cbSetPhoneMode', function (_that, inst) {
+
+    // Migrated
+    ee.addListener('eventLoadInitialData', function (data, list, _that) {
+        cb_pm = data.cbscheduler.on_phone;
+        list.toggleWidgetData['conop_sort'] = _that.restoreLocalSetting('conop_sort','',false);
+        updatePhoneMode();
+    });
+
+    // Migrated
+    ee.addListener('cbSetPhoneMode', function (inst) {
         $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!inst.on_phone ? '1' : '0') + '/' + inst.user_id);
         inst.on_phone = !inst.on_phone;
+        ee.emitEvent('angularLoadChatList');
     });
 
-    ee.addListener('cbSetPhoneModeSelf', function (_that) {
-        $.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!_that.cb_pm ? '1' : '0'));
-        _that.cb_pm = !_that.cb_pm;
+    ee.addListener('cbSetPhoneModeSelf', function () {
+        /*$.post(WWW_DIR_JAVASCRIPT + 'cbscheduler/phonemode/'+(!cb_pm ? '1' : '0'));
+        cb_pm = !cb_pm;*/
+        console.log('Should not be used');
     });
 
     function compareNotificationsAndHide(oldStatus, newStatus) {
@@ -39,11 +82,13 @@ $(document).ready(function () {
         }
     };
 
-    ee.addListener('eventLoadChatList', function (data, scope, that) {
+    ee.addListener('eventLoadChatListSvelte', function (data, scope, lhcLogic) {
 
         // Init main attributes
-        that.cb_pm = data.cb_pm;
-        that.cb_pc = data.cb_pc;
+        cb_pm = data.cb_pm;
+        cb_pc = data.cb_pc;
+
+        updatePhoneMode();
 
         var callsListNew = [];
         var pushNotifications = [];
@@ -52,7 +97,7 @@ $(document).ready(function () {
             var hasPendingCall = false;
             for (var i = data.result.my_calls.list.length - 1; i >= 0; i--) {
                 callsListNew.push(data.result.my_calls.list[i].id);
-                if (myPendingCalls.indexOf(data.result.my_calls.list[i].id) === -1 && that.isListLoaded == true) {
+                if (myPendingCalls.indexOf(data.result.my_calls.list[i].id) === -1 && lhcLogic.isListLoaded == true) {
                     pushNotifications.push(data.result.my_calls.list[i].id);
                 }
                 if (!data.result.my_calls.list[i].status_accept) {

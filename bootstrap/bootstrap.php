@@ -22,6 +22,14 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('chat.operator_inactivemode_changed', array($this,'wentInactive'));
         $dispatcher->listen('restapi.swagger', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerRestAPI::swaggerDefinition');
         $dispatcher->listen('lhabstract.erlhabstractmodelwidgettheme.fields', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerTheme::themeDefinition');
+        $dispatcher->listen('chat.trans_lhcbo', array($this,'transBackOffice'));
+    }
+
+    public function transBackOffice($params)
+    {
+        $params['trans']['widget_title.my_calls'] = 'My calls';
+        $params['trans']['widget_title.all_calls'] = 'All pending calls';
+        $params['trans']['widget.time_to_call'] = 'Time of the callback';
     }
 
     public function wentInactive($params) {
@@ -144,7 +152,7 @@ class erLhcoreClassExtensionCbscheduler {
         }
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
-            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','subject_front'),
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','subject_front','country_code','time_till_call_seconds_neg','subject_list'),
             array('dep','log_actions','user','subject')
         );
 
@@ -154,7 +162,7 @@ class erLhcoreClassExtensionCbscheduler {
         $callbackscheduler = erLhcoreClassModelCBSchedulerReservation::getList($filter);
 
         erLhcoreClassChat::prefillGetAttributes($callbackscheduler,
-            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official','subject_front'),
+            array('department_name','scheduler_for_front','time_till_call','time_till_call_seconds','region_lower','user_name_official','subject_front','country_code','time_till_call_seconds_neg','plain_user_name','subject_list'),
             array('dep','log_actions','user','subject')
         );
 
@@ -199,6 +207,11 @@ class erLhcoreClassExtensionCbscheduler {
                 $params['lists']['online_op']['list'] = array_values(array_merge($offlineOperatorsCB,$onlineOperatorsCB));
             }
         }
+
+       /*foreach ($callbackscheduler as $key =>  $scheduleRecord){
+            //$callbackscheduler['status'] = 1;
+           $callbackscheduler[$key]->status = 1;
+        }*/
 
         $params['lists']['all_calls'] = array('list' => array_values($callbackscheduler));
     }
