@@ -36,19 +36,6 @@
                 $iconData['icon_attr_false'] = 'help_outline';
                 $optionsPanel['custom_icons'][] = $iconData;
 
-                // Time till call
-                $iconData = [];
-                $iconData['icon_attr'] = 'time_till_call';
-                $iconData['icon_attr_type'] = 'string';
-                $optionsPanel['custom_icons'][] = $iconData;
-
-                // Schedule for
-                $iconData = [];
-                $iconData['icon_attr'] = 'scheduler_for_front';
-                $iconData['icon_attr_type'] = 'string';
-                $iconData['icon_attr_prepend'] = ' | ';
-                $optionsPanel['custom_icons'][] = $iconData;
-
                 /* <span ng-if="!chat.status" ng-class="{'bg-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span> */
                 $iconData = [];
                 $iconData['class'] = 'badge mx-2 bg-warning';
@@ -84,9 +71,23 @@
                 $iconData['icon_attr_val'] = '3';
                 $iconData['icon_attr_true'] = 'Not Answered';
                 $optionsPanel['custom_icons'][] = $iconData;
+
+                // Time till call
+                $iconData = [];
+                $iconData['icon_attr'] = 'time_till_call';
+                $iconData['icon_attr_type'] = 'string';
+                $optionsPanel['custom_icons'][] = $iconData;
+
+                // Schedule for
+                $iconData = [];
+                $iconData['icon_attr'] = 'scheduler_for_front';
+                $iconData['icon_attr_type'] = 'string';
+                $iconData['icon_attr_prepend'] = ' | ';
+                $optionsPanel['custom_icons'][] = $iconData;
+
                 ?>
 
-                <lhc-widget custom_visitor_icon="access_time" custom_visitor_title="time_to_call" show_visitor_title="true" show_username_title="true" show_subject_title="true" show_department_title="true" icon_class="chat-active" show_always_subject="true" column_1_width="60%" override_item_open="callbackModalOpen" no_chat_preview="true" no_additional_column="true" card_icon="phone" url="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/reservations')?>/(user_ids)/<?php echo erLhcoreClassUser::instance()->getUserID()?>/(status)/0/(sortby)/schedulesasc"  no_expand="true" no_collapse="true" hide_filter_options="true" additional_sort="active_chats_sort" no_duration="true" type="my_calls" status_id="1" list_identifier="my_calls" panel_list_identifier="my_calls-panel-list" optionsPanel='<?php echo json_encode($optionsPanel);?>' www_dir_flags="<?php echo erLhcoreClassDesign::design('images/flags');?>"></lhc-widget>
+                <lhc-widget hide_2_column="true" custom_visitor_icon="access_time" custom_visitor_title="time_to_call" show_visitor_title="true" show_username_title="true" show_subject_title="true" show_department_title="true" icon_class="chat-active" show_always_subject="true" column_1_width="60%" override_item_open="callbackModalOpen" no_chat_preview="true" no_additional_column="true" card_icon="phone" url="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/reservations')?>/(user_ids)/<?php echo erLhcoreClassUser::instance()->getUserID()?>/(status)/0/(sortby)/schedulesasc"  no_expand="true" no_collapse="true" hide_filter_options="true" additional_sort="active_chats_sort" no_duration="true" type="my_calls" status_id="1" list_identifier="my_calls" panel_list_identifier="my_calls-panel-list" optionsPanel='<?php echo json_encode($optionsPanel);?>' www_dir_flags="<?php echo erLhcoreClassDesign::design('images/flags');?>"></lhc-widget>
 
                 <?php /*
 
@@ -166,6 +167,42 @@
                         $iconData['icon_attr_false'] = 'help_outline';
                         $optionsPanel['custom_icons'][] = $iconData;
 
+                    /* <span ng-if="!chat.status" ng-class="{'bg-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span> */
+                    $iconData = [];
+                    $iconData['class'] = 'badge mx-2 bg-warning';
+                    $iconData['class_true'] = ['bg-danger' => 'time_till_call_seconds_neg'];
+                    $iconData['icon_attr'] = 'status';
+                    $iconData['icon_attr_type'] = 'bool';
+                    $iconData['icon_attr_false'] = 'Scheduled';
+                    $optionsPanel['custom_icons'][] = $iconData;
+
+                    /* <span ng-if="chat.status == 1" class="badge mx-2 bg-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span> */
+                    $iconData = [];
+                    $iconData['class'] = 'badge mx-2 bg-success';
+                    $iconData['icon_attr'] = 'status';
+                    $iconData['icon_attr_type'] = 'cmp';
+                    $iconData['icon_attr_val'] = '1';
+                    $iconData['icon_attr_true'] = 'Completed';
+                    $optionsPanel['custom_icons'][] = $iconData;
+
+                    /* <span ng-if="chat.status == 2" class="badge mx-2 bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span> */
+                    $iconData = [];
+                    $iconData['class'] = 'badge mx-2 bg-danger';
+                    $iconData['icon_attr'] = 'status';
+                    $iconData['icon_attr_type'] = 'cmp';
+                    $iconData['icon_attr_val'] = '2';
+                    $iconData['icon_attr_true'] = 'Canceled';
+                    $optionsPanel['custom_icons'][] = $iconData;
+
+                    /*  <span ng-if="chat.status == 3" class="badge mx-2 bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span> */
+                    $iconData = [];
+                    $iconData['class'] = 'badge mx-2 bg-danger';
+                    $iconData['icon_attr'] = 'status';
+                    $iconData['icon_attr_type'] = 'cmp';
+                    $iconData['icon_attr_val'] = '3';
+                    $iconData['icon_attr_true'] = 'Not Answered';
+                    $optionsPanel['custom_icons'][] = $iconData;
+
                         // Time till call
                         $iconData = [];
                         $iconData['icon_attr'] = 'time_till_call';
@@ -179,44 +216,9 @@
                         $iconData['icon_attr_prepend'] = ' | ';
                         $optionsPanel['custom_icons'][] = $iconData;
 
-                        /* <span ng-if="!chat.status" ng-class="{'bg-danger': chat.time_till_call_seconds <= 0}" class="badge mx-2 badge-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Scheduled');?></span> */
-                        $iconData = [];
-                        $iconData['class'] = 'badge mx-2 bg-warning';
-                        $iconData['class_true'] = ['bg-danger' => 'time_till_call_seconds_neg'];
-                        $iconData['icon_attr'] = 'status';
-                        $iconData['icon_attr_type'] = 'bool';
-                        $iconData['icon_attr_false'] = 'Scheduled';
-                        $optionsPanel['custom_icons'][] = $iconData;
-
-                        /* <span ng-if="chat.status == 1" class="badge mx-2 bg-success"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Completed');?></span> */
-                        $iconData = [];
-                        $iconData['class'] = 'badge mx-2 bg-success';
-                        $iconData['icon_attr'] = 'status';
-                        $iconData['icon_attr_type'] = 'cmp';
-                        $iconData['icon_attr_val'] = '1';
-                        $iconData['icon_attr_true'] = 'Completed';
-                        $optionsPanel['custom_icons'][] = $iconData;
-
-                        /* <span ng-if="chat.status == 2" class="badge mx-2 bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Canceled');?></span> */
-                        $iconData = [];
-                        $iconData['class'] = 'badge mx-2 bg-danger';
-                        $iconData['icon_attr'] = 'status';
-                        $iconData['icon_attr_type'] = 'cmp';
-                        $iconData['icon_attr_val'] = '2';
-                        $iconData['icon_attr_true'] = 'Canceled';
-                        $optionsPanel['custom_icons'][] = $iconData;
-
-                        /*  <span ng-if="chat.status == 3" class="badge mx-2 bg-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Not Answered');?></span> */
-                        $iconData = [];
-                        $iconData['class'] = 'badge mx-2 bg-danger';
-                        $iconData['icon_attr'] = 'status';
-                        $iconData['icon_attr_type'] = 'cmp';
-                        $iconData['icon_attr_val'] = '3';
-                        $iconData['icon_attr_true'] = 'Not Answered';
-                        $optionsPanel['custom_icons'][] = $iconData;
                     ?>
 
-                    <lhc-widget custom_visitor_icon="access_time" custom_visitor_title="time_to_call" show_visitor_title="true" show_username_title="true" show_subject_title="true" show_department_title="true" no_expand="true" show_always_subject="true" column_1_width="60%" show_username_always="true" override_item_open="callbackModalOpen" no_chat_preview="true" no_additional_column="true" card_icon="phone" url="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/reservations')?>/(status)/0/(sortby)/schedulesasc" custom_settings_url="cbscheduler/onlineoperators" custom_settings_url_icon="bar_chart" no_collapse="true" hide_filter_options="true" additional_sort="active_chats_sort" no_duration="true" type="all_calls" status_id="1" list_identifier="all_calls" panel_list_identifier="all_calls-panel-list" optionsPanel='<?php echo json_encode($optionsPanel);?>' www_dir_flags="<?php echo erLhcoreClassDesign::design('images/flags');?>"></lhc-widget>
+                    <lhc-widget hide_2_column="true" custom_visitor_icon="access_time" custom_visitor_title="time_to_call" show_visitor_title="true" show_username_title="true" show_subject_title="true" show_department_title="true" no_expand="true" show_always_subject="true" column_1_width="60%" show_username_always="true" override_item_open="callbackModalOpen" no_chat_preview="true" no_additional_column="true" card_icon="phone" url="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/reservations')?>/(status)/0/(sortby)/schedulesasc" custom_settings_url="cbscheduler/onlineoperators" custom_settings_url_icon="bar_chart" no_collapse="true" hide_filter_options="true" additional_sort="active_chats_sort" no_duration="true" type="all_calls" status_id="1" list_identifier="all_calls" panel_list_identifier="all_calls-panel-list" optionsPanel='<?php echo json_encode($optionsPanel);?>' www_dir_flags="<?php echo erLhcoreClassDesign::design('images/flags');?>"></lhc-widget>
 
 <?php /*
 
