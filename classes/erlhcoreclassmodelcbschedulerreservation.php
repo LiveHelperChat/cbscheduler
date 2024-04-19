@@ -133,7 +133,7 @@ class erLhcoreClassModelCBSchedulerReservation
             case 'subject_list':
                 $this->subject_list = [];
                 if (!empty((string)$this->subject)){
-                    $this->subject_list = [(string)$this->subject];
+                    $this->subject_list = [['n' => (string)$this->subject]];
                 }
                 return $this->subject_list;
 
