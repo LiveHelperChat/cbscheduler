@@ -631,7 +631,7 @@ class erLhcoreClassCBSchedulerValidation
 
                 // Sort by hour always
                 usort($times, function($a, $b) {
-                    return $a['h'] > $b['h'] ? 1 : 0;
+                    return $a['h'] > $b['h']  ? 1 : -1;
                 });
 
             }
@@ -1033,7 +1033,9 @@ class erLhcoreClassCBSchedulerValidation
                     $scheduleDaySelected->setTimestamp($scheduleDate->getTimestamp());
 
                     if ($scheduleDaySelected->format('N') != $slot->day) {
-                        if ($scheduleDaySelected->format('N') > $slot->day) {
+                        if ($slot->day == 1 && $scheduleDaySelected->format('N') == 7) {
+                            $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));
+                        } else if ( ($scheduleDaySelected->format('N') > $slot->day) || ($slot->day == 7 && $scheduleDaySelected->format('N') == 1)) {
                             $scheduleDate->setTimestamp($timestampDefault - (24 * 3600));
                         } else {
                             $scheduleDate->setTimestamp($timestampDefault + (24 * 3600));

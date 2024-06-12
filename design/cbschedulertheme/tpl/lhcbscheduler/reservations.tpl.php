@@ -40,7 +40,7 @@
                 </td>
                 <td><?php echo htmlspecialchars($item->email)?></td>
                 <td>
-                    <b><?php echo $item->time_till_call?></b> | <?php echo $item->scheduler_for_front?>
+                    <b><?php echo $item->time_till_call?></b> | <?php echo $item->scheduler_for_front?> <?php /*| <?php echo $item->slot_id?>*/ ?>
                 </td>
                 <td>
                     <?php if ($item->status == erLhcoreClassModelCBSchedulerReservation::STATUS_SCHEDULED) : ?>
