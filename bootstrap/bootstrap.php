@@ -23,6 +23,17 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('restapi.swagger', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerRestAPI::swaggerDefinition');
         $dispatcher->listen('lhabstract.erlhabstractmodelwidgettheme.fields', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerTheme::themeDefinition');
         $dispatcher->listen('chat.trans_lhcbo', array($this,'transBackOffice'));
+
+        // This is always called on a new login
+        $dispatcher->listen('user.2fa_intercept', array($this,'setPhoneModeAfterLogin'));
+    }
+
+    // After login always set as offline
+    public function setPhoneModeAfterLogin($params)
+    {
+        $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['current_user']->getUserID());
+        $instance->on_phone = 0;
+        $instance->updateThis();
     }
 
     public function transBackOffice($params)
@@ -33,9 +44,12 @@ class erLhcoreClassExtensionCbscheduler {
     }
 
     public function wentInactive($params) {
-        if ($params['user']->inactive_mode == 1) {
-            $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['user']->id);
-            $instance->on_phone = 0;
+        $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['user']->id);
+        if ($params['user']->inactive_mode == 1 && $instance->on_phone == 1) {
+            $instance->on_phone = 2;
+            $instance->updateThis();
+        } elseif ($params['user']->inactive_mode == 0 && $instance->on_phone == 2) { // He
+            $instance->on_phone = 1;
             $instance->updateThis();
         }
     }
