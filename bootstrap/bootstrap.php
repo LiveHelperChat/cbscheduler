@@ -9,7 +9,6 @@ class erLhcoreClassExtensionCbscheduler {
     public function run() {
         $this->registerAutoload ();
 
-        include_once 'extension/cbscheduler/vendor/autoload.php';
         $dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
 
         $dispatcher->listen('widgetrestapi.settings', array($this, 'widgetSettings'));

@@ -1,5 +1,0 @@
-{
-  "require": {
-    "giggsey/libphonenumber-for-php": "^8.12"
-  }
-}
