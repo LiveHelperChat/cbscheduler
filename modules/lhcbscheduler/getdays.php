@@ -67,6 +67,7 @@ $responseArray = [
     'department' => $department,
     'username' => $username,
     'email' => $email,
+    'maintenance_mode' => ''
 ];
 
 $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
@@ -75,6 +76,11 @@ $data = (array)$cbOptions->data;
 if (isset($data['terms_of_service']) && $data['terms_of_service'] != '') {
     $responseArray['terms_of_service'] = $data['terms_of_service'];
 }
+
+if (isset($data['maintenance_mode']) && $data['maintenance_mode'] != '') {
+    $responseArray['maintenance_mode'] = $data['maintenance_mode'];
+}
+
 
 if (is_numeric($department)) {
     $allowArray = [];

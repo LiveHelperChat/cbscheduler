@@ -23,6 +23,11 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Maintenance mode message. If you enter a message callback scheduler will go to maintenance mode.');?></label>
+        <textarea placeholder="" name="maintenance_mode" class="form-control form-control-sm"><?php isset($cb_options['maintenance_mode']) ? print htmlspecialchars($cb_options['maintenance_mode']) : ''?></textarea>
+    </div>
+
     <div class="row">
         <div class="col-6">
             <div class="form-group">

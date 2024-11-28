@@ -37,6 +37,9 @@ if ( isset($_POST['StoreOptions']) ) {
         ),
         'unique' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY
+        ),
+        'maintenance_mode' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         )
     );
 
@@ -47,6 +50,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['block_numbers'] = $form->block_numbers;
     } else {
         $data['block_numbers'] = '';
+    }
+    
+    if ( $form->hasValidData( 'maintenance_mode' )) {
+        $data['maintenance_mode'] = $form->maintenance_mode;
+    } else {
+        $data['maintenance_mode'] = '';
     }
     
     if ( $form->hasValidData( 'allow_countries' )) {

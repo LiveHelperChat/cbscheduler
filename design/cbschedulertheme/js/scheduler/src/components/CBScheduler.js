@@ -45,6 +45,7 @@ const CBScheduler = props => {
     const [cbData, setData] = useState(null);
     const [defaultCountry, setDefaultCountry] = useState(null);
     const [logo, setLogo] = useState(null);
+    const [maintenance_mode, setMaintenance] = useState(null);
     const [isLoaded, setLoaded] = useState(false);
     const [isTermsAgree, setTermsOfServiceAgree] = useState(false);
     const [attempt, setAttempt] = useState(0);
@@ -108,9 +109,12 @@ const CBScheduler = props => {
                 setTermsOfService(result.data.terms_of_service);
             }
 
+            if (result.data.maintenance_mode) {
+                setMaintenance(result.data.maintenance_mode);
+            }
+
             if (department === null) {
                 setDepartment(result.data.department);
-
             }
 
             setLoaded(true);
@@ -265,6 +269,15 @@ const CBScheduler = props => {
             {props.mode == 'widget' && <div className="ps-2"><button type="button" onClick={(e) => onClose()} className="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button></div>}
         </div>
     </div>;
+
+    if (maintenance_mode || errors.maintenance_mode) {
+        return (<React.Fragment>
+            {logoFormated}
+            <div className="alert alert-info" role="alert">
+                {maintenance_mode || errors.maintenance_mode}
+            </div>
+        </React.Fragment>)
+    }
 
     if (errors.errorModal) {
         return (<React.Fragment>

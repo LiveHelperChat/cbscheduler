@@ -34,6 +34,14 @@ $outputResponse = [];
 try {
     $errors = erLhcoreClassCBSchedulerValidation::validateSchedule($item, $requestPayload);
 
+    $cbOptions = erLhcoreClassModelChatConfig::fetch('lhcbscheduler_options');
+
+    $data = (array)$cbOptions->data;
+
+    if (isset($data['maintenance_mode']) && $data['maintenance_mode'] != '') {
+        $errors['maintenance_mode'] = $data['maintenance_mode'];
+    }
+
     if (empty($errors)) {
 
         $item->saveThis();
