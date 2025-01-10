@@ -22,6 +22,7 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('restapi.swagger', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerRestAPI::swaggerDefinition');
         $dispatcher->listen('lhabstract.erlhabstractmodelwidgettheme.fields', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerTheme::themeDefinition');
         $dispatcher->listen('chat.trans_lhcbo', array($this,'transBackOffice'));
+        $dispatcher->listen('widgetrestapi.analytics_events', array($this,'analyticsEvents'));
 
         // This is always called on a new login
         $dispatcher->listen('user.2fa_intercept', array($this,'setPhoneModeAfterLogin'));
@@ -40,6 +41,12 @@ class erLhcoreClassExtensionCbscheduler {
         $params['trans']['widget_title.my_calls'] = 'My calls';
         $params['trans']['widget_title.all_calls'] = 'All pending calls';
         $params['trans']['widget.time_to_call'] = 'Time of the callback';
+    }
+
+    public function analyticsEvents($params)
+    {
+        $params['events'][] = 'CBSCheduled';
+        $params['events'][] = 'CBValidationFailed';
     }
 
     public function wentInactive($params) {
@@ -113,7 +120,7 @@ class erLhcoreClassExtensionCbscheduler {
     }
 
     public function widgetSettings($params) {
-        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=10';
+        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=11';
     }
 
     public function appendCallbacks($params) {

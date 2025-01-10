@@ -12,6 +12,11 @@ if (is_numeric($Params['user_parameters_unordered']['chat']) && (!is_numeric($Pa
     }
 }
 
+if (isset($Params['user_parameters_unordered']['department']) && $Params['user_parameters_unordered']['department'] != '' && !is_numeric($Params['user_parameters_unordered']['department'])) {
+    $parametersDepartment = erLhcoreClassChat::extractDepartment([$Params['user_parameters_unordered']['department']]);
+    $Params['user_parameters_unordered']['department'] = !empty($parametersDepartment['system']) ? $parametersDepartment['system'][0] : null;
+}
+
 // If country still unknown detect it directly
 if (empty($country)) {
     $onlineUser = new erLhcoreClassModelChatOnlineUser();

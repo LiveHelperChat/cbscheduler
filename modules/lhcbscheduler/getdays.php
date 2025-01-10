@@ -8,6 +8,11 @@ $username = null;
 $email = null;
 $department = (is_numeric($Params['user_parameters_unordered']['department']) && $Params['user_parameters_unordered']['department'] > 0 ? (int)$Params['user_parameters_unordered']['department'] : null);
 
+if ($department === null && isset($Params['user_parameters_unordered']['department']) && $Params['user_parameters_unordered']['department'] != '') {
+    $parametersDepartment = erLhcoreClassChat::extractDepartment([$Params['user_parameters_unordered']['department']]);
+    $department = $Params['user_parameters_unordered']['department'] = !empty($parametersDepartment['system']) ? $parametersDepartment['system'][0] : null;
+}
+
 if (is_numeric($Params['user_parameters_unordered']['chat']) && ($chat = erLhcoreClassModelChat::fetch($Params['user_parameters_unordered']['chat'])) instanceof erLhcoreClassModelChat && $chat->country_code != '') {
     $defaultCountry = strtoupper($chat->country_code);
 } elseif ($Params['user_parameters_unordered']['vid'] !== 'null' && ($vid = erLhcoreClassModelChatOnlineUser::fetchByVid($Params['user_parameters_unordered']['vid'])) instanceof erLhcoreClassModelChatOnlineUser && $vid->user_country_code != '') {

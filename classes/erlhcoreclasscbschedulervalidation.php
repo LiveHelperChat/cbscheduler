@@ -813,7 +813,7 @@ class erLhcoreClassCBSchedulerValidation
         if ( !$form->hasValidData( 'email' ) ) {
             $Errors['email'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a valid email address');
         } elseif ($form->hasValidData( 'email' )) {
-            $item->email = strtolower($form->email);
+            $item->email = mb_substr(strtolower($form->email),0,50);
         }
 
         if ( $form->hasValidData( 'attempt' ) ) {
@@ -833,7 +833,7 @@ class erLhcoreClassCBSchedulerValidation
         if ( !$form->hasValidData( 'username' ) || $form->username == '' ) {
             $Errors['username'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Please enter a username');
         } elseif ($form->hasValidData( 'username' )) {
-            $item->name = $form->username;
+            $item->name = mb_substr($form->username,0,50);
         }
 
         if ( $form->hasValidData( 'chat_id' )) {

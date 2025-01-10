@@ -31,6 +31,10 @@
                         }
                     }
                 });
+
+                window.lhcHelperfunctions.eventEmitter.addListener('cbscheduler.event_tracker', function(params) {
+                    window.lhcHelperfunctions.sendMessageParent(params.ea);
+                });
             }
 
             setTimeout( function() {
@@ -105,7 +109,7 @@
                         var th = document.getElementsByTagName('head')[0];
 
                         // Insert CSS
-                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=15';
+                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=16';
 
                         var styleSheet = document.createElement("link");
                         styleSheet.setAttribute('rel',"stylesheet");
@@ -114,7 +118,7 @@
                         th.appendChild(styleSheet);
 
                         // Insert JS
-                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=15';
+                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=16';
 
                         var s = document.createElement('script');
                         s.setAttribute('type','text/javascript');

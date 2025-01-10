@@ -16,6 +16,11 @@ if (is_numeric($requestPayload['chat_id']) && (!is_numeric($requestPayload['dep_
     }
 }
 
+if (isset($requestPayload['dep_id']) && !is_numeric($requestPayload['dep_id'])) {
+    $parametersDepartment = erLhcoreClassChat::extractDepartment([$requestPayload['dep_id']]);
+    $requestPayload['dep_id'] = !empty($parametersDepartment['system']) ? $parametersDepartment['system'][0] : $requestPayload['dep_id'];
+}
+
 // If country still unknown detect it directly
 if (empty($country)) {
     $onlineUser = new erLhcoreClassModelChatOnlineUser();

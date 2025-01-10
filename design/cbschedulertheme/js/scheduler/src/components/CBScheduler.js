@@ -212,6 +212,9 @@ const CBScheduler = props => {
             setErrorCode(null);
 
             if (result.data.error == true) {
+
+                props.ee.emitEvent('cbscheduler.event_tracker',[{'ea' : 'CBValidationFailed'}])
+
                 setSubmitting(false);
                 if (result.data.messages) {
                     setErrors(result.data.messages);
@@ -234,6 +237,7 @@ const CBScheduler = props => {
             } else {
                 setData(result.data.data);
                 setScheduled(true);
+                props.ee.emitEvent('cbscheduler.event_tracker',[{'ea' : 'CBSCheduled'}]);
             }
         });
     }
@@ -326,7 +330,7 @@ const CBScheduler = props => {
                     <div className="row">
                         <div className="col-6 pe-2">
                             <div className="form-group">
-                                <input title={t('fields.username')} placeholder={t('fields.username')} type="text" maxLength="250" onChange={(e) => setUsername(e.target.value)} className={"form-control form-control-sm"+(errors.username ? ' is-invalid' : '')} defaultValue={username} />
+                                <input title={t('fields.username')} placeholder={t('fields.username')} type="text" maxLength="50" onChange={(e) => setUsername(e.target.value)} className={"form-control form-control-sm"+(errors.username ? ' is-invalid' : '')} defaultValue={username} />
                                 {errors.username && <div className="invalid-feedback">
                                     {errors.username}
                                 </div>}
@@ -334,7 +338,7 @@ const CBScheduler = props => {
                         </div>
                         <div className="ps-2 col-6">
                             <div className="form-group">
-                                <input title={t('fields.email')} placeholder={t('fields.email')} type="text" maxLength="250" defaultValue={email} onChange={(e) => setEmail(e.target.value)} className={"form-control form-control-sm"+(errors.email ? ' is-invalid' : '')} />
+                                <input title={t('fields.email')} placeholder={t('fields.email')} type="text" maxLength="50" defaultValue={email} onChange={(e) => setEmail(e.target.value)} className={"form-control form-control-sm"+(errors.email ? ' is-invalid' : '')} />
                                 {errors.email && <div className="invalid-feedback">
                                     {errors.email}
                                 </div>}
