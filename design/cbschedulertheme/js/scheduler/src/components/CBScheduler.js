@@ -42,6 +42,7 @@ const CBScheduler = props => {
     const [isDisabled, setDisabled] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [isScheduled, setScheduled] = useState(false);
+    const [goingToAgent, setGoingToAgent] = useState(false);
     const [cbData, setData] = useState(null);
     const [defaultCountry, setDefaultCountry] = useState(null);
     const [logo, setLogo] = useState(null);
@@ -156,6 +157,7 @@ const CBScheduler = props => {
 
     // User failed hardcore validation
     const goToAgent = () => {
+        setGoingToAgent(true);
         axios.post(props.base_path  + "cbscheduler/gotoagent", getPostData()).then(result => {
             props.ee.emitEvent('cbscheduler.live_support',[{'chat_id' : props.chat_id, 'fields' : {"Question" : t('fields.verification_failed')}}]);
             onClose();
@@ -289,7 +291,7 @@ const CBScheduler = props => {
             <p className="text-danger">{errors.errorModal}</p>
             <div className="btn-group">
                 {!errors.disableTryAgain && <button className="btn btn-sm btn-secondary" onClick={(e) => setErrors([])}>{t('fields.try_again')}</button>}
-                {props.mode == 'widget' && <button className="btn btn-sm btn-secondary" onClick={(e) => goToAgent()}>{t('fields.live_support')}</button>}
+                {props.mode == 'widget' && <button className="btn btn-sm btn-secondary" disabled={goingToAgent} onClick={(e) => goToAgent()}>{t('fields.live_support')}</button>}
                 {props.mode != 'widget' && <button className="btn btn-sm btn-secondary" onClick={(e) => onClose()}>{t('fields.close')}</button>}
             </div>
         </React.Fragment>)
