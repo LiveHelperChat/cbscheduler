@@ -35,13 +35,15 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `tz` varchar(50) NOT NULL,
-  `active` tinyint(4) NOT NULL,
-  `multi_department` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+     `id` bigint(20) NOT NULL AUTO_INCREMENT,
+     `name` varchar(50) NOT NULL,
+     `tz` varchar(50) NOT NULL,
+     `multi_department` tinyint(1) unsigned NOT NULL DEFAULT '0',
+     `status_configuration` text NOT NULL,
+     `active` tinyint(4) NOT NULL,
+     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 CREATE TABLE `lhc_cbscheduler_scheduler_dep` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
