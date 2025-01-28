@@ -72,6 +72,7 @@ try {
             'id' => $item->id,
             'code' => $item->code]]);
 
+        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.scheduled', array('item' => & $item));
         exit;
 
     } else {
