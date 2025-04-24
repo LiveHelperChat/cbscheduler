@@ -21,7 +21,13 @@
                         <?php echo date('Y-m-d H:i:s',(int)$parts[0])?>
                     </td>
                     <td>
-                        <?php echo  htmlspecialchars(isset($parts[1]) ? $parts[1] : '')?>
+                        <?php
+                        $logText = isset($parts[1]) ? $parts[1] : '';
+                        $logText = preg_replace_callback('/TS_(\d+)/', function($matches) {
+                            return date('Y-m-d H:i:s', (int)$matches[1]);
+                        }, $logText);
+                        echo htmlspecialchars($logText);
+                        ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

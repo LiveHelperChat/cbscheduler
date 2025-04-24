@@ -1004,6 +1004,13 @@ class erLhcoreClassCBSchedulerValidation
                         , 100);
                     }
 
+                    if ($presentRecord instanceof erLhcoreClassModelCBSchedulerReservation && isset($params['reschedule']) && $params['reschedule'] == true) {
+                        $actions = $presentRecord->log_actions_array;
+                        $actions[] = time() . '|||'.erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Previous call with ID').' [' . $item->id . '], status [' . $item->status . '] ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','at') . ' TS_' . $presentRecord->cb_time_start . ' - TS_' . $presentRecord->cb_time_end . ' ' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','was rescheduled!');
+                        $item->log_actions_array = $actions;
+                        $item->log_actions = json_encode($item->log_actions_array);
+                    }
+
                     $daySelected = array();
 
                     $daySelected['y'] = substr($item->day,0,4);

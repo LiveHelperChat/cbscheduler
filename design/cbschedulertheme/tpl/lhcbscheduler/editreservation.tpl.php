@@ -2,15 +2,15 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Edit reservation');?></h1>
 <?php endif; ?>
 
-<?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('user/account','Updated'); ?>
-    <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
-<?php endif; ?>
+<form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?><?php if ($is_modal) : ?>/(mode)/modal<?php endif;?>" method="post">
 
-<?php if (isset($errors)) : ?>
-    <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
-<?php endif; ?>
+    <?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('user/account','Updated'); ?>
+        <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
+    <?php endif; ?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?>" method="post">
+    <?php if (isset($errors)) : ?>
+        <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+    <?php endif; ?>
 
     <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/parts/form_reservation_top.tpl.php'));?>
 
