@@ -43,7 +43,7 @@
     "socketcluster-client": "^14.3.1",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^4.15.1",
     "wolfy87-eventemitter": "^5.2.9",
     "xwiper": "^2.2.0"
   }
