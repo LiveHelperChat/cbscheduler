@@ -2,7 +2,7 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Edit reservation');?></h1>
 <?php endif; ?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?><?php if ($is_modal) : ?>/(mode)/modal<?php endif;?>" method="post">
+<form action="<?php echo erLhcoreClassDesign::baseurl('cbscheduler/editreservation')?>/<?php echo $item->id?><?php if (isset($is_modal)) : ?>/(mode)/modal<?php endif;?>" method="post">
 
     <?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('user/account','Updated'); ?>
         <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
