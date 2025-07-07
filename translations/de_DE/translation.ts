@@ -384,7 +384,7 @@
       <translation>Versuchen Sie es nochmal</translation>
     </message>
     <message>
-      <source>My username and e-mail verification failed to schedule a call.</source>
+      <source>I would love some assistance setting up a callback or connecting with a Support agent.</source>
       <translation type="unfinished"/>
     </message>
     <message>
