@@ -15,6 +15,9 @@ $iconData['icon_attr_type'] = 'bool';
 $iconData['icon_attr_true'] = 'phone';
 $iconData['icon_attr_false'] = 'phone_disabled';
 
+$iconData['class_false'] = ['text-danger' => 'on_phone'];
+$iconData['class_true'] = ['text-success' => 'on_phone'];
+
 $optionsPanel['custom_icons'][] = $iconData;
 
 /* Sort icons */
