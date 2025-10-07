@@ -31,4 +31,13 @@ $sortIconData['title'] = htmlspecialchars_decode(erTranslationClassLhTranslation
 
 $optionsPanel['custom_sort_icons'][] = $sortIconData;
 
+$optionsPanel['custom_filters'][] =
+    [
+        'field' => 'on_phonef',
+        'type'  => 'checkbox',
+        'label' => htmlspecialchars_decode(erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','On phone')),
+        'title' =>  htmlspecialchars_decode(erTranslationClassLhTranslation::getInstance()->getTranslation('chat/syncadmininterface','Shows operators who are logged in and in phone mode / on a call.')),
+        'icon' => 'phone',
+    ];
+
 ?>
