@@ -52,8 +52,8 @@
         "default": ""
       },
       {
-        "type": "attr_system",
-        "field": "log_actions",
+        "type": "longtext",
+        "field": "attr_system",
         "null": "NO",
         "key": "",
         "default": ""
