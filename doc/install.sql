@@ -14,6 +14,7 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `description` text NOT NULL,
   `outcome` text NOT NULL,
   `log_actions` longtext NOT NULL,
+  `attr_system` longtext NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `subject_id` int(11) NOT NULL,
   `schedule_id` bigint(20) NOT NULL,

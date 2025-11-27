@@ -69,6 +69,7 @@ class erLhcoreClassModelCBSchedulerReservation
             // Time last assignment happened
             'tslasign' => $this->tslasign,
             'log_actions' => $this->log_actions,
+            'attr_system' => $this->attr_system,
         );
     }
 
@@ -203,12 +204,14 @@ class erLhcoreClassModelCBSchedulerReservation
                 $this->country_code = strtolower($this->region);
                 return $this->country_code;
 
+            case 'attr_system_array':
             case 'log_actions_array':
-                $this->log_actions_array = array();
-                if ($this->log_actions != '') {
-                    $this->log_actions_array = json_decode($this->log_actions, true);
+                $attribute = str_replace('_array', '', $var);
+                $this->$var = array();
+                if ($this->$attribute != '') {
+                    $this->$var = json_decode($this->$attribute, true);
                 }
-                return $this->log_actions_array;
+                return $this->$var;
 
             default:
                 ;
@@ -307,6 +310,7 @@ class erLhcoreClassModelCBSchedulerReservation
     public $daytime = '';
 
     public $verified = 0;
+    public $attr_system = '';
 
     public $log_actions = '';
 

@@ -11,6 +11,7 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Agent');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Phone number');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Username');?></th>
+            <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/list/custom_column_multiinclude_header.tpl.php')); ?>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','E-mail');?></th>
             <th>
                 <span class="material-icons text-muted" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler','Time is shown in your time zone');?>">help</span>
@@ -38,6 +39,7 @@
                 <td>
                     <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/username_row.tpl.php')); ?>
                 </td>
+                <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/list/custom_column_multiinclude_content.tpl.php')); ?>
                 <td><?php echo htmlspecialchars($item->email)?></td>
                 <td>
                     <b><?php echo $item->time_till_call?></b> | <?php echo $item->scheduler_for_front?> <?php /*| <?php echo $item->slot_id?>*/ ?>
