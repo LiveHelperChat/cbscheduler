@@ -25,6 +25,9 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   `ctime` int(11) NOT NULL,
   `status_accept` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `tslasign` int(11) unsigned NOT NULL DEFAULT '0',
+  `attr_int_1` int(11) unsigned NOT NULL DEFAULT '0',
+  `attr_int_2` int(11) unsigned NOT NULL DEFAULT '0',
+  `attr_int_3` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `slot_id` (`slot_id`),
   KEY `schedule_id` (`schedule_id`),
@@ -32,7 +35,10 @@ CREATE TABLE `lhc_cbscheduler_reservation` (
   KEY `chat_id` (`chat_id`),
   KEY `parent_id` (`parent_id`),
   KEY `dep_id` (`dep_id`),
-  KEY `status` (`status`)
+  KEY `status` (`status`),
+  KEY `attr_int_1` (`attr_int_1`),
+  KEY `attr_int_2` (`attr_int_2`),
+  KEY `attr_int_3` (`attr_int_3`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_cbscheduler_scheduler` (

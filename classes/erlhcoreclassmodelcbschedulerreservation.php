@@ -70,6 +70,9 @@ class erLhcoreClassModelCBSchedulerReservation
             'tslasign' => $this->tslasign,
             'log_actions' => $this->log_actions,
             'attr_system' => $this->attr_system,
+            'attr_int_1' => $this->attr_int_1,
+            'attr_int_2' => $this->attr_int_2,
+            'attr_int_3' => $this->attr_int_3,
         );
     }
 
@@ -306,6 +309,10 @@ class erLhcoreClassModelCBSchedulerReservation
     public $user_id = 0;
     
     public $parent_id = 0;
+
+    public $attr_int_1 = 0;
+    public $attr_int_2 = 0;
+    public $attr_int_3 = 0;
 
     public $daytime = '';
 

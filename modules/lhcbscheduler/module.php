@@ -37,6 +37,9 @@ $ViewList['reservations'] = array(
         'user_ids',
         'group_ids',
         'sortby',
+        'attr_int_1',
+        'attr_int_2',
+        'attr_int_3'
     ),
     'functions' => array('use_admin'),
     'multiple_arguments' => array(
@@ -44,6 +47,9 @@ $ViewList['reservations'] = array(
         'department_group_ids',
         'user_ids',
         'group_ids',
+        'attr_int_1',
+        'attr_int_2',
+        'attr_int_3',
     )
 );
 

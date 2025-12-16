@@ -167,6 +167,8 @@
             </select>
         </div>
 
+        <?php include(erLhcoreClassDesign::designtpl('lhcbscheduler/list/search_panel_multiinclude.tpl.php'));?>
+
     </div>
 
     <div class="btn-group" role="group" aria-label="...">

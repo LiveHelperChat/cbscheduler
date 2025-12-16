@@ -25,7 +25,10 @@ $intProperties = [
     'parent_id',
     'verified',       // Is phone number verified
     'status_accept',
-    'tslasign'
+    'tslasign',
+    'attr_int_1',
+    'attr_int_2',
+    'attr_int_3',
 ];
 
 foreach ($intProperties as $property) {
