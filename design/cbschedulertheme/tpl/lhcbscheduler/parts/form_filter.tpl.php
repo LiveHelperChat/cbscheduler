@@ -33,8 +33,9 @@
                     'selected_id'    => $input->user_ids,
                     'css_class'      => 'form-control',
                     'display_name'   => 'name_official',
-                    'list_function_params' => erLhcoreClassGroupUser::getConditionalUserFilter(),
-                    'list_function'  => 'erLhcoreClassModelUser::getUserList'
+                    'ajax'           => 'users',
+                    'list_function_params' => array_merge(erLhcoreClassGroupUser::getConditionalUserFilter(),array('sort' => '`name` ASC', 'limit' => 50)),
+                    'list_function'  => 'erLhcoreClassModelUser::getUserList',
                 )); ?>
             </div>
         </div>
