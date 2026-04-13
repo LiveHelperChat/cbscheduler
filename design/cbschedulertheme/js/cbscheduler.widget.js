@@ -15,7 +15,7 @@
                     goToAgent = true;
                     // We are not in the chat mode yet.
                     if (params.chat_id === null) {
-                        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['api_data'], data: {"Question": params.fields.Question}}]);
+                        window.lhcHelperfunctions.eventEmitter.emitEvent('attr_set', [{attr: ['api_data'], data: {'cb_data' : params.fields.CBData, "Question": params.fields.Question}}]);
                         setTimeout(function(){
                             window.lhcHelperfunctions.eventEmitter.emitEvent('startChat', []);
                         },200);
@@ -111,7 +111,7 @@
                         var th = document.getElementsByTagName('head')[0];
 
                         // Insert CSS
-                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=17';
+                        var srcCSS = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/css/cbscheduler.css?v=18';
 
                         var styleSheet = document.createElement("link");
                         styleSheet.setAttribute('rel',"stylesheet");
@@ -120,7 +120,7 @@
                         th.appendChild(styleSheet);
 
                         // Insert JS
-                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=17';
+                        var src = window.lhcChat['staticJS']['chunk_js'].replace('/design/defaulttheme/js/widgetv2','') + '/extension/cbscheduler/design/cbschedulertheme/js/scheduler/dist/react.cbscheduler.app.js?v=18';
 
                         var s = document.createElement('script');
                         s.setAttribute('type','text/javascript');

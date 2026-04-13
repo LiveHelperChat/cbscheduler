@@ -23,6 +23,7 @@ class erLhcoreClassExtensionCbscheduler {
         $dispatcher->listen('lhabstract.erlhabstractmodelwidgettheme.fields', '\LiveHelperChatExtension\cbscheduler\providers\CBSchedulerTheme::themeDefinition');
         $dispatcher->listen('chat.trans_lhcbo', array($this,'transBackOffice'));
         $dispatcher->listen('widgetrestapi.analytics_events', array($this,'analyticsEvents'));
+        $dispatcher->listen('chat.chat_started', array($this,'chatStarted'));
 
         // This is always called on a new login
         $dispatcher->listen('user.2fa_intercept', array($this,'setPhoneModeAfterLogin'));
@@ -34,6 +35,59 @@ class erLhcoreClassExtensionCbscheduler {
         $instance = erLhcoreClassModelCBSchedulerPhoneMode::getInstance($params['current_user']->getUserID());
         $instance->on_phone = 0;
         $instance->updateThis();
+    }
+
+    public function chatStarted($params)
+    {
+        if (isset($params['request_payload']['fields']['cb_data']) && !empty($params['request_payload']['fields']['cb_data'])) {
+
+            $parts = [];
+
+            if (isset($params['request_payload']['fields']['cb_data']['timezone'])) {
+                $parts[] = '[b]Time zone:[/b] [i]' . (string)$params['request_payload']['fields']['cb_data']['timezone'] . '[/i]';
+            }
+
+            if (isset($params['request_payload']['fields']['cb_data']['subject'])) {
+                $subject = erLhcoreClassModelCBSchedulerSubject::fetch($params['request_payload']['fields']['cb_data']['subject']);
+                $parts[] = '[b]Subject:[/b] ' . (string)$subject;
+            }
+
+            if (isset($params['request_payload']['fields']['cb_data']['description'])) {
+                $description = trim((string)$params['request_payload']['fields']['cb_data']['description']);
+                if ($description !== '') {
+                    $parts[] = "[b]Description:[/b]\n[quote]" . $description . '[/quote]';
+                }
+            }
+
+            if (isset($params['request_payload']['fields']['cb_data']['email'])) {
+                $parts[] = '[b]E-mail:[/b] ' . htmlspecialchars((string)$params['request_payload']['fields']['cb_data']['email']);
+            }
+
+            if (isset($params['request_payload']['fields']['cb_data']['phone'])) {
+                $parts[] = '[b]Phone:[/b] ' . htmlspecialchars((string)$params['request_payload']['fields']['cb_data']['phone']);
+            }
+
+            if (isset($params['request_payload']['fields']['cb_data']['username'])) {
+                $parts[] = '[b]Username:[/b] ' . htmlspecialchars((string)$params['request_payload']['fields']['cb_data']['username']);
+            }
+
+            if (!empty($parts)) {
+                // Store question as message
+                $msg = new erLhcoreClassModelmsg();
+                $msg->msg = "[b]Callback data[/b]\n[list]\n[*]" . implode("\n[*]", $parts) . "\n[/list]";
+
+                $msg->chat_id = $params['chat']->id;
+                $msg->user_id = -1;
+                $msg->time = time();
+                $msg->del_st = erLhcoreClassModelmsg::STATUS_READ;
+                erLhcoreClassChat::getSession()->save($msg);
+
+                $params['chat']->last_msg_id = $msg->id;
+                $params['chat']->updateThis(['update' => [
+                    'last_msg_id'
+                ]]);
+            }
+        }
     }
 
     public function transBackOffice($params)
@@ -120,7 +174,7 @@ class erLhcoreClassExtensionCbscheduler {
     }
 
     public function widgetSettings($params) {
-        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=12';
+        $params['output']['static']['ex_cb_js']['cbscheduler'] = erLhcoreClassModelChatConfig::fetch('explicit_http_mode')->current_value . '//' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::design('js/cbscheduler.widget.js') . '?v=13';
     }
 
     public function appendCallbacks($params) {

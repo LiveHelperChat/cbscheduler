@@ -159,7 +159,7 @@ const CBScheduler = props => {
     const goToAgent = () => {
         setGoingToAgent(true);
         axios.post(props.base_path  + "cbscheduler/gotoagent", getPostData()).then(result => {
-            props.ee.emitEvent('cbscheduler.live_support',[{'chat_id' : props.chat_id, 'fields' : {"Question" : t('fields.verification_failed')}}]);
+            props.ee.emitEvent('cbscheduler.live_support',[{'chat_id' : props.chat_id, 'fields' : {'CBData' : getPostData(), "Question" : t('fields.verification_failed')}}]);
             onClose();
         })
     }

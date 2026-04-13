@@ -1081,6 +1081,9 @@ class erLhcoreClassCBSchedulerValidation
 
         erLhcoreClassChatEventDispatcher::getInstance()->dispatch('cbscheduler.validate_callback', array('item' => & $item, 'errors' => & $Errors));
 
+        // $Errors['errorModal'] = 'Sorry, this callback cannot be scheduled at the moment. Talk to an agent for live assistance.';
+        // $Errors['disableTryAgain'] = true;
+
         return $Errors;
     }
 
