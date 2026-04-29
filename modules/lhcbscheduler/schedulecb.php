@@ -56,6 +56,14 @@ try {
             $msg = new erLhcoreClassModelmsg();
             $msg->msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor has scheduled a call!') . ' [url=' . erLhcoreClassDesign::baseurl('cbscheduler/editreservation') . '/' . $item->id . ']' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'view reservation') . '[/url]';
             $msg->chat_id = $item->chat_id;
+            $msg->meta_msg = json_encode([
+                'content' => [
+                    'attr_options' => [
+                        'api_message' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/cbscheduler', 'Visitor has scheduled a call.'),
+                        'process_as_operator' => true
+                    ]
+                ]
+            ]);
             $msg->user_id = - 1;
             $msg->time = time();
             erLhcoreClassChat::getSession()->save($msg);
