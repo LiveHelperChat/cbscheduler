@@ -89,28 +89,32 @@ if (isset($data['maintenance_mode']) && $data['maintenance_mode'] != '') {
 
 if (is_numeric($department)) {
     $allowArray = [];
-    if (isset($data['allow_countries']) && !empty($data['allow_countries'])) {
-        $pairs = explode("\n",trim(strtoupper($data['allow_countries'])));
-        foreach ($pairs as $pair) {
-            $options = explode(",", str_replace(' ','',$pair));
-            $allowArray[array_shift($options)] = $options;
+    if (isset($data['allow_countries']) && trim($data['allow_countries']) != '') {
+        foreach (preg_split('/\R/', strtoupper($data['allow_countries'])) as $pair) {
+            if (trim($pair) === '') {
+                continue;
+            }
+            $options = array_map('trim', explode(',', $pair));
+            $allowArray[array_shift($options)] = array_values(array_filter($options, 'strlen'));
         }
     }
 
     $excludeArray = [];
-    if (isset($data['exclude_countries']) && !empty($data['exclude_countries'])) {
-        $pairs = explode("\n",trim(strtoupper($data['exclude_countries'])));
-        foreach ($pairs as $pair) {
-            $options = explode(",", str_replace(' ','',$pair));
-            $excludeArray[array_shift($options)] = $options;
+    if (isset($data['exclude_countries']) && trim($data['exclude_countries']) != '') {
+        foreach (preg_split('/\R/', strtoupper($data['exclude_countries'])) as $pair) {
+            if (trim($pair) === '') {
+                continue;
+            }
+            $options = array_map('trim', explode(',', $pair));
+            $excludeArray[array_shift($options)] = array_values(array_filter($options, 'strlen'));
         }
     }
 
     if (!empty($allowArray) && isset($allowArray[$department])) {
         $responseArray['countries'] = $allowArray[$department];
     } elseif (!empty($excludeArray) && isset($excludeArray[$department])) {
-        $countriesJSON = json_decode(file_get_contents('extension/cbscheduler/doc/countries.json'),true);
-        $responseArray['countries'] = array_values(array_diff(array_keys($countriesJSON),$excludeArray[$department]));
+        $countriesJSON = json_decode(file_get_contents('extension/cbscheduler/doc/countries.json'), true);
+        $responseArray['countries'] = array_values(array_diff(array_keys($countriesJSON), $excludeArray[$department]));
     }
 }
 
